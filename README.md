@@ -11,3 +11,5 @@ Top-level TODO:
     * Decide what tables will be
     * Design query APIs
 
+Hey, don't have big delete buttons that immediately do things. That would be destructive
+
