@@ -12,4 +12,6 @@ Top-level TODO:
     * Design query APIs
 
 Hey, don't have big delete buttons that immediately do things. That would be destructive
+Keep track of external libraries and dependencies
+
 
