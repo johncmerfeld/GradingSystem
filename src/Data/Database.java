@@ -36,31 +36,21 @@ public class Database {
 		ArrayList<Integer> intList = new ArrayList<Integer>();
 		Connection conn = null;
 		try {
-		    conn = dataSource.getConnection();
-		    // ... get the stuff
+			conn = dataSource.getConnection();
 			Statement stmt = conn.createStatement();	
-	         // Step 3: Execute a SQL SELECT query. The query result is returned in a 'ResultSet' object.
-	         String strSelect = "select * from Dept";
-	         ResultSet rset = stmt.executeQuery(strSelect);
-	 
-	         // Step 4: Process the ResultSet by scrolling the cursor forward via next().
-	         //  For each row, retrieve the contents of the cells with getXxx(columnName).
-	         while(rset.next()) {
-		         int managerid  = rset.getInt("managerid");
-		         intList.add(new Integer(managerid));
-	         }
-	         conn.close();
-	         
-	         
-		} catch(SQLException ex) {
-	         ex.printStackTrace();
-	      } 
-		
-		return intList;	
-//		finally {
-//		    // ...
-//		    if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
-//		}
-	}
+			// Step 3: Execute a SQL SELECT query. The query result is returned in a 'ResultSet' object.
+			String strSelect = "select * from Dept";
+			ResultSet rset = stmt.executeQuery(strSelect);
 
+	        //  For each row, retrieve the contents of the cells with getXxx(columnName).
+	        while(rset.next()) {
+		        int courseId  = rset.getInt("managerid");
+		        intList.add(new Integer(courseId));
+	        }
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 			
+		return intList;	
+	}
 }

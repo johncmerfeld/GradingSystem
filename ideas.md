@@ -1,4 +1,8 @@
 So here's what's gonna happen:
+```
+javac -cp "../../lib/*": thing.java
+```
+
 
 Event happens on GUI
 Object in GUI class sends request to the class object.
