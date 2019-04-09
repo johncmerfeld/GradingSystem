@@ -23,9 +23,8 @@ public class Database {
 	}
 	
 	public static void main(String[] args) {
-		ArrayList<Integer> ints = getCourseIds();
 		
-		System.out.println("hi");
+		ArrayList<Integer> ints = getCourseIds();
 		
 		for (Integer  myInt : ints) {
 			System.out.println(myInt);
@@ -35,42 +34,29 @@ public class Database {
 	public static ArrayList<Integer> getCourseIds() {
 		
 		ArrayList<Integer> intList = new ArrayList<Integer>();
-		//Connection conn = null;
-		try (
-		    Connection conn = dataSource.getConnection();
+		Connection conn = null;
+		try {
+		    conn = dataSource.getConnection();
 		    // ... get the stuff
 			Statement stmt = conn.createStatement();	
-				
-		) {
 	         // Step 3: Execute a SQL SELECT query. The query result is returned in a 'ResultSet' object.
 	         String strSelect = "select * from Dept";
-	         System.out.println("The SQL statement is: " + strSelect + "\n"); // Echo For debugging
-	 
 	         ResultSet rset = stmt.executeQuery(strSelect);
 	 
 	         // Step 4: Process the ResultSet by scrolling the cursor forward via next().
 	         //  For each row, retrieve the contents of the cells with getXxx(columnName).
-	         System.out.println("The records selected are:");
-	         int rowCount = 0;
-	         while(rset.next()) {   // Move the cursor to the next row, return false if no more row
-	            int did = rset.getInt("did");
-	        	String dname = rset.getString("dname");
-	            double budget = rset.getDouble("budget");
-	            int managerid  = rset.getInt("managerid");
-	            intList.add(new Integer(managerid));
-	            System.out.println(did + ", " + dname + ", " + budget + ", " + managerid);
-	            ++rowCount;
+	         while(rset.next()) {
+		         int managerid  = rset.getInt("managerid");
+		         intList.add(new Integer(managerid));
 	         }
-	         System.out.println("Total number of records = " + rowCount);
-	         
 	         conn.close();
+	         
 	         
 		} catch(SQLException ex) {
 	         ex.printStackTrace();
 	      } 
 		
-		return intList;
-		
+		return intList;	
 //		finally {
 //		    // ...
 //		    if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
