@@ -6,7 +6,11 @@ public class Database {
 	
 	private static ComboPooledDataSource dataSource;
 	
-	static {
+	static {	
+		init();
+	}
+	
+	public static void init() {
 		/* connection pool means we don't have to connect completely freshly
 		 * every time
 		 */
@@ -19,7 +23,6 @@ public class Database {
 		dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/hw1p3?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
 		dataSource.setUser("root");
 		dataSource.setPassword(null); 
-		
 	}
 	
 	public static void main(String[] args) {
@@ -31,6 +34,25 @@ public class Database {
 		}
 	}
 	
+	public static void getStudentWithId(int sid) {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			Statement stmt = conn.createStatement();	
+			String strSelect = "SELECT * FROM Student WHERE studentId = '" + sid + "'";
+			ResultSet rset = stmt.executeQuery(strSelect);
+
+			while(rset.next()) {
+		        /* get all student info */
+	        }
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 	
+		/* RETURN STUDENT */
+		return;
+	}
+	
 	public static ArrayList<Integer> getCourseIds() {
 		
 		ArrayList<Integer> intList = new ArrayList<Integer>();
@@ -38,7 +60,6 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 			Statement stmt = conn.createStatement();	
-			// Step 3: Execute a SQL SELECT query. The query result is returned in a 'ResultSet' object.
 			String strSelect = "select * from Dept";
 			ResultSet rset = stmt.executeQuery(strSelect);
 
