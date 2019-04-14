@@ -8,7 +8,7 @@ CREATE TABLE Course(
 	isActive BOOLEAN);
 
 CREATE TABLE StudentType(
-        studentTypeId INT PRIMARY KEY,
+        studentTypeId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         studentType VARCHAR(30));
 
 CREATE TABLE Student(
@@ -23,7 +23,7 @@ CREATE TABLE Student(
 CREATE TABLE Enrolled(
 	courseId INT,
 	studentId INT,
-	notes VARCHAR(255),
+	notes TEXT,
 	FOREIGN KEY (courseId) REFERENCES Course(courseId),
 	FOREIGN KEY (studentId) REFERENCES Student(studentId) );
 
@@ -52,6 +52,6 @@ CREATE TABLE StudentGrade(
 	studentId INT,
 	gradedItemId INT,
 	score FLOAT,
-	notes VARCHAR(255),
+	notes TEXT,
 	FOREIGN KEY (studentId) REFERENCES Student(studentId),
 	FOREIGN KEY (gradedItemId) REFERENCES GradedItem(gradedItemId) );
