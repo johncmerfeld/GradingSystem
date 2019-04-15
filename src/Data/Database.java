@@ -1,3 +1,5 @@
+package Data;
+
 import java.sql.*;
 import com.mchange.v2.c3p0.*;
 import java.util.ArrayList;
@@ -15,35 +17,53 @@ public class Database {
 		 * every time
 		 */
 		dataSource = new ComboPooledDataSource();
-		try {
-			dataSource.setDriverClass("com.mysql.jdbc.Driver");
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/hw1p3?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+		dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/gradingsystem?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
 		dataSource.setUser("root");
 		dataSource.setPassword(null); 
 	}
 	
 	public static void main(String[] args) {
-		
-		ArrayList<Integer> ints = getCourseIds();
-		
-		for (Integer  myInt : ints) {
-			System.out.println(myInt);
-		}
+		insertStudent();	
 	}
+	
+	
+	public static void insertStudent(/* Student s */) {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			ResultSet rs = DbUtil.execute(conn, "Select * from Student");
+
+			rs.moveToInsertRow();
+			rs.updateInt(DbUtil.STUDENT_ID, 100);
+			rs.updateString(DbUtil.STUDENT_FNAME, "Test Insert");
+			rs.updateString(DbUtil.STUDENT_LNAME, "Jenkins");
+			rs.updateString(DbUtil.STUDENT_EMAIL, "tijenk@bu.edu");
+			rs.updateInt(DbUtil.STUDENT_TYPE, 1);
+			rs.insertRow();
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 	
+		/* RETURN STUDENT */
+		return;
+		
+	}
+	
 	
 	public static void getStudentWithId(int sid) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
-			Statement stmt = conn.createStatement();	
+			Statement stmt = conn.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
 			String strSelect = "SELECT * FROM Student WHERE studentId = '" + sid + "'";
 			ResultSet rset = stmt.executeQuery(strSelect);
 
 			while(rset.next()) {
-		        /* get all student info */
+		        String fname = rset.getString("firstName");
+		        String lname = rset.getString("lastName");
 	        }
 	        conn.close();      
 		} catch(SQLException e) {
