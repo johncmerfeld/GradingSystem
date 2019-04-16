@@ -31,7 +31,7 @@ CREATE TABLE Category(
 	categoryId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	categoryName VARCHAR(30),
 	courseId INT,
-	percentageWeight FLOAT,
+	percentageWeight DOUBLE,
 	FOREIGN KEY (courseId) REFERENCES Course(courseId) );
 
 CREATE TABLE ScoringMethod(
@@ -42,16 +42,16 @@ CREATE TABLE GradedItem(
 	gradedItemId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	gradedItemName VARCHAR(30),
 	categoryId INT,
-	maxPoints FLOAT,
+	maxPoints DOUBLE,
 	scoringMethodId INT,
-	percentageWeight FLOAT,
+	percentageWeight DOUBLE,
 	FOREIGN KEY (categoryId) REFERENCES Category(categoryId),
 	FOREIGN KEY (scoringMethodId) REFERENCES ScoringMethod(scoringMethodId) );
 
 CREATE TABLE StudentGrade(
 	studentId INT,
 	gradedItemId INT,
-	score FLOAT,
+	score DOUBLE,
 	notes TEXT,
 	FOREIGN KEY (studentId) REFERENCES Student(studentId),
 	FOREIGN KEY (gradedItemId) REFERENCES GradedItem(gradedItemId) );
