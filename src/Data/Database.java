@@ -215,4 +215,20 @@ public class Database {
 	 * 		These functions adjust values in existing table rows
 	 */
 	
+	public void updateSomething(/*placeholder*/) {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+
+			ResultSet rs = conn.prepareStatement("Select something...");
+			rs.updateInt(columnIndex, x);
+			rs.updateRow();
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 	
+		return;	
+	}
+	
 }
