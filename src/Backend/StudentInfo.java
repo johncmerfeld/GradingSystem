@@ -10,8 +10,27 @@ public class StudentInfo {
         this.categoryLevelGrades = categoryLevelGrades;
     }
 
-    int getRawScore(){
-        return 0;
+    public double getRawScore(){
+        double sum=0;
+        for(CategoryLevelGrade c:categoryLevelGrades){
+            sum+=c.getCompositeScore()*c.getCategory().getWeight();
+        }
+        return sum;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public List<CategoryLevelGrade> getCategoryLevelGrades() {
+        return categoryLevelGrades;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public void setCategoryLevelGrades(List<CategoryLevelGrade> categoryLevelGrades) {
+        this.categoryLevelGrades = categoryLevelGrades;
+    }
 }

@@ -31,4 +31,17 @@ public class Student{
     public boolean isGradStudent() {
         return isGradStudent;
     }
+
+    public void setGradStudent(boolean gradStudent) {
+        isGradStudent = gradStudent;
+    }
+
+    public void setBU_Id(int BU_Id) {
+        this.BU_Id = BU_Id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }
