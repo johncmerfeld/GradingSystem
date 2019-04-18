@@ -23,7 +23,7 @@ public class Database {
 	}
 	
 	public static void main(String[] args) {
-		addStudent();	
+		//addStudent();	
 	}
 	
 	/** 	NEW ROW FUNCTIONS
@@ -83,14 +83,12 @@ public class Database {
 			
 			PreparedStatement ps = conn.prepareStatement(query);
 
-			
-			
-			ps.setInt(DbUtil.STUDENT_ID, 1);
-			ps.setString(DbUtil.STUDENT_FNAME, "Test Insert");
-			ps.setString(DbUtil.STUDENT_MI, "X");
-			ps.setString(DbUtil.STUDENT_LNAME, "Jenkins");
-			ps.setString(DbUtil.STUDENT_EMAIL, "tijenk@bu.edu");
-			ps.setInt(DbUtil.STUDENT_TYPE, 1);
+			ps.setInt(DbUtil.STUDENT_ID, s.getBUId());
+			ps.setString(DbUtil.STUDENT_FNAME, s.getName().getFirstName());
+			ps.setString(DbUtil.STUDENT_MI, String.valueOf(s.getName().getMiddleInitial()));
+			ps.setString(DbUtil.STUDENT_LNAME, s.getName().getLastName());
+			ps.setString(DbUtil.STUDENT_EMAIL, s.getEmail());
+			ps.setInt(DbUtil.STUDENT_TYPE, s.isGradStudent() ? 2 : 1);
 			ps.execute();
 			
 	        conn.close();      
