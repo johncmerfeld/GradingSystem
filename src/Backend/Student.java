@@ -1,19 +1,19 @@
 package Backend;
 
 public class Student{
-    private int studetnId;
+    private int BU_Id;
     private Name name;
     private String email;
     private boolean isGradStudent;
-    Student(int studetnId, Name name, String email,boolean isGradStudent){
-        this.studetnId = studetnId;
+    Student(int Id, Name name, String email,boolean isGradStudent){
+        this.BU_Id = Id;
         this.name = name;
         this.email = email;
         this.isGradStudent = isGradStudent;
     }
 
-    public int getStudetnId() {
-        return studetnId;
+    public int getBUId() {
+        return BU_Id;
     }
 
     public Name getName() {

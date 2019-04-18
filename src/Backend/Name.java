@@ -2,12 +2,18 @@ package Backend;
 
 public class Name {
     String firstName = "";
-    String middleInitial = "";
+    char middleInitial = ' ';
     String lastName = "";
     Name(){}
-    Name(String firstName, String middleInitial, String lastName){
+    Name(String firstName, char middleInitial, String lastName){
         this.firstName = firstName;
         this.middleInitial = middleInitial;
+        this.lastName = lastName;
+    }
+
+    Name(String firstName, String lastName){
+        this.firstName = firstName;
+        //this.middleInitial = middleInitial;
         this.lastName = lastName;
     }
 
@@ -15,7 +21,7 @@ public class Name {
         return firstName;
     }
 
-    public String getMiddleInitial() {
+    public char getMiddleInitial() {
         return middleInitial;
     }
 
@@ -31,14 +37,14 @@ public class Name {
         this.lastName = lastName;
     }
 
-    public void setMiddleInitial(String middleInitial) {
+    public void setMiddleInitial(char middleInitial) {
         this.middleInitial = middleInitial;
     }
 
     public String getName(){
         if(this.firstName.equals(""))
             return "";
-        if(this.middleInitial.equals("")){
+        if(middleInitial == ' '){
             return firstName+" "+lastName;
         }
         return firstName+" "+middleInitial+" "+lastName;

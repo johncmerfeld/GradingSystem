@@ -1,35 +1,31 @@
 package Backend;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 public class Course {
-    private int courseId;
-    private String courseName;
+    private int id;
+    private String name;
     private String courseSemester;
     private boolean isActive;
-    private ArrayList<Student> students;
-    private ArrayList<Category> categories;
-    private Map<String,Double> rubric;
-    private ArrayList<Grade> grades;
-    Course(int courseId, String courseName, String courseSemester){
-        this.courseId = courseId;
-        this.courseName = courseName;
+    //private ArrayList<Student> students;
+    //private ArrayList<Category> categories;
+    //private Map<String,Double>  rubric;
+    //private ArrayList<Grade> grades;
+    Course(int id, String name, String courseSemester){
+        this.id = id;
+        this.name = name;
         this.courseSemester = courseSemester;
         this.isActive = true;
-        students = new ArrayList<>();
-        categories = new ArrayList<>();
-        rubric = new HashMap<>();
-        grades = new ArrayList<>();
+        //students = new ArrayList<>();
+        //categories = new ArrayList<>();
+        //rubric = new HashMap<>();
+        //grades = new ArrayList<>();
     }
 
     public int getCourseId() {
-        return courseId;
+        return id;
     }
 
     public String getCourseName() {
-        return courseName;
+        return name;
     }
 
     public String getCourseSemester() {
@@ -48,18 +44,19 @@ public class Course {
         isActive = true;
     }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
+    public void setCourseId(int id) {
+        this.id = id;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setCourseName(String name) {
+        this.name = name;
     }
 
     public void setCourseSemester(String courseSemester) {
         this.courseSemester = courseSemester;
     }
 
+    /*
     public ArrayList<Category> getCategories() {
         return categories;
     }
@@ -86,9 +83,9 @@ public class Course {
         for(int i = 0;i<categories.size();i++){
             for(int j = 0; j<categories.get(i).getGradeItems().size();j++){
                 if(categories.get(i).getGradeItems().get(j).getScalingMethod())
-                    grades.add(new Grade(categories.get(i).getGradeItems().get(j).getGradItemId(),s.getStudetnId(),0));
+                    grades.add(new Grade(categories.get(i).getGradeItems().get(j).getGradItemId(),s.getBUId(),0));
                 else
-                    grades.add(new Grade(categories.get(i).getGradeItems().get(j).getGradItemId(),s.getStudetnId(),-1*categories.get(i).getGradeItems().get(j).getMaxPoints()));
+                    grades.add(new Grade(categories.get(i).getGradeItems().get(j).getGradItemId(),s.getBUId(),-1*categories.get(i).getGradeItems().get(j).getMaxPoints()));
             }
         }
     }
@@ -100,7 +97,7 @@ public class Course {
             }
         }
         for(int i = 0; i<students.size();i++){
-            if(students.get(i).getStudetnId() == id){
+            if(students.get(i).getBUId() == id){
                 students.remove(i);
             }
         }
@@ -113,9 +110,9 @@ public class Course {
         }
         for(Student s:students){
             if(gi.getScalingMethod())
-                grades.add(new Grade(gi.getGradItemId(),s.getStudetnId(),0));
+                grades.add(new Grade(gi.getGradItemId(),s.getBUId(),0));
             else
-                grades.add(new Grade(gi.getGradItemId(),s.getStudetnId(),-1*gi.getMaxPoints()));
+                grades.add(new Grade(gi.getGradItemId(),s.getBUId(),-1*gi.getMaxPoints()));
         }
 
     }
@@ -143,4 +140,6 @@ public class Course {
             }
         }
     }
+
+    */
 }
