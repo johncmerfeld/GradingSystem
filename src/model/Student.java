@@ -1,4 +1,4 @@
-package Backend;
+package model;
 
 public class Student{
     private int BU_Id;

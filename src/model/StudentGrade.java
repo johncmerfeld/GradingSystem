@@ -1,4 +1,4 @@
-package Backend;
+package model;
 
 public class StudentGrade {
     private int id;

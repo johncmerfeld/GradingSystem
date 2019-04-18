@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package view;
 
 /**
  *
  * @author chizhang
  */
-public class CourseLogisticPage extends javax.swing.JFrame {
+public class GradingRubricPage extends javax.swing.JFrame {
 
     /**
-     * Creates new form CourseLogisticPage
+     * Creates new form gradingRubric
      */
-    public CourseLogisticPage() {
+    public GradingRubricPage() {
         initComponents();
     }
 
@@ -32,10 +32,14 @@ public class CourseLogisticPage extends javax.swing.JFrame {
         couseNameLabel = new javax.swing.JLabel();
         semesterLabel = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         cancelBt = new javax.swing.JButton();
-        saveBt = new javax.swing.JButton();
-        mainTableScrollPane = new javax.swing.JScrollPane();
-        courseLogisticTable = new javax.swing.JTable();
+        saveTemplateBt = new javax.swing.JButton();
+        saveBt1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -44,7 +48,7 @@ public class CourseLogisticPage extends javax.swing.JFrame {
 
         titleLabel.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
-        titleLabel.setText("Course Logistic");
+        titleLabel.setText("Grading Rubric");
 
         couseNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         couseNameLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -60,8 +64,8 @@ public class CourseLogisticPage extends javax.swing.JFrame {
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerPanelLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 236, Short.MAX_VALUE)
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(semesterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(couseNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -83,8 +87,49 @@ public class CourseLogisticPage extends javax.swing.JFrame {
         );
 
         mainPanel.setBackground(new java.awt.Color(255, 252, 252));
-        mainPanel.setAlignmentX(0.0F);
-        mainPanel.setPreferredSize(new java.awt.Dimension(770, 496));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"Project Category", null},
+                {"Project1", null},
+                {"Project2", null},
+                {"Project3", null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Project Name", "Scoring Weight"
+            }
+        ) {
+            // only the weight column is editable
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+
+        jTabbedPane1.addTab("Project", jScrollPane2);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jTabbedPane1.addTab("Homework", jScrollPane1);
 
         cancelBt.setBackground(new java.awt.Color(255, 255, 255));
         cancelBt.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
@@ -96,100 +141,54 @@ public class CourseLogisticPage extends javax.swing.JFrame {
             }
         });
 
-        saveBt.setBackground(new java.awt.Color(255, 255, 255));
-        saveBt.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
-        saveBt.setForeground(new java.awt.Color(25, 118, 210));
-        saveBt.setText("Save");
-        saveBt.addActionListener(new java.awt.event.ActionListener() {
+        saveTemplateBt.setBackground(new java.awt.Color(255, 255, 255));
+        saveTemplateBt.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
+        saveTemplateBt.setForeground(new java.awt.Color(25, 118, 210));
+        saveTemplateBt.setText("Save Template");
+        saveTemplateBt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveBtActionPerformed(evt);
+                saveTemplateBtActionPerformed(evt);
             }
         });
 
-        mainTableScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        mainTableScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-        courseLogisticTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Coursework", "Mean", "Standard Deviation", "Include", "Delete"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Boolean.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        saveBt1.setBackground(new java.awt.Color(255, 255, 255));
+        saveBt1.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
+        saveBt1.setForeground(new java.awt.Color(25, 118, 210));
+        saveBt1.setText("Save");
+        saveBt1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBt1ActionPerformed(evt);
             }
         });
-        courseLogisticTable.setColumnSelectionAllowed(true);
-        courseLogisticTable.getTableHeader().setReorderingAllowed(false);
-        mainTableScrollPane.setViewportView(courseLogisticTable);
-        courseLogisticTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        if (courseLogisticTable.getColumnModel().getColumnCount() > 0) {
-            courseLogisticTable.getColumnModel().getColumn(3).setResizable(false);
-            courseLogisticTable.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+            .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(mainTableScrollPane)
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(cancelBt, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(saveBt, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cancelBt, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(saveTemplateBt, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(saveBt1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
-                .addComponent(mainTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveBt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancelBt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7))
+                    .addComponent(saveTemplateBt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelBt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveBt1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -204,14 +203,14 @@ public class CourseLogisticPage extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE))
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
-        // jump back to the course selection page, without saving anything
+        // jump back to the home page, without saving anything
         HomePage homePage = new HomePage();
         homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         homePage.setLocationRelativeTo( null ); // set the previous window location
@@ -219,15 +218,19 @@ public class CourseLogisticPage extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_cancelBtActionPerformed
 
-    private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
-        // jump back to the course selection page,
-        // TODO: save the note in the database
-        CourseSelectionPage courseSelectionPage = new CourseSelectionPage();
-        courseSelectionPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        courseSelectionPage.setLocationRelativeTo( null ); // set the previous window location
-        courseSelectionPage.setVisible(true);
+    private void saveTemplateBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveTemplateBtActionPerformed
+        // jump back to the home page,
+        // TODO: save the grading rubric as a template in the database
+        HomePage homePage = new HomePage();
+        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        homePage.setLocationRelativeTo( null ); // set the previous window location
+        homePage.setVisible(true);
         dispose();
-    }//GEN-LAST:event_saveBtActionPerformed
+    }//GEN-LAST:event_saveTemplateBtActionPerformed
+
+    private void saveBt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBt1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveBt1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -246,32 +249,39 @@ public class CourseLogisticPage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CourseLogisticPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GradingRubricPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CourseLogisticPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GradingRubricPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CourseLogisticPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GradingRubricPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CourseLogisticPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GradingRubricPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CourseLogisticPage().setVisible(true);
+                new GradingRubricPage().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelBt;
-    private javax.swing.JTable courseLogisticTable;
     private javax.swing.JLabel couseNameLabel;
     private javax.swing.JPanel headerPanel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JScrollPane mainTableScrollPane;
-    private javax.swing.JButton saveBt;
+    private javax.swing.JButton saveBt1;
+    private javax.swing.JButton saveTemplateBt;
     private javax.swing.JLabel semesterLabel;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables

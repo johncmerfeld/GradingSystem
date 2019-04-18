@@ -1,4 +1,4 @@
-package Backend;
+package model;
 import java.sql.*;
 
 // /Users/johncmerfeld/Documents/Code/GradingSystem/mysql-connector-java-8.0.15/mysql-connector-java-8.0.15.jar

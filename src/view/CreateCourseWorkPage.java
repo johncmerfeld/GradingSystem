@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package view;
 
 /**
  *
  * @author chizhang
  */
-public class CreateStudentPage extends javax.swing.JFrame {
+public class CreateCourseWorkPage extends javax.swing.JFrame {
 
     /**
-     * Creates new form CreateStudentPage
+     * Creates new form createCourseWork
      */
-    public CreateStudentPage() {
+    public CreateCourseWorkPage() {
         initComponents();
     }
 
@@ -32,29 +32,25 @@ public class CreateStudentPage extends javax.swing.JFrame {
         couseNameLabel = new javax.swing.JLabel();
         semesterLabel = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
-        firstNameLabel = new javax.swing.JLabel();
+        courseworkNameLabel = new javax.swing.JLabel();
         saveBt = new javax.swing.JButton();
         cancelBt = new javax.swing.JButton();
-        lastNameTextField = new javax.swing.JTextField();
-        middleNameLabel = new javax.swing.JLabel();
-        firstNameTextField = new javax.swing.JTextField();
-        lastNameLabel = new javax.swing.JLabel();
-        studentTypeLabel = new javax.swing.JLabel();
-        StudentTypeComboBox = new javax.swing.JComboBox<>();
-        middleNameTextField = new javax.swing.JTextField();
-        emailLabel = new javax.swing.JLabel();
-        emailTextField = new javax.swing.JTextField();
-        studentIDLabel1 = new javax.swing.JLabel();
-        studentIDTextField1 = new javax.swing.JTextField();
+        courseworkCategoryComboBox = new javax.swing.JComboBox<>();
+        totalScoreTextField = new javax.swing.JTextField();
+        semesterLabel1 = new javax.swing.JLabel();
+        courseworkNameTextField = new javax.swing.JTextField();
+        totalScoreLabel = new javax.swing.JLabel();
+        scoringMethodLabel = new javax.swing.JLabel();
+        scoringMethodComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         headerPanel.setBackground(new java.awt.Color(25, 118, 210));
-        headerPanel.setPreferredSize(new java.awt.Dimension(537, 74));
+        headerPanel.setPreferredSize(new java.awt.Dimension(770, 74));
 
         titleLabel.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
-        titleLabel.setText("Create Student");
+        titleLabel.setText("Create Coursework");
 
         couseNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         couseNameLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -70,8 +66,8 @@ public class CreateStudentPage extends javax.swing.JFrame {
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerPanelLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(titleLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 236, Short.MAX_VALUE)
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(semesterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(couseNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -96,8 +92,8 @@ public class CreateStudentPage extends javax.swing.JFrame {
         mainPanel.setAlignmentX(0.0F);
         mainPanel.setPreferredSize(new java.awt.Dimension(770, 496));
 
-        firstNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
-        firstNameLabel.setText("First Name");
+        courseworkNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
+        courseworkNameLabel.setText("Coursework Name");
 
         saveBt.setBackground(new java.awt.Color(255, 255, 255));
         saveBt.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
@@ -119,55 +115,38 @@ public class CreateStudentPage extends javax.swing.JFrame {
             }
         });
 
-        lastNameTextField.addActionListener(new java.awt.event.ActionListener() {
+        courseworkCategoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        courseworkCategoryComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lastNameTextFieldActionPerformed(evt);
+                courseworkCategoryComboBoxActionPerformed(evt);
             }
         });
 
-        middleNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
-        middleNameLabel.setText("Middle Name");
-
-        firstNameTextField.addActionListener(new java.awt.event.ActionListener() {
+        totalScoreTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                firstNameTextFieldActionPerformed(evt);
+                totalScoreTextFieldActionPerformed(evt);
             }
         });
 
-        lastNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
-        lastNameLabel.setText("Last Name");
+        semesterLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
+        semesterLabel1.setText("Coursework Category");
 
-        studentTypeLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
-        studentTypeLabel.setText("Student Type");
-
-        StudentTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Undergraduate Student", "Graduate Student" }));
-        StudentTypeComboBox.addActionListener(new java.awt.event.ActionListener() {
+        courseworkNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StudentTypeComboBoxActionPerformed(evt);
+                courseworkNameTextFieldActionPerformed(evt);
             }
         });
 
-        middleNameTextField.addActionListener(new java.awt.event.ActionListener() {
+        totalScoreLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
+        totalScoreLabel.setText("Total Score");
+
+        scoringMethodLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
+        scoringMethodLabel.setText("Scoring Method");
+
+        scoringMethodComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Deduction", "Percentage" }));
+        scoringMethodComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                middleNameTextFieldActionPerformed(evt);
-            }
-        });
-
-        emailLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
-        emailLabel.setText("Email");
-
-        emailTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailTextFieldActionPerformed(evt);
-            }
-        });
-
-        studentIDLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
-        studentIDLabel1.setText("Student ID");
-
-        studentIDTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                studentIDTextField1ActionPerformed(evt);
+                scoringMethodComboBoxActionPerformed(evt);
             }
         });
 
@@ -176,58 +155,42 @@ public class CreateStudentPage extends javax.swing.JFrame {
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                .addContainerGap(203, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(firstNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(middleNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(courseworkNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(totalScoreTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(semesterLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
                         .addComponent(cancelBt, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                         .addComponent(saveBt, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(firstNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lastNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(studentTypeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(StudentTypeComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(middleNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
-                        .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65)
-                        .addComponent(studentIDLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
-                        .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(studentIDTextField1)))
+                    .addComponent(courseworkNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalScoreLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(courseworkCategoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(scoringMethodLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(scoringMethodComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(190, 190, 190))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(firstNameLabel)
+                .addGap(36, 36, 36)
+                .addComponent(courseworkNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(courseworkNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(semesterLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(middleNameLabel)
+                .addComponent(courseworkCategoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(totalScoreLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(middleNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lastNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(studentIDLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(studentIDTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addComponent(studentTypeLabel)
+                .addComponent(totalScoreTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(scoringMethodLabel)
                 .addGap(6, 6, 6)
-                .addComponent(StudentTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(scoringMethodComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveBt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cancelBt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -238,15 +201,15 @@ public class CreateStudentPage extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
             .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE))
         );
 
         pack();
@@ -265,29 +228,21 @@ public class CreateStudentPage extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_cancelBtActionPerformed
 
-    private void lastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNameTextFieldActionPerformed
+    private void courseworkCategoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseworkCategoryComboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_lastNameTextFieldActionPerformed
+    }//GEN-LAST:event_courseworkCategoryComboBoxActionPerformed
 
-    private void firstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameTextFieldActionPerformed
+    private void totalScoreTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalScoreTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_firstNameTextFieldActionPerformed
+    }//GEN-LAST:event_totalScoreTextFieldActionPerformed
 
-    private void StudentTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StudentTypeComboBoxActionPerformed
+    private void courseworkNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseworkNameTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_StudentTypeComboBoxActionPerformed
+    }//GEN-LAST:event_courseworkNameTextFieldActionPerformed
 
-    private void middleNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_middleNameTextFieldActionPerformed
+    private void scoringMethodComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scoringMethodComboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_middleNameTextFieldActionPerformed
-
-    private void emailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailTextFieldActionPerformed
-
-    private void studentIDTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentIDTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_studentIDTextField1ActionPerformed
+    }//GEN-LAST:event_scoringMethodComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -306,43 +261,42 @@ public class CreateStudentPage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateStudentPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateCourseWorkPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateStudentPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateCourseWorkPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateStudentPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateCourseWorkPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateStudentPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateCourseWorkPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateStudentPage().setVisible(true);
+                new CreateCourseWorkPage().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> StudentTypeComboBox;
     private javax.swing.JButton cancelBt;
+    private javax.swing.JComboBox<String> courseworkCategoryComboBox;
+    private javax.swing.JLabel courseworkNameLabel;
+    private javax.swing.JTextField courseworkNameTextField;
     private javax.swing.JLabel couseNameLabel;
-    private javax.swing.JLabel emailLabel;
-    private javax.swing.JTextField emailTextField;
-    private javax.swing.JLabel firstNameLabel;
-    private javax.swing.JTextField firstNameTextField;
     private javax.swing.JPanel headerPanel;
-    private javax.swing.JLabel lastNameLabel;
-    private javax.swing.JTextField lastNameTextField;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JLabel middleNameLabel;
-    private javax.swing.JTextField middleNameTextField;
     private javax.swing.JButton saveBt;
+    private javax.swing.JComboBox<String> scoringMethodComboBox;
+    private javax.swing.JLabel scoringMethodLabel;
     private javax.swing.JLabel semesterLabel;
-    private javax.swing.JLabel studentIDLabel1;
-    private javax.swing.JTextField studentIDTextField1;
-    private javax.swing.JLabel studentTypeLabel;
+    private javax.swing.JLabel semesterLabel1;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JLabel totalScoreLabel;
+    private javax.swing.JTextField totalScoreTextField;
     // End of variables declaration//GEN-END:variables
 }

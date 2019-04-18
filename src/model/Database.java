@@ -1,4 +1,4 @@
-package Backend;
+package model;
 
 import java.sql.*;
 import com.mchange.v2.c3p0.*;
