@@ -1,4 +1,4 @@
-package Data;
+package Backend;
 import java.sql.*;
 
 public class DbUtil {
