@@ -73,7 +73,7 @@ public class Database {
 		return;		
 	}
 	
-	public static void addStudent(/* Student s */) {
+	public static void addStudent(Student s) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -83,7 +83,9 @@ public class Database {
 			
 			PreparedStatement ps = conn.prepareStatement(query);
 
-			ps.setInt(DbUtil.STUDENT_ID, 101);
+			
+			
+			ps.setInt(DbUtil.STUDENT_ID, 1);
 			ps.setString(DbUtil.STUDENT_FNAME, "Test Insert");
 			ps.setString(DbUtil.STUDENT_MI, "X");
 			ps.setString(DbUtil.STUDENT_LNAME, "Jenkins");
