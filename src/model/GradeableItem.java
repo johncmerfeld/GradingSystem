@@ -4,6 +4,7 @@ public class GradeableItem {
     private int id;
     private String name;
     private int maxPoints;
+
     enum ScoringMethod {
         Deduction,Percentage
     }

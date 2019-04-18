@@ -5,6 +5,7 @@ public class GradableCategory {
     private String name;
     private double weight;
     public GradableCategory(String name, double weight){
+
         //create an id by some rule;
         this.name = name;
         this.weight = weight;

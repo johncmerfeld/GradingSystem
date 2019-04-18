@@ -42,4 +42,5 @@ public class CategoryLevelGrade {
     public void setStudentGrades(List<StudentGrade> studentGrades) {
         this.studentGrades = studentGrades;
     }
+
 }
