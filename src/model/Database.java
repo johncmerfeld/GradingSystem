@@ -2,6 +2,9 @@ package model;
 
 import java.sql.*;
 import com.mchange.v2.c3p0.*;
+
+import model.GradeableItem.ScoringMethod;
+
 import java.util.ArrayList;
 
 public class Database {
@@ -31,7 +34,7 @@ public class Database {
 	 * 		There is one function for each of the 8 tables, which adds an
 	 * entirely new row. 
 	 */
-	public static void addCourse(/* Course c */) {
+	public static void addCourse(Course c) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -40,10 +43,10 @@ public class Database {
 					" VALUES (?, ?, ?, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.COURSE_ID, 100);
-			ps.setString(DbUtil.COURSE_NAME, "Course test");
-			ps.setString(DbUtil.COURSE_SEMESTER, "Winter 1901");
-			ps.setInt(DbUtil.COURSE_ACTIVE, 1);
+			ps.setInt(DbUtil.COURSE_ID, c.getCourseId());
+			ps.setString(DbUtil.COURSE_NAME, c.getCourseName());
+			ps.setString(DbUtil.COURSE_SEMESTER, c.getCourseSemester());
+			ps.setInt(DbUtil.COURSE_ACTIVE, c.isActive() ? 1 : 0);
 			ps.execute();
 			
 	        conn.close();      
@@ -53,7 +56,7 @@ public class Database {
 		return;		
 	}
 	
-	public static void addStudentType(/* Student type */) {
+	public static void addStudentType(int typeId, String typeName) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -62,8 +65,8 @@ public class Database {
 					" VALUES (?, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.STUDENTTYPE_ID, 100);
-			ps.setString(DbUtil.STUDENTTYPE_NAME, "Super student");
+			ps.setInt(DbUtil.STUDENTTYPE_ID, typeId);
+			ps.setString(DbUtil.STUDENTTYPE_NAME, typeName);
 			ps.execute();
 			
 	        conn.close();      
@@ -73,15 +76,16 @@ public class Database {
 		return;		
 	}
 	
-	public static void addStudent(Student s) {
+	/* updates Student and Enrolled */
+	public static void addStudent(Student s, int courseId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
-			String query = "INSERT INTO Student " + 
+			String queryStudent = "INSERT INTO Student " + 
 					"(studentId, firstName, middleInitial, lastName, email, studentType)" +
 					" VALUES (?, ?, ?, ?, ?, ?)";
 			
-			PreparedStatement ps = conn.prepareStatement(query);
+			PreparedStatement ps = conn.prepareStatement(queryStudent);
 
 			ps.setInt(DbUtil.STUDENT_ID, s.getBUId());
 			ps.setString(DbUtil.STUDENT_FNAME, s.getName().getFirstName());
@@ -91,6 +95,15 @@ public class Database {
 			ps.setInt(DbUtil.STUDENT_TYPE, s.isGradStudent() ? 2 : 1);
 			ps.execute();
 			
+			String queryEnrolled = "INSERT INTO Enrolled " + 
+					"(courseId, studentId)" +
+					" VALUES (?, ?)";
+			
+			ps = conn.prepareStatement(queryEnrolled);
+			ps.setInt(DbUtil.ENROLLED_CORID, courseId);
+			ps.setInt(DbUtil.ENROLLED_SID, s.getBUId());
+			ps.execute();
+			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
@@ -98,29 +111,7 @@ public class Database {
 		return;		
 	}
 	
-	public static void addEnrollment(/* Enrollement info, notes */) {
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			String query = "INSERT INTO Enrolled " + 
-					"(courseId, studentId, notes)" +
-					" VALUES (?, ?, ?)";
-			
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.ENROLLED_CORID, 100);
-			ps.setInt(DbUtil.ENROLLED_SID, 100);
-			// if notes == null, do blank perhaps...
-			ps.setString(DbUtil.ENROLLED_NOTES, "");
-			ps.execute();
-			
-	        conn.close();      
-		} catch(SQLException e) {
-	         e.printStackTrace();
-	      } 	
-		return;	
-	}
-	
-	public static void addCategory(/* Category info */) {
+	public static void addCategory(GradableCategory gc, int courseId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -129,10 +120,10 @@ public class Database {
 					" VALUES (?, ?, ?, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.CATEGORY_ID, 100);
-			ps.setString(DbUtil.CATEGORY_NAME, "HOMEWORK");
-			ps.setInt(DbUtil.CATEGORY_CORID, 100);
-			ps.setInt(DbUtil.CATEGORY_WEIGHT, 1);
+			ps.setInt(DbUtil.CATEGORY_ID, gc.getId());
+			ps.setString(DbUtil.CATEGORY_NAME, gc.getName());
+			ps.setInt(DbUtil.CATEGORY_CORID, courseId);
+			ps.setDouble(DbUtil.CATEGORY_WEIGHT, gc.getWeight());
 			ps.execute();
 			
 	        conn.close();      
@@ -142,7 +133,7 @@ public class Database {
 		return;	
 	}
 	
-	public static void addScoringMethod(/* Scoring method */) {
+	public static void addScoringMethod(int methodId, String method) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -151,8 +142,8 @@ public class Database {
 					" VALUES (?, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.SCORINGMETHOD_ID, 100);
-			ps.setString(DbUtil.SCORINGMETHOD_NAME, "No points!");
+			ps.setInt(DbUtil.SCORINGMETHOD_ID, methodId);
+			ps.setString(DbUtil.SCORINGMETHOD_NAME, method);
 			ps.execute();
 			
 	        conn.close();      
@@ -162,7 +153,7 @@ public class Database {
 		return;		
 	}
 	
-	public static void addGradedItem(/* GradedItem */) {
+	public static void addGradedItem(GradeableItem gi, int categoryId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -171,12 +162,13 @@ public class Database {
 					" VALUES (?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.GRADEDITEM_ID, 100);
-			ps.setString(DbUtil.GRADEDITEM_NAME, "HW 10");
-			ps.setInt(DbUtil.GRADEDITEM_CATID, 100);
-			ps.setDouble(DbUtil.GRADEDITEM_MAXPOINTS, 50.0);
-			ps.setInt(DbUtil.GRADEDITEM_SCORINGMETHOD, 1);
-			ps.setDouble(DbUtil.GRADEDITEM_WEIGHT, 0.0);
+			ps.setInt(DbUtil.GRADEDITEM_ID, gi.getId());
+			ps.setString(DbUtil.GRADEDITEM_NAME, gi.getName());
+			ps.setInt(DbUtil.GRADEDITEM_CATID, categoryId);
+			ps.setDouble(DbUtil.GRADEDITEM_MAXPOINTS, gi.getMaxPoints());
+			ps.setInt(DbUtil.GRADEDITEM_SCORINGMETHOD, gi.getScoringMethod() == 
+					ScoringMethod.Deduction ? 1 : 2);
+			ps.setDouble(DbUtil.GRADEDITEM_WEIGHT, gi.getWeightage());
 			ps.execute();
 			
 	        conn.close();      
@@ -186,7 +178,7 @@ public class Database {
 		return;	
 	}
 	
-	public static void addStudentGrade(/* student grade info, notes */) {
+	public static void addStudentGrade(StudentGrade sg) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -195,11 +187,14 @@ public class Database {
 					" VALUES (?, ?, ?, ?)";
 
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.STUDENTGRADE_SID, 100);
-			ps.setInt(DbUtil.STUDENTGRADE_GID, 100);
-			ps.setDouble(DbUtil.STUDENTGRADE_SCORE, 60.0);
-			// if notes != null ?
-			ps.setString(DbUtil.STUDENTGRADE_NOTES, "");
+			ps.setInt(DbUtil.STUDENTGRADE_SID, 1);
+			ps.setInt(DbUtil.STUDENTGRADE_GID, sg.getGradeableItem().getId());
+			ps.setDouble(DbUtil.STUDENTGRADE_SCORE, sg.getGrade().getScore());
+			String notes = sg.getGrade().getNote();
+			if (notes == null) {
+				notes = "";
+			}
+			ps.setString(DbUtil.STUDENTGRADE_NOTES, notes);
 			ps.execute();
 			
 	        conn.close();      
@@ -234,5 +229,52 @@ public class Database {
 	      } 	
 		return;	
 	}
+	
+	
+	/**
+	 * Don't forget about deletes!
+	 */
+	
+	/**
+	 * GETTER FUNCTIONS
+	 */
+	
+	ArrayList<Student> getStudentsInCourse(int courseId) {
+		
+		ArrayList<Student> students = new ArrayList<Student>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			/* select * from student */
+			String query = "SELECT s.* FROM Student s, Enrolled e " +
+						   "WHERE s.studentId = e.studentId AND " +
+						   "e.courseId = " + courseId;
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {
+				Name name = new Name(rs.getString(DbUtil.STUDENT_FNAME),
+						rs.getString(DbUtil.STUDENT_MI).charAt(0),
+						rs.getString(DbUtil.STUDENT_LNAME));
+						
+				Student student = new Student(rs.getInt(DbUtil.STUDENT_ID),
+						name, rs.getString(DbUtil.STUDENT_EMAIL), 
+						rs.getInt(DbUtil.STUDENT_TYPE) == 2);
+				
+				students.add(student);
+				
+			}
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 	
+		return students;
+		
+	}
+	
+	
 	
 }
