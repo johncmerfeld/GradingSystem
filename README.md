@@ -1,6 +1,8 @@
 # GradingSystem
 Final project for Object-Oriented Development at Boston University
 
+Restructuring...
+
 Top-level TODO:
 
   1. Object design
