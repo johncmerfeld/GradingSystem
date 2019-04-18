@@ -10,4 +10,27 @@ public class StudentGrade {
         this.grade = grade;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    public void setGradeableItem(GradeableItem gradeableItem) {
+        this.gradeableItem = gradeableItem;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public GradeableItem getGradeableItem() {
+        return gradeableItem;
+    }
+
+    public Grade getGrade() {
+        return grade;
+    }
 }
