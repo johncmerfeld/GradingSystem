@@ -1,15 +1,13 @@
 package controller;
 
-import java.util.List;
-
+import java.util.ArrayList;
 import model.Course;
+import model.Database;
 
 public class CourseSelectionController implements CourseSelection{
-
 	@Override
-	public List<Course> getAllCourses() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Course> getAllCourses() {
+		ArrayList<Course> listOfCourses= Database.getAllCourses();
+		return listOfCourses;
 	}
-
 }
