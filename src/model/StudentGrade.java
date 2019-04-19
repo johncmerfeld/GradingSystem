@@ -2,11 +2,11 @@ package model;
 
 public class StudentGrade {
     private int studentId;
-    private GradeableItem gradeableItem;
+    private GradableItem gradableItem;
     private Grade grade;
-    public StudentGrade(int id, GradeableItem gradeableItem, Grade grade){
+    public StudentGrade(int id, GradableItem gradableItem, Grade grade){
         this.studentId = id;
-        this.gradeableItem = gradeableItem;
+        this.gradableItem = gradableItem;
         this.grade = grade;
     }
 
@@ -18,16 +18,16 @@ public class StudentGrade {
         this.grade = grade;
     }
 
-    public void setGradeableItem(GradeableItem gradeableItem) {
-        this.gradeableItem = gradeableItem;
+    public void setGradableItem(GradableItem gradableItem) {
+        this.gradableItem = gradableItem;
     }
 
     public int getStudentId() {
         return studentId;
     }
 
-    public GradeableItem getGradeableItem() {
-        return gradeableItem;
+    public GradableItem getGradableItem() {
+        return gradableItem;
     }
 
     public Grade getGrade() {

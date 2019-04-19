@@ -1,16 +1,18 @@
 package model;
 
-public class GradeableItem {
+public class GradableItem {
+	
+    
+    public static int DEDUCTION = 1;
+    public static int PERCENTAGE = 2;
+	
     private int id;
     private String name;
-    private int maxPoints;
-
-    enum ScoringMethod {
-        Deduction,Percentage
-    }
-    private ScoringMethod scoringMethod = ScoringMethod.Deduction;
+    private int maxPoints; // TODO might need to change to double
     private double weight;
-    public GradeableItem(String name, int maxPoints, ScoringMethod scoringMethod, double weight){
+    private int scoringMethod;
+    
+    public GradableItem(String name, int maxPoints, int scoringMethod, double weight){
         this.name = name;
         this.maxPoints = maxPoints;
         this.scoringMethod = scoringMethod;
@@ -33,7 +35,7 @@ public class GradeableItem {
         return weight;
     }
 
-    public ScoringMethod getScoringMethod() {
+    public int getScoringMethod() {
         return scoringMethod;
     }
 
@@ -49,7 +51,7 @@ public class GradeableItem {
         this.maxPoints = maxPoints;
     }
 
-    public void setScoringMethod(ScoringMethod scoringMethod) {
+    public void setScoringMethod(int scoringMethod) {
         this.scoringMethod = scoringMethod;
     }
 

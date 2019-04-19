@@ -3,8 +3,6 @@ package model;
 import java.sql.*;
 import com.mchange.v2.c3p0.*;
 
-import model.GradeableItem.ScoringMethod;
-
 import java.util.ArrayList;
 
 public class Database {
@@ -157,7 +155,7 @@ public class Database {
 	         } 
 	}
 	
-	public static void addGradedItem(GradeableItem gi, int categoryId) {
+	public static void addGradedItem(GradableItem gi, int categoryId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -170,8 +168,7 @@ public class Database {
 			ps.setString(DbUtil.GRADEDITEM_NAME, gi.getName());
 			ps.setInt(DbUtil.GRADEDITEM_CATID, categoryId);
 			ps.setDouble(DbUtil.GRADEDITEM_MAXPOINTS, gi.getMaxPoints());
-			ps.setInt(DbUtil.GRADEDITEM_SCORINGMETHOD, gi.getScoringMethod() == 
-					ScoringMethod.Deduction ? 1 : 2);
+			ps.setInt(DbUtil.GRADEDITEM_SCORINGMETHOD, gi.getScoringMethod());
 			ps.setDouble(DbUtil.GRADEDITEM_WEIGHT, gi.getWeightage());
 			ps.execute();
 			
@@ -191,7 +188,7 @@ public class Database {
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(DbUtil.STUDENTGRADE_SID, sg.getStudentId());
-			ps.setInt(DbUtil.STUDENTGRADE_GID, sg.getGradeableItem().getId());
+			ps.setInt(DbUtil.STUDENTGRADE_GID, sg.getGradableItem().getId());
 			ps.setDouble(DbUtil.STUDENTGRADE_SCORE, sg.getGrade().getScore());
 			String notes = sg.getGrade().getNote();
 			if (notes == null) {
@@ -301,6 +298,67 @@ public class Database {
 		
 		return students;	
 	}
+	
+	public static ArrayList<GradableCategory> getCategoriesInCourse(int courseId) {
+		ArrayList<GradableCategory> cats = new ArrayList<GradableCategory>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			/* select * from student */
+			String query = "SELECT * FROM Category " +
+						   "WHERE courseId = " + courseId;
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {
+						
+				GradableCategory cat = new GradableCategory(
+						rs.getString(DbUtil.CATEGORY_NAME), 
+						rs.getDouble(DbUtil.CATEGORY_WEIGHT));
+				
+				cats.add(cat);
+			}
+			
+	        conn.close();      
+	        } catch(SQLException e) {
+	         e.printStackTrace();
+	        }
+		
+		return cats;
+	}
+	
+	public static ArrayList<GradableItem> getGradedItemsInCategory(int catId) {
+		ArrayList<GradableItem> gis = new ArrayList<GradableItem>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			/* select * from student */
+			String query = "SELECT * FROM GradedItem " +
+						   "WHERE categoryId = " + catId;
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {				
+				GradableItem gi = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
+						(int) rs.getDouble(DbUtil.GRADEDITEM_MAXPOINTS),
+						rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
+						rs.getDouble(DbUtil.GRADEDITEM_WEIGHT));
+				
+				gis.add(gi);
+			}
+			
+	        conn.close();      
+	        } catch(SQLException e) {
+	         e.printStackTrace();
+	        }
+		
+		return gis;
+	}
+	
 	
 	/**
 	 * DELETER FUNCTIONS

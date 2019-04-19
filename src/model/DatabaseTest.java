@@ -18,6 +18,15 @@ public class DatabaseTest {
 			System.out.println(course.getCourseName());
 		}
 		
+		ArrayList<GradableCategory> cats = Database.getCategoriesInCourse(2);
+		for (GradableCategory cat : cats) {
+			System.out.println(cat.getName());
+		}
+		
+		ArrayList<GradableItem> gis = Database.getGradedItemsInCategory(11);
+		for (GradableItem gi : gis) {
+			System.out.println(gi.getName());
+		}
 		
 	}
 
