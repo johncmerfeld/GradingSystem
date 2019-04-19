@@ -16,13 +16,13 @@ public class CategoryLevelGrade {
         double sum = 0;
         double max = 0;
         for(StudentGrade s:studentGrades){
-            if(s.getGradeableItem().getScoringMethod() == GradeableItem.ScoringMethod.Deduction){
-                sum += (s.getGradeableItem().getMaxPoints() - s.getGrade().getScore())*s.getGradeableItem().getWeightage();
+            if(s.getGradableItem().getScoringMethod() == GradableItem.DEDUCTION){
+                sum += (s.getGradableItem().getMaxPoints() - s.getGrade().getScore())*s.getGradableItem().getWeightage();
             }
-            if(s.getGradeableItem().getScoringMethod() == GradeableItem.ScoringMethod.Percentage){
-                sum+= s.getGradeableItem().getMaxPoints()*s.getGrade().getScore()*s.getGradeableItem().getWeightage();
+            if(s.getGradableItem().getScoringMethod() == GradableItem.PERCENTAGE){
+                sum+= s.getGradableItem().getMaxPoints()*s.getGrade().getScore()*s.getGradableItem().getWeightage();
             }
-            max += s.getGradeableItem().getMaxPoints()*s.getGradeableItem().getWeightage();
+            max += s.getGradableItem().getMaxPoints()*s.getGradableItem().getWeightage();
         }
         return sum/max;
     }

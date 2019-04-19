@@ -3,6 +3,9 @@ import java.sql.*;
 
 public class DbUtil {
 	
+	/* global values */
+	public static String mySQLurl = "jdbc:mysql://localhost:3306/gradingsystem?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	
 	/* Course table column ids */
 	public static int COURSE_ID = 1;
 	public static int COURSE_NAME = 2;

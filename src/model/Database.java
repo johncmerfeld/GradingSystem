@@ -2,6 +2,7 @@ package model;
 
 import java.sql.*;
 import com.mchange.v2.c3p0.*;
+
 import java.util.ArrayList;
 
 public class Database {
@@ -17,7 +18,7 @@ public class Database {
 		 * every time
 		 */
 		dataSource = new ComboPooledDataSource();
-		dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/gradingsystem?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+		dataSource.setJdbcUrl(DbUtil.mySQLurl);
 		dataSource.setUser("root");
 		dataSource.setPassword(null); 
 	}
@@ -26,12 +27,12 @@ public class Database {
 		//addStudent();	
 	}
 	
-	/** 	NEW ROW FUNCTIONS
+	/** 	ADDER FUNCTIONS
 	 * 
 	 * 		There is one function for each of the 8 tables, which adds an
 	 * entirely new row. 
 	 */
-	public static void addCourse(/* Course c */) {
+	public static void addCourse(Course c) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -40,20 +41,19 @@ public class Database {
 					" VALUES (?, ?, ?, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.COURSE_ID, 100);
-			ps.setString(DbUtil.COURSE_NAME, "Course test");
-			ps.setString(DbUtil.COURSE_SEMESTER, "Winter 1901");
-			ps.setInt(DbUtil.COURSE_ACTIVE, 1);
+			ps.setInt(DbUtil.COURSE_ID, c.getCourseId());
+			ps.setString(DbUtil.COURSE_NAME, c.getCourseName());
+			ps.setString(DbUtil.COURSE_SEMESTER, c.getCourseSemester());
+			ps.setInt(DbUtil.COURSE_ACTIVE, c.isActive() ? 1 : 0);
 			ps.execute();
 			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
-	         }
-		return;		
+	         }	
 	}
 	
-	public static void addStudentType(/* Student type */) {
+	public static void addStudentType(int typeId, String typeName) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -62,67 +62,60 @@ public class Database {
 					" VALUES (?, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.STUDENTTYPE_ID, 100);
-			ps.setString(DbUtil.STUDENTTYPE_NAME, "Super student");
+			ps.setInt(DbUtil.STUDENTTYPE_ID, typeId);
+			ps.setString(DbUtil.STUDENTTYPE_NAME, typeName);
 			ps.execute();
 			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
 	         } 
-		return;		
 	}
 	
-	public static void addStudent(Student s) {
+	/* updates Student and Enrolled */
+	public static void addStudentToCourse(Student s, int courseId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
-			String query = "INSERT INTO Student " + 
-					"(studentId, firstName, middleInitial, lastName, email, studentType)" +
-					" VALUES (?, ?, ?, ?, ?, ?)";
 			
-			PreparedStatement ps = conn.prepareStatement(query);
+			String existenceQuery = "SELECT * FROM Student " +
+					"WHERE studentId = " + s.getBUId();
+			
+			ResultSet existenceResult = DbUtil.execute(conn, existenceQuery);
+			
+			/* if student doesn't exist at all, first add them to Student table */
+			if (! existenceResult.next()) {
+				String queryStudent = "INSERT INTO Student " + 
+						"(studentId, firstName, middleInitial, lastName, email, studentType)" +
+						" VALUES (?, ?, ?, ?, ?, ?)";
+				
+				PreparedStatement ps = conn.prepareStatement(queryStudent);
 
+				ps.setInt(DbUtil.STUDENT_ID, s.getBUId());
+				ps.setString(DbUtil.STUDENT_FNAME, s.getName().getFirstName());
+				ps.setString(DbUtil.STUDENT_MI, String.valueOf(s.getName().getMiddleInitial()));
+				ps.setString(DbUtil.STUDENT_LNAME, s.getName().getLastName());
+				ps.setString(DbUtil.STUDENT_EMAIL, s.getEmail());
+				ps.setInt(DbUtil.STUDENT_TYPE, s.isGradStudent() ? 2 : 1);
+				ps.execute();
+			}
 			
+			String queryEnrolled = "INSERT INTO Enrolled " + 
+					"(courseId, studentId)" +
+					" VALUES (?, ?)";
 			
-			ps.setInt(DbUtil.STUDENT_ID, 1);
-			ps.setString(DbUtil.STUDENT_FNAME, "Test Insert");
-			ps.setString(DbUtil.STUDENT_MI, "X");
-			ps.setString(DbUtil.STUDENT_LNAME, "Jenkins");
-			ps.setString(DbUtil.STUDENT_EMAIL, "tijenk@bu.edu");
-			ps.setInt(DbUtil.STUDENT_TYPE, 1);
+			PreparedStatement ps = conn.prepareStatement(queryEnrolled);
+			ps.setInt(DbUtil.ENROLLED_CORID, courseId);
+			ps.setInt(DbUtil.ENROLLED_SID, s.getBUId());
 			ps.execute();
 			
 	        conn.close();      
 		} catch(SQLException e) {
-	         e.printStackTrace();
-	         } 
-		return;		
+			e.printStackTrace();
+		}
 	}
 	
-	public static void addEnrollment(/* Enrollement info, notes */) {
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			String query = "INSERT INTO Enrolled " + 
-					"(courseId, studentId, notes)" +
-					" VALUES (?, ?, ?)";
-			
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.ENROLLED_CORID, 100);
-			ps.setInt(DbUtil.ENROLLED_SID, 100);
-			// if notes == null, do blank perhaps...
-			ps.setString(DbUtil.ENROLLED_NOTES, "");
-			ps.execute();
-			
-	        conn.close();      
-		} catch(SQLException e) {
-	         e.printStackTrace();
-	      } 	
-		return;	
-	}
-	
-	public static void addCategory(/* Category info */) {
+	public static void addCategory(GradableCategory gc, int courseId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -131,20 +124,19 @@ public class Database {
 					" VALUES (?, ?, ?, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.CATEGORY_ID, 100);
-			ps.setString(DbUtil.CATEGORY_NAME, "HOMEWORK");
-			ps.setInt(DbUtil.CATEGORY_CORID, 100);
-			ps.setInt(DbUtil.CATEGORY_WEIGHT, 1);
+			ps.setInt(DbUtil.CATEGORY_ID, gc.getId());
+			ps.setString(DbUtil.CATEGORY_NAME, gc.getName());
+			ps.setInt(DbUtil.CATEGORY_CORID, courseId);
+			ps.setDouble(DbUtil.CATEGORY_WEIGHT, gc.getWeight());
 			ps.execute();
 			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
-	      } 	
-		return;	
+	      } 
 	}
 	
-	public static void addScoringMethod(/* Scoring method */) {
+	public static void addScoringMethod(int methodId, String method) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -153,42 +145,40 @@ public class Database {
 					" VALUES (?, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.SCORINGMETHOD_ID, 100);
-			ps.setString(DbUtil.SCORINGMETHOD_NAME, "No points!");
+			ps.setInt(DbUtil.SCORINGMETHOD_ID, methodId);
+			ps.setString(DbUtil.SCORINGMETHOD_NAME, method);
 			ps.execute();
 			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
 	         } 
-		return;		
 	}
 	
-	public static void addGradedItem(/* GradedItem */) {
+	public static void addGradedItem(GradableItem gi, int categoryId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
-			String query = "INSERT INTO Course " + 
+			String query = "INSERT INTO GradedItem " + 
 					"(gradedItemId, gradedItemName, categoryId, maxPoints, scoringMethodId, percentageWeight)" +
 					" VALUES (?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.GRADEDITEM_ID, 100);
-			ps.setString(DbUtil.GRADEDITEM_NAME, "HW 10");
-			ps.setInt(DbUtil.GRADEDITEM_CATID, 100);
-			ps.setDouble(DbUtil.GRADEDITEM_MAXPOINTS, 50.0);
-			ps.setInt(DbUtil.GRADEDITEM_SCORINGMETHOD, 1);
-			ps.setDouble(DbUtil.GRADEDITEM_WEIGHT, 0.0);
+			ps.setInt(DbUtil.GRADEDITEM_ID, gi.getId());
+			ps.setString(DbUtil.GRADEDITEM_NAME, gi.getName());
+			ps.setInt(DbUtil.GRADEDITEM_CATID, categoryId);
+			ps.setDouble(DbUtil.GRADEDITEM_MAXPOINTS, gi.getMaxPoints());
+			ps.setInt(DbUtil.GRADEDITEM_SCORINGMETHOD, gi.getScoringMethod());
+			ps.setDouble(DbUtil.GRADEDITEM_WEIGHT, gi.getWeightage());
 			ps.execute();
 			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
 	      } 	
-		return;	
 	}
 	
-	public static void addStudentGrade(/* student grade info, notes */) {
+	public static void addStudentGrade(StudentGrade sg) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -197,18 +187,20 @@ public class Database {
 					" VALUES (?, ?, ?, ?)";
 
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.STUDENTGRADE_SID, 100);
-			ps.setInt(DbUtil.STUDENTGRADE_GID, 100);
-			ps.setDouble(DbUtil.STUDENTGRADE_SCORE, 60.0);
-			// if notes != null ?
-			ps.setString(DbUtil.STUDENTGRADE_NOTES, "");
+			ps.setInt(DbUtil.STUDENTGRADE_SID, sg.getStudentId());
+			ps.setInt(DbUtil.STUDENTGRADE_GID, sg.getGradableItem().getId());
+			ps.setDouble(DbUtil.STUDENTGRADE_SCORE, sg.getGrade().getScore());
+			String notes = sg.getGrade().getNote();
+			if (notes == null) {
+				notes = "";
+			}
+			ps.setString(DbUtil.STUDENTGRADE_NOTES, notes);
 			ps.execute();
 			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
 	      } 	
-		return;	
 	}
 	
 	
@@ -217,24 +209,181 @@ public class Database {
 	 * 		These functions adjust values in existing table rows
 	 */
 	
-//	public void updateStudentGrade(/*placeholder*/) {
-//		Connection conn = null;
-//		try {
-//			conn = dataSource.getConnection();
-//
-//			String query =  "UPDATE StudentGrade " + 
-//					   "SET score = ?, notes = ? " + 
-//					   "WHERE studentId = ? AND gradedItemId = ?";
-//			
-//			PreparedStatement ps = conn.prepareStatement(query);
-//			rs.updateInt(columnIndex, x);
-//			rs.updateRow();
-//			
-//	        conn.close();      
-//		} catch(SQLException e) {
-//	         e.printStackTrace();
-//	      } 	
-//		return;	
-//	}
+	public void updateStudentGrade(StudentGrade sg, int courseId) {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+
+			String query =  "UPDATE StudentGrade " + 
+					   "SET score = ?, notes = ? " + 
+					   "WHERE studentId = ? AND gradedItemId = ?";
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			
+			ps.setDouble(1, sg.getGrade().getScore());
+			ps.setString(2, sg.getGrade().getNote());
+			ps.setInt(3, sg.getStudentId());
+			ps.setInt(4, courseId);
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 
+	}
+
+	/**
+	 * GETTER FUNCTIONS
+	 */
 	
+	public static ArrayList<Course> getAllCourses() {
+		ArrayList<Course> courses = new ArrayList<Course>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			/* select * from student */
+			String query = "SELECT * FROM Course";
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {
+				Course course = new Course(rs.getInt(DbUtil.COURSE_ID),
+						rs.getString(DbUtil.COURSE_NAME),
+						rs.getString(DbUtil.COURSE_SEMESTER));
+				if (rs.getInt(DbUtil.COURSE_ACTIVE) == 0) {
+					course.finishCourse();
+				}
+				
+				courses.add(course);			
+			}			
+			conn.close();      
+        } catch(SQLException e) {
+         e.printStackTrace();
+        }
+		return courses;
+	}
+	
+	ArrayList<Student> getStudentsInCourse(int courseId) {
+		
+		ArrayList<Student> students = new ArrayList<Student>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			/* select * from student */
+			String query = "SELECT s.* FROM Student s, Enrolled e " +
+						   "WHERE s.studentId = e.studentId AND " +
+						   "e.courseId = " + courseId;
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {
+				Name name = new Name(rs.getString(DbUtil.STUDENT_FNAME),
+						rs.getString(DbUtil.STUDENT_MI).charAt(0),
+						rs.getString(DbUtil.STUDENT_LNAME));
+						
+				Student student = new Student(rs.getInt(DbUtil.STUDENT_ID),
+						name, rs.getString(DbUtil.STUDENT_EMAIL), 
+						rs.getInt(DbUtil.STUDENT_TYPE) == 2);
+				
+				students.add(student);
+			}
+			
+	        conn.close();      
+	        } catch(SQLException e) {
+	         e.printStackTrace();
+	        }
+		
+		return students;	
+	}
+	
+	public static ArrayList<GradableCategory> getCategoriesInCourse(int courseId) {
+		ArrayList<GradableCategory> cats = new ArrayList<GradableCategory>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			/* select * from student */
+			String query = "SELECT * FROM Category " +
+						   "WHERE courseId = " + courseId;
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {
+						
+				GradableCategory cat = new GradableCategory(
+						rs.getString(DbUtil.CATEGORY_NAME), 
+						rs.getDouble(DbUtil.CATEGORY_WEIGHT));
+				
+				cats.add(cat);
+			}
+			
+	        conn.close();      
+	        } catch(SQLException e) {
+	         e.printStackTrace();
+	        }
+		
+		return cats;
+	}
+	
+	public static ArrayList<GradableItem> getGradedItemsInCategory(int catId) {
+		ArrayList<GradableItem> gis = new ArrayList<GradableItem>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			/* select * from student */
+			String query = "SELECT * FROM GradedItem " +
+						   "WHERE categoryId = " + catId;
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {				
+				GradableItem gi = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
+						(int) rs.getDouble(DbUtil.GRADEDITEM_MAXPOINTS),
+						rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
+						rs.getDouble(DbUtil.GRADEDITEM_WEIGHT));
+				
+				gis.add(gi);
+			}
+			
+	        conn.close();      
+	        } catch(SQLException e) {
+	         e.printStackTrace();
+	        }
+		
+		return gis;
+	}
+	
+	
+	/**
+	 * DELETER FUNCTIONS
+	 * 
+	 * 		These functions remove rows from tables (may have cascading effects!)
+	 */
+	
+	public static void removeStudentFromCourse(int studentId, int courseId) {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			String query = "DELETE FROM Enrolled " +
+					"WHERE studentId = ? AND courseId = ?";
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			
+			ps.setInt(1, studentId);
+			ps.setInt(2, courseId);
+			
+			ps.execute();
+			
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 	
+		return;	
+		
+	}
 }
