@@ -1,17 +1,17 @@
 package model;
 
 public class StudentGrade {
-    private int id;
+    private int studentId;
     private GradeableItem gradeableItem;
     private Grade grade;
     public StudentGrade(int id, GradeableItem gradeableItem, Grade grade){
-        this.id = id;
+        this.studentId = id;
         this.gradeableItem = gradeableItem;
         this.grade = grade;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setStudentId(int id) {
+        this.studentId = id;
     }
 
     public void setGrade(Grade grade) {
@@ -22,8 +22,8 @@ public class StudentGrade {
         this.gradeableItem = gradeableItem;
     }
 
-    public int getId() {
-        return id;
+    public int getStudentId() {
+        return studentId;
     }
 
     public GradeableItem getGradeableItem() {
