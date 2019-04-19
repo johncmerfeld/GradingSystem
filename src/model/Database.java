@@ -212,7 +212,7 @@ public class Database {
 	 * 		These functions adjust values in existing table rows
 	 */
 	
-	public void updateStudentGrade(StudentGrade sg) {
+	public void updateStudentGrade(StudentGrade sg, int courseId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -226,43 +226,46 @@ public class Database {
 			ps.setDouble(1, sg.getGrade().getScore());
 			ps.setString(2, sg.getGrade().getNote());
 			ps.setInt(3, sg.getStudentId());
-
+			ps.setInt(4, courseId);
 			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
 	      } 
 	}
-	
-	
-	/**
-	 * DELETER FUNCTIONS
-	 */
-	
-	public static void removeStudentFromCourse(int studentId, int courseId) {
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			String query = "DELETE FROM Enrolled " +
-					"WHERE studentId = ? AND courseId = ?";
-			
-			PreparedStatement ps = conn.prepareStatement(query);
-			
-			ps.setInt(1, studentId);
-			ps.setInt(2, courseId);
-			
-			ps.execute();
-			
-		} catch(SQLException e) {
-	         e.printStackTrace();
-	      } 	
-		return;	
-		
-	}
-	
+
 	/**
 	 * GETTER FUNCTIONS
 	 */
+	
+	public static ArrayList<Course> getAllCourses() {
+		ArrayList<Course> courses = new ArrayList<Course>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			/* select * from student */
+			String query = "SELECT * FROM Course";
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {
+				Course course = new Course(rs.getInt(DbUtil.COURSE_ID),
+						rs.getString(DbUtil.COURSE_NAME),
+						rs.getString(DbUtil.COURSE_SEMESTER));
+				if (rs.getInt(DbUtil.COURSE_ACTIVE) == 0) {
+					course.finishCourse();
+				}
+				
+				courses.add(course);			
+			}			
+			conn.close();      
+        } catch(SQLException e) {
+         e.printStackTrace();
+        }
+		return courses;
+	}
 	
 	ArrayList<Student> getStudentsInCourse(int courseId) {
 		
@@ -296,9 +299,33 @@ public class Database {
 	         e.printStackTrace();
 	        }
 		
-		
-		return students;
-		
+		return students;	
 	}
 	
+	/**
+	 * DELETER FUNCTIONS
+	 * 
+	 * 		These functions remove rows from tables (may have cascading effects!)
+	 */
+	
+	public static void removeStudentFromCourse(int studentId, int courseId) {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			String query = "DELETE FROM Enrolled " +
+					"WHERE studentId = ? AND courseId = ?";
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			
+			ps.setInt(1, studentId);
+			ps.setInt(2, courseId);
+			
+			ps.execute();
+			
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 	
+		return;	
+		
+	}
 }

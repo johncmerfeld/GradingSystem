@@ -1,4 +1,7 @@
 package model;
+
+import java.util.ArrayList;
+
 public class DatabaseTest {
 
 	public static void main(String[] args) {
@@ -9,6 +12,11 @@ public class DatabaseTest {
 		
 		Course c = new Course(6, "Learning to write a letter", "Spring 1901");
 		Database.addCourse(c);
+		
+		ArrayList<Course> courses = Database.getAllCourses();
+		for (Course course : courses) {
+			System.out.println(course.getCourseName());
+		}
 		
 		
 	}
