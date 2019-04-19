@@ -9,7 +9,7 @@ public class Course {
     //private ArrayList<Category> categories;
     //private Map<String,Double>  rubric;
     //private ArrayList<Grade> grades;
-    Course(int id, String name, String courseSemester){
+    public Course(int id, String name, String courseSemester){
         this.id = id;
         this.name = name;
         this.courseSemester = courseSemester;
