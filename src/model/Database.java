@@ -215,24 +215,24 @@ public class Database {
 	 * 		These functions adjust values in existing table rows
 	 */
 	
-	public void updateStudentGrade(/*placeholder*/) {
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-
-			String query =  "UPDATE StudentGrade " + 
-					   "SET score = ?, notes = ? " + 
-					   "WHERE studentId = ? AND gradedItemId = ?";
-			
-			PreparedStatement ps = conn.prepareStatement(query);
-			rs.updateInt(columnIndex, x);
-			rs.updateRow();
-			
-	        conn.close();      
-		} catch(SQLException e) {
-	         e.printStackTrace();
-	      } 	
-		return;	
-	}
+//	public void updateStudentGrade(/*placeholder*/) {
+//		Connection conn = null;
+//		try {
+//			conn = dataSource.getConnection();
+//
+//			String query =  "UPDATE StudentGrade " + 
+//					   "SET score = ?, notes = ? " + 
+//					   "WHERE studentId = ? AND gradedItemId = ?";
+//			
+//			PreparedStatement ps = conn.prepareStatement(query);
+//			rs.updateInt(columnIndex, x);
+//			rs.updateRow();
+//			
+//	        conn.close();      
+//		} catch(SQLException e) {
+//	         e.printStackTrace();
+//	      } 	
+//		return;	
+//	}
 	
 }
