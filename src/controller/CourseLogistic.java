@@ -2,12 +2,12 @@ package controller;
 
 import java.util.List;
 
-import model.GradeableItem;
+import model.GradableItem;
 
 //Page : https://jus69c.axshare.com/#g=1&p=course_logitstic-p7
 
 public interface CourseLogistic {
-	public List<GradeableItem> getAllGradedItems();
+	public List<GradableItem> getAllGradedItems(int courseId);
 	public float getMean(int gradedItemId);
 	public float getStandardDeviation(int gradedItemId);
 	public boolean isInclude(int gradedItemId);
