@@ -264,7 +264,12 @@ public class Database {
 		return courses;
 	}
 	
-	ArrayList<Student> getStudentsInCourse(int courseId) {
+	public static StudentInfo getStudentsInfo(int courseId, int bu_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public static ArrayList<Student> getStudentsInCourse(int courseId) {
 		
 		ArrayList<Student> students = new ArrayList<Student>();
 		Connection conn = null;
