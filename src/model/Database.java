@@ -230,7 +230,14 @@ public class Database {
 	         e.printStackTrace();
 	      } 
 	}
-
+	
+	
+	public static void setCommentStudent(int courseId, int bu_id, String note) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 	/**
 	 * GETTER FUNCTIONS
 	 */

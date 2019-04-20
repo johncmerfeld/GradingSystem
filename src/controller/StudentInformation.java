@@ -9,5 +9,5 @@ import model.StudentInfo;
 //Page : https://jus69c.axshare.com/#g=1&p=student_information_pre-filter-p5-1
 
 public interface StudentInformation extends DashboardBasics{
-	public HashMap<Student, StudentInfo>  addCommentForStudent(String BUI_Id, String note);
+	public HashMap<Student, StudentInfo>  addCommentForStudent(int courseId, String BU_Id, String note);
 }
