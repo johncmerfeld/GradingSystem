@@ -5,39 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import model.CategoryLevelGrade;
-import model.Database;
 import model.Student;
 import model.StudentInfo;
 
-public class CourseworkSummaryController implements CourseworkSummary{
+public class CourseworkSummaryController extends DashboardBasicsController implements CourseworkSummary{
 
-	private HashMap<Student, StudentInfo> dashboardInfo;
-	
-	@Override
-	public HashMap<Student, StudentInfo> getDashboardInfo(int courseId) {
-		HashMap<Student, StudentInfo> dashboardInfo = new HashMap<Student, StudentInfo>();
-		ArrayList<Student> students = Database.getStudentsInCourse(courseId);
-		for(Student s : students)
-		{
-			StudentInfo studentInfo = findStudentInfo(courseId, "U" + s.getBUId());
-			dashboardInfo.put(s, studentInfo);
-		}
-		this.dashboardInfo = dashboardInfo;
-		return dashboardInfo;
-	}
-
-	@Override
-	public Student findStudent(String BU_Id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StudentInfo findStudentInfo(int courseId, String BU_Id) {
-		String bu_id_num = BU_Id.substring(1);
-		int bu_id = Integer.parseInt(bu_id_num);	
-		StudentInfo studentInfo = Database.getStudentsInfo(courseId, bu_id);
-		return studentInfo;
+	public CourseworkSummaryController(int courseId) {
+		super(courseId);
 	}
 
 	@Override
@@ -58,5 +32,4 @@ public class CourseworkSummaryController implements CourseworkSummary{
 		}
 		return total/count;
 	}
-
 }

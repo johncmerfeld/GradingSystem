@@ -209,7 +209,7 @@ public class Database {
 	 * 		These functions adjust values in existing table rows
 	 */
 	
-	public void updateStudentGrade(StudentGrade sg, int courseId) {
+	public static void updateStudentGrade(StudentGrade sg, int courseId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
