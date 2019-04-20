@@ -5,7 +5,7 @@ public class Student{
     private Name name;
     private String email;
     private boolean isGradStudent;
-    Student(int Id, Name name, String email,boolean isGradStudent){
+    public Student(int Id, Name name, String email,boolean isGradStudent){
         this.BU_Id = Id;
         this.name = name;
         this.email = email;

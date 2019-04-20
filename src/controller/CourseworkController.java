@@ -3,13 +3,14 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale.Category;
-import model.Course;
 import model.Database;
 import model.GradableItem;
 import model.ScoringMethod;
 
 public class CourseworkController implements Coursework{
 
+	public CourseworkController(){}
+	
 	@Override
 	public ArrayList<ScoringMethod> getAllScoringMethods() {
 		ArrayList<ScoringMethod> listOfScoringMethods = Database.getScoringMethods();

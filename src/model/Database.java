@@ -347,6 +347,11 @@ public class Database {
 		return cats;
 	}
 	
+	public static ArrayList<StudentType> getAllStudentTypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public static ArrayList<GradableItem> getGradedItemsInCategory(int catId) {
 		ArrayList<GradableItem> gis = new ArrayList<GradableItem>();
 		Connection conn = null;
