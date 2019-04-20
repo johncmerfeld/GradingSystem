@@ -235,6 +235,12 @@ public class Database {
 	 * GETTER FUNCTIONS
 	 */
 	
+	public static ArrayList<ScoringMethod> getScoringMethods()
+	{
+		//TODO
+		return null;
+	}
+	
 	public static ArrayList<Course> getAllCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		Connection conn = null;
