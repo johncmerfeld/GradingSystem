@@ -364,6 +364,24 @@ public class Database {
 		return gis;
 	}
 	
+	public static boolean checkIfIncludedGradedItem(int gradedItemId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static void setIncludeGradedItem(int gradedItemId) {
+		// TODO Auto-generated method stub
+	}
+
+	public static void setExcludeGradedItem(int gradedItemId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void setDeleteGradedItem(int gradedItemId) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/**
 	 * DELETER FUNCTIONS
