@@ -9,6 +9,10 @@ import model.GradableItem;
 import model.Student;
 
 public class CourseCreationController implements CourseCreation{
+	
+	public CourseCreationController()
+	{}
+	
 	@Override
 	public Course createNewCourse(String courseName, String semester) {
         // Generate random integers in range 0 to 999 
