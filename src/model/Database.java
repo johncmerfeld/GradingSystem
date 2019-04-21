@@ -233,6 +233,8 @@ public class Database {
 
 	/**
 	 * GETTER FUNCTIONS
+	 * 
+ 	 * 	These should be called from the controllers to retrieve data objects
 	 */
 	
 	public static ArrayList<Course> getAllCourses() {
