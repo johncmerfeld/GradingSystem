@@ -1,5 +1,10 @@
 package view;
 
+import java.util.ArrayList;
+
+import controller.CourseSelectionController;
+import model.Course;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,12 +16,45 @@ package view;
  * @author chizhang
  */
 public class CourseSelectionPage extends javax.swing.JFrame {
+	/**
+	 * Controller fields
+	 */
+	private CourseSelectionController courseSelectionController;
+	private 
 
     /**
      * Creates new form courseSelection
      */
     public CourseSelectionPage() {
+        this.courseSelectionController = new CourseSelectionController();
         initComponents();
+    }
+    
+    
+    /**
+     * get all course name with its semester
+     * @return
+     */
+    private ArrayList<String> getAllCoursesName() {
+    	ArrayList<Course> allCourses = this.courseSelectionController.getAllCourses();
+        ArrayList<String> allCoursesName = new ArrayList<String>();
+        for(Course course: allCourses) {
+        	allCoursesName.add(course.getCourseName() + " "+ course.getCourseSemester());
+        }
+        return allCoursesName;
+    }
+    
+    /**
+     * get all course IDs as an array of integers
+     * @return
+     */
+    private ArrayList<Integer> getAllCoursesId() {
+    	ArrayList<Course> allCourses = this.courseSelectionController.getAllCourses();
+    	ArrayList<Integer> allCoursesId = new ArrayList<Integer>();
+    	for(Course course: allCourses) {
+    		allCoursesId.add(course.getCourseId());
+    	}
+    	return allCoursesId;
     }
 
     /**
@@ -88,7 +126,12 @@ public class CourseSelectionPage extends javax.swing.JFrame {
             }
         });
 
-        selectCourseComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        /*
+         * present all courses from controller
+         */
+        ArrayList<String> allCoursesName = this.getAllCoursesName();
+        String[] allCoursesNameArray = allCoursesName.toArray(new String[0]);
+        selectCourseComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(allCoursesNameArray));
         selectCourseComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectCourseComboBoxActionPerformed(evt);
