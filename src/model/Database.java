@@ -244,7 +244,6 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 
-			/* select * from student */
 			String query = "SELECT * FROM Course";
 			
 			ResultSet rs = DbUtil.execute(conn, query);
@@ -274,7 +273,6 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 
-			/* select * from student */
 			String query = "SELECT s.* FROM Student s, Enrolled e " +
 						   "WHERE s.studentId = e.studentId AND " +
 						   "e.courseId = " + courseId;
@@ -308,7 +306,6 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 
-			/* select * from student */
 			String query = "SELECT * FROM Category " +
 						   "WHERE courseId = " + courseId;
 			
@@ -338,7 +335,6 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 
-			/* select * from student */
 			String query = "SELECT * FROM GradedItem " +
 						   "WHERE categoryId = " + catId;
 			
@@ -359,6 +355,44 @@ public class Database {
 	        }
 		
 		return gis;
+	}
+	
+	public static ArrayList<StudentGrade> getGradesByGradedItem(int gradedItemId) {
+		ArrayList<StudentGrade> grades = new ArrayList<StudentGrade>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String queryGradable = "SELECT * FROM GradedItem " +
+						   "WHERE gradedItemId = " + gradedItemId;
+			
+			ResultSet rs = DbUtil.execute(conn, queryGradable);
+			
+			GradableItem gi = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
+					(int) rs.getDouble(DbUtil.GRADEDITEM_MAXPOINTS),
+					rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
+					rs.getDouble(DbUtil.GRADEDITEM_WEIGHT));
+			
+			String queryGrades = "SELECT * FROM StudentGrade " +
+					   "WHERE gradedItemId = " + gradedItemId;
+		
+			rs = DbUtil.execute(conn, queryGrades);
+			
+			while (rs.next()) {				
+				StudentGrade sg = new StudentGrade(rs.getInt(DbUtil.STUDENTGRADE_SID),
+						gi, new Grade(rs.getDouble(DbUtil.STUDENTGRADE_SCORE),
+								rs.getString(DbUtil.STUDENTGRADE_NOTES)));
+				
+				grades.add(sg);
+			}
+			
+	        conn.close();      
+	        } catch(SQLException e) {
+	         e.printStackTrace();
+	        }
+		
+		return grades;
 	}
 	
 	
