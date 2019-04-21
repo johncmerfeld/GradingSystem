@@ -11,6 +11,12 @@ public abstract class DashboardBasicsController implements DashboardBasics{
 	
 	protected HashMap<Student, StudentInfo> dashboardInfo;
 	
+	public DashboardBasicsController(int courseId)
+	{
+		HashMap<Student, StudentInfo> dashboardInfo = setDashboardInfo(courseId);
+		this.dashboardInfo = dashboardInfo;
+	}
+	
 	public HashMap<Student, StudentInfo> setDashboardInfo(int courseId)
 	{
 		HashMap<Student, StudentInfo> dashboardInfo = new HashMap<Student, StudentInfo>();
@@ -22,12 +28,6 @@ public abstract class DashboardBasicsController implements DashboardBasics{
 		}
 		return dashboardInfo;
 		
-	}
-	
-	public DashboardBasicsController(int courseId)
-	{
-		HashMap<Student, StudentInfo> dashboardInfo = setDashboardInfo(courseId);
-		this.dashboardInfo = dashboardInfo;
 	}
 	
 	@Override
