@@ -1,33 +1,33 @@
 package model;
 
 public class StudentGrade {
-    private int id;
-    private GradeableItem gradeableItem;
+    private int studentId;
+    private GradableItem gradableItem;
     private Grade grade;
-    public StudentGrade(int id, GradeableItem gradeableItem, Grade grade){
-        this.id = id;
-        this.gradeableItem = gradeableItem;
+    public StudentGrade(int id, GradableItem gradableItem, Grade grade){
+        this.studentId = id;
+        this.gradableItem = gradableItem;
         this.grade = grade;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setStudentId(int id) {
+        this.studentId = id;
     }
 
     public void setGrade(Grade grade) {
         this.grade = grade;
     }
 
-    public void setGradeableItem(GradeableItem gradeableItem) {
-        this.gradeableItem = gradeableItem;
+    public void setGradableItem(GradableItem gradableItem) {
+        this.gradableItem = gradableItem;
     }
 
-    public int getId() {
-        return id;
+    public int getStudentId() {
+        return studentId;
     }
 
-    public GradeableItem getGradeableItem() {
-        return gradeableItem;
+    public GradableItem getGradableItem() {
+        return gradableItem;
     }
 
     public Grade getGrade() {
