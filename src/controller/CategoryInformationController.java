@@ -8,7 +8,7 @@ import model.Student;
 import model.StudentGrade;
 import model.StudentInfo;
 
-public class CategoryInformationController extends DashboardBasicsController {
+public abstract class CategoryInformationController extends DashboardBasicsController {
 
 	public CategoryInformationController(int courseId) {
 		super(courseId);
