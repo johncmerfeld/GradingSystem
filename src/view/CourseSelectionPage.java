@@ -20,7 +20,8 @@ public class CourseSelectionPage extends javax.swing.JFrame {
 	 * Controller fields
 	 */
 	private CourseSelectionController courseSelectionController;
-	private 
+	// track selected course position pass it to the main page 
+	private int selectedCoursePosition;
 
     /**
      * Creates new form courseSelection
@@ -28,6 +29,8 @@ public class CourseSelectionPage extends javax.swing.JFrame {
     public CourseSelectionPage() {
         this.courseSelectionController = new CourseSelectionController();
         initComponents();
+        // TODO: check whether this position index update dynamically
+        this.selectedCoursePosition = this.selectCourseComboBox.getSelectedIndex();
     }
     
     
@@ -135,6 +138,9 @@ public class CourseSelectionPage extends javax.swing.JFrame {
         selectCourseComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectCourseComboBoxActionPerformed(evt);
+                System.out.println("Selected: " + selectCourseComboBox.getSelectedItem());
+		        System.out.println(", Position: " + selectCourseComboBox.getSelectedIndex());
+		        
             }
         });
 
@@ -194,7 +200,9 @@ public class CourseSelectionPage extends javax.swing.JFrame {
     private void openDashboardBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openDashboardBtActionPerformed
         // TODO: jump into the main page, for the "selected course"
         // TODO: set HomePage takes in a course
-        HomePage homePage = new HomePage();
+    	ArrayList<Integer> allCoursesID = this.getAllCoursesId();
+    	int selectedCourseID = allCoursesID.get(this.selectedCoursePosition);
+        HomePage homePage = new HomePage(selectedCourseID);
         homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         homePage.setLocationRelativeTo( null ); // set the previous window location
         homePage.setVisible(true);

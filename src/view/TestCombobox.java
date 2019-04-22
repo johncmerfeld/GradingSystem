@@ -11,6 +11,7 @@ public class TestCombobox {
 		    final String labels[] = { "A", "B", "C", "D", "E" };
 		    JFrame frame = new JFrame("Editable JComboBox");
 		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		    int selectedItem;
 
 		    final JComboBox comboBox = new JComboBox(labels);
 		    comboBox.setMaximumRowCount(5);
@@ -21,9 +22,12 @@ public class TestCombobox {
 		      public void actionPerformed(ActionEvent actionEvent) {
 		        System.out.println("Selected: " + comboBox.getSelectedItem());
 		        System.out.println(", Position: " + comboBox.getSelectedIndex());
+		        
 		      }
 		    };
 		    comboBox.addActionListener(actionListener);
+		    selectedItem = comboBox.getSelectedIndex();
+		    System.out.println(selectedItem);
 
 		    frame.setSize(300, 200);
 		    frame.setVisible(true);
