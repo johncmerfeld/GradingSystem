@@ -284,16 +284,25 @@ public class Database {
 		return courses;
 	}
 	
-	public static StudentInfo getStudentsInfo(int courseId, int bu_id) {
-		ArrayList<StudentInfo> infos = new ArrayList<StudentInfo>();
+	public static StudentInfo getStudentsInfo(int courseId, int sid) {
 		Connection conn = null;
 		
 		try {
 			conn = dataSource.getConnection();
 
-			String query = "SELECT * FROM Course";
+			String queryNotes = "SELECT * FROM Enrolled " +
+					"WHERE studentId = " + sid + " AND " +
+					"courseId = " + courseId;
 			
-			ResultSet rs = DbUtil.execute(conn, query);
+			ResultSet rs = DbUtil.execute(conn, queryNotes);
+			
+			String notes = "";
+			
+			if (rs.next()) {
+				notes = rs.getString(DbUtil.ENROLLED_NOTES);
+			}
+			
+			ArrayList<GradableCategory> cats = Database.getCategoriesInCourse(courseId);
 			
 			while (rs.next()) {
 				Course course = new Course(rs.getInt(DbUtil.COURSE_ID),
@@ -309,7 +318,7 @@ public class Database {
         } catch(SQLException e) {
          e.printStackTrace();
         }
-		return infos;
+		return studentInfo;
 	}
 	
 	public static ArrayList<Student> getStudentsInCourse(int courseId) {
