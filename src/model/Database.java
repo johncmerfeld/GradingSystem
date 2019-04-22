@@ -1,5 +1,4 @@
 package model;
-
 import java.sql.*;
 import com.mchange.v2.c3p0.*;
 
@@ -209,7 +208,7 @@ public class Database {
 	 * 		These functions adjust values in existing table rows
 	 */
 	
-	public void updateStudentGrade(StudentGrade sg, int courseId) {
+	public static void updateStudentGrade(StudentGrade sg, int courseId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -230,12 +229,25 @@ public class Database {
 	         e.printStackTrace();
 	      } 
 	}
-
+	
+	
+	public static void setCommentStudent(int courseId, int bu_id, String note) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 	/**
 	 * GETTER FUNCTIONS
 	 * 
  	 * 	These should be called from the controllers to retrieve data objects
 	 */
+	
+	public static ArrayList<ScoringMethod> getScoringMethods()
+	{
+		//TODO
+		return null;
+	}
 	
 	public static ArrayList<Course> getAllCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
@@ -265,7 +277,12 @@ public class Database {
 		return courses;
 	}
 	
-	ArrayList<Student> getStudentsInCourse(int courseId) {
+	public static StudentInfo getStudentsInfo(int courseId, int bu_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public static ArrayList<Student> getStudentsInCourse(int courseId) {
 		
 		ArrayList<Student> students = new ArrayList<Student>();
 		Connection conn = null;
@@ -326,6 +343,11 @@ public class Database {
 	        }
 		
 		return cats;
+	}
+	
+	public static ArrayList<StudentType> getAllStudentTypes() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	public static ArrayList<GradableItem> getGradedItemsInCategory(int catId) {
@@ -395,6 +417,24 @@ public class Database {
 		return grades;
 	}
 	
+	public static boolean checkIfIncludedGradedItem(int gradedItemId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static void setIncludeGradedItem(int gradedItemId) {
+		// TODO Auto-generated method stub
+	}
+
+	public static void setExcludeGradedItem(int gradedItemId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void setDeleteGradedItem(int gradedItemId) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/**
 	 * DELETER FUNCTIONS

@@ -9,6 +9,10 @@ import model.GradableItem;
 import model.Student;
 
 public class CourseCreationController implements CourseCreation{
+	
+	public CourseCreationController()
+	{}
+	
 	@Override
 	public Course createNewCourse(String courseName, String semester) {
         // Generate random integers in range 0 to 999 
@@ -26,7 +30,7 @@ public class CourseCreationController implements CourseCreation{
 		//Iterate over the list of categories
 		for(GradableCategory gc : listOfCategories)
 		{
-			// Generate random integers in range 0 to 999 
+			// Generate random integers in range 0 to 999999 
 	        int rand_int1 = (new Random()).nextInt(1000000); 
 	        
 	        //Copy category information into new object
@@ -44,7 +48,7 @@ public class CourseCreationController implements CourseCreation{
 			//Iterate over list of gradable items
 			for(GradableItem gi : listOfgradeableItems)
 			{
-				// Generate random integers in range 0 to 999 
+				// Generate random integers in range 0 to 999999 
 		        int rand_int2 = (new Random()).nextInt(1000000); 
 		        
 		        //Copy gradable item information into new object

@@ -8,8 +8,8 @@ import model.GradableItem;
 
 public interface CourseLogistic {
 	public List<GradableItem> getAllGradedItems(int courseId);
-	public float getMean(int gradedItemId);
-	public float getStandardDeviation(int gradedItemId);
+	public double getGradeableItemMean(int gradedItemId);
+	public double getGradeableItemStandardDeviation(int gradedItemId);
 	public boolean isInclude(int gradedItemId);
 	public void setInclude(int gradedItemId);
 	public void setExclude(int gradedItemId);

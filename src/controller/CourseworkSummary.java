@@ -1,5 +1,5 @@
 package controller;
 
 public interface CourseworkSummary extends DashboardBasics{
-	public int getCategoryLevelMean(int categoryId);
+	public double getCategoryLevelMean(int categoryId);
 }
