@@ -28,7 +28,12 @@ public class DatabaseTest {
 			System.out.println(gi.getName());
 		}
 		
-		GradableItem newGi = new GradableItem("Talking to others", 0, 0, 0);
+		GradableItem newGi = new GradableItem("Talking to others", 20, 1, 1);
+		newGi.setId(1000);
+		
+		Database.addGradedItem(newGi, cats.get(1).getId());
+		
+		Database.setDeleteGradedItem(1000);
 		
 	}
 

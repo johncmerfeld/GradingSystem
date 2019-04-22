@@ -11,7 +11,6 @@ public class GradableItem {
     private int maxPoints; // TODO might need to change to double
     private double weight;
     private int scoringMethod;
-    // TODO does this need an include flag?
     
     public GradableItem(String name, int maxPoints, int scoringMethod, double weight){
         this.name = name;
