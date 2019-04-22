@@ -22,10 +22,6 @@ public class Database {
 		dataSource.setPassword(null); 
 	}
 	
-	public static void main(String[] args) {
-		//addStudent();	
-	}
-	
 	/** 	ADDER FUNCTIONS
 	 * 
 	 * 		There is one function for each of the 8 tables, which adds an
@@ -230,10 +226,26 @@ public class Database {
 	      } 
 	}
 	
-	
-	public static void setCommentStudent(int courseId, int bu_id, String note) {
-		// TODO Auto-generated method stub
+	public static void setCommentStudent(int courseId, int sid, String note) {
 		
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+
+			String query =  "UPDATE Enrolled " + 
+					   "SET notes = ? " + 
+					   "WHERE courseId = ? AND studentId = ?";
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			
+			ps.setString(1, note);
+			ps.setInt(2, courseId);
+			ps.setInt(3, sid);
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 		
 	}
 	
 	
