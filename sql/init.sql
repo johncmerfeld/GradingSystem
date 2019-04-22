@@ -45,6 +45,7 @@ CREATE TABLE GradedItem(
 	maxPoints DOUBLE,
 	scoringMethodId INT,
 	percentageWeight DOUBLE,
+	include BOOLEAN,
 	FOREIGN KEY (categoryId) REFERENCES Category(categoryId),
 	FOREIGN KEY (scoringMethodId) REFERENCES ScoringMethod(scoringMethodId) );
 

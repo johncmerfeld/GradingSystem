@@ -1,5 +1,4 @@
 package model;
-
 import java.sql.*;
 import com.mchange.v2.c3p0.*;
 
@@ -21,10 +20,6 @@ public class Database {
 		dataSource.setJdbcUrl(DbUtil.mySQLurl);
 		dataSource.setUser("root");
 		dataSource.setPassword(null); 
-	}
-	
-	public static void main(String[] args) {
-		//addStudent();	
 	}
 	
 	/** 	ADDER FUNCTIONS
@@ -161,7 +156,7 @@ public class Database {
 			conn = dataSource.getConnection();
 			String query = "INSERT INTO GradedItem " + 
 					"(gradedItemId, gradedItemName, categoryId, maxPoints, scoringMethodId, percentageWeight)" +
-					" VALUES (?, ?, ?, ?, ?, ?)";
+					" VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(DbUtil.GRADEDITEM_ID, gi.getId());
@@ -170,6 +165,7 @@ public class Database {
 			ps.setDouble(DbUtil.GRADEDITEM_MAXPOINTS, gi.getMaxPoints());
 			ps.setInt(DbUtil.GRADEDITEM_SCORINGMETHOD, gi.getScoringMethod());
 			ps.setDouble(DbUtil.GRADEDITEM_WEIGHT, gi.getWeightage());
+			ps.setBoolean(DbUtil.GRADEDITEM_INCLUDE, true);
 			ps.execute();
 			
 	        conn.close();      
@@ -231,22 +227,34 @@ public class Database {
 	      } 
 	}
 	
-	
-	public static void setCommentStudent(int courseId, int bu_id, String note) {
-		// TODO Auto-generated method stub
+	public static void setCommentStudent(int courseId, int sid, String note) {
 		
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+
+			String query =  "UPDATE Enrolled " + 
+					   "SET notes = ? " + 
+					   "WHERE courseId = ? AND studentId = ?";
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			
+			ps.setString(1, note);
+			ps.setInt(2, courseId);
+			ps.setInt(3, sid);
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 		
 	}
 	
 	
 	/**
 	 * GETTER FUNCTIONS
+	 * 
+ 	 * 	These should be called from the controllers to retrieve data objects
 	 */
-	
-	public static ArrayList<ScoringMethod> getScoringMethods()
-	{
-		//TODO
-		return null;
-	}
 	
 	public static ArrayList<Course> getAllCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
@@ -255,7 +263,6 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 
-			/* select * from student */
 			String query = "SELECT * FROM Course";
 			
 			ResultSet rs = DbUtil.execute(conn, query);
@@ -277,9 +284,41 @@ public class Database {
 		return courses;
 	}
 	
-	public static StudentInfo getStudentsInfo(int courseId, int bu_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public static StudentInfo getStudentsInfo(int courseId, int sid) {
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String queryNotes = "SELECT * FROM Enrolled " +
+					"WHERE studentId = " + sid + " AND " +
+					"courseId = " + courseId;
+			
+			ResultSet rs = DbUtil.execute(conn, queryNotes);
+			
+			String notes = "";
+			
+			if (rs.next()) {
+				notes = rs.getString(DbUtil.ENROLLED_NOTES);
+			}
+			
+			ArrayList<GradableCategory> cats = Database.getCategoriesInCourse(courseId);
+			
+			while (rs.next()) {
+				Course course = new Course(rs.getInt(DbUtil.COURSE_ID),
+						rs.getString(DbUtil.COURSE_NAME),
+						rs.getString(DbUtil.COURSE_SEMESTER));
+				if (rs.getInt(DbUtil.COURSE_ACTIVE) == 0) {
+					course.finishCourse();
+				}
+				
+				courses.add(course);			
+			}			
+			conn.close();      
+        } catch(SQLException e) {
+         e.printStackTrace();
+        }
+		return studentInfo;
 	}
 	
 	public static ArrayList<Student> getStudentsInCourse(int courseId) {
@@ -290,7 +329,6 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 
-			/* select * from student */
 			String query = "SELECT s.* FROM Student s, Enrolled e " +
 						   "WHERE s.studentId = e.studentId AND " +
 						   "e.courseId = " + courseId;
@@ -324,7 +362,6 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 
-			/* select * from student */
 			String query = "SELECT * FROM Category " +
 						   "WHERE courseId = " + courseId;
 			
@@ -347,31 +384,76 @@ public class Database {
 		return cats;
 	}
 	
-	public static ArrayList<StudentType> getAllStudentTypes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public static ArrayList<GradableItem> getGradedItemsInCategory(int catId) {
-		ArrayList<GradableItem> gis = new ArrayList<GradableItem>();
+	public static ArrayList<ScoringMethod> getScoringMethods()
+	{
+		ArrayList<ScoringMethod> scoringMethods = new ArrayList<ScoringMethod>();
 		Connection conn = null;
 		
 		try {
 			conn = dataSource.getConnection();
 
-			/* select * from student */
+			String query = "SELECT * FROM ScoringMethod";
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {
+				ScoringMethod scoringMethod = new ScoringMethod(
+						rs.getInt(DbUtil.SCORINGMETHOD_ID),
+						rs.getString(DbUtil.SCORINGMETHOD_NAME));
+				
+				scoringMethods.add(scoringMethod);		
+			}			
+			conn.close();      
+        } catch(SQLException e) {
+         e.printStackTrace();
+        }
+		return scoringMethods;
+	}
+	
+	public static ArrayList<StudentType> getAllStudentTypes() {
+		ArrayList<StudentType> studentTypes = new ArrayList<StudentType>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String query = "SELECT * FROM StudentType";
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {
+				StudentType studentType = new StudentType(
+						rs.getInt(DbUtil.SCORINGMETHOD_ID),
+						rs.getString(DbUtil.SCORINGMETHOD_NAME));
+				
+				studentTypes.add(studentType);		
+			}			
+			conn.close();      
+        } catch(SQLException e) {
+         e.printStackTrace();
+        }
+		return studentTypes;
+	}
+	
+	public static ArrayList<GradableItem> getGradedItemsInCategory(int catId) {
+		ArrayList<GradableItem> gradedItems = new ArrayList<GradableItem>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
 			String query = "SELECT * FROM GradedItem " +
 						   "WHERE categoryId = " + catId;
 			
 			ResultSet rs = DbUtil.execute(conn, query);
 			
 			while (rs.next()) {				
-				GradableItem gi = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
+				GradableItem gradedItem = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
 						(int) rs.getDouble(DbUtil.GRADEDITEM_MAXPOINTS),
 						rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
 						rs.getDouble(DbUtil.GRADEDITEM_WEIGHT));
 				
-				gis.add(gi);
+				gradedItems.add(gradedItem);
 			}
 			
 	        conn.close();      
@@ -379,7 +461,45 @@ public class Database {
 	         e.printStackTrace();
 	        }
 		
-		return gis;
+		return gradedItems;
+	}
+	
+	public static ArrayList<StudentGrade> getGradesByGradedItem(int gradedItemId) {
+		ArrayList<StudentGrade> grades = new ArrayList<StudentGrade>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String queryGradable = "SELECT * FROM GradedItem " +
+						   "WHERE gradedItemId = " + gradedItemId;
+			
+			ResultSet rs = DbUtil.execute(conn, queryGradable);
+			
+			GradableItem gi = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
+					(int) rs.getDouble(DbUtil.GRADEDITEM_MAXPOINTS),
+					rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
+					rs.getDouble(DbUtil.GRADEDITEM_WEIGHT));
+			
+			String queryGrades = "SELECT * FROM StudentGrade " +
+					   "WHERE gradedItemId = " + gradedItemId;
+		
+			rs = DbUtil.execute(conn, queryGrades);
+			
+			while (rs.next()) {				
+				StudentGrade sg = new StudentGrade(rs.getInt(DbUtil.STUDENTGRADE_SID),
+						gi, new Grade(rs.getDouble(DbUtil.STUDENTGRADE_SCORE),
+								rs.getString(DbUtil.STUDENTGRADE_NOTES)));
+				
+				grades.add(sg);
+			}
+			
+	        conn.close();      
+	        } catch(SQLException e) {
+	         e.printStackTrace();
+	        }
+		
+		return grades;
 	}
 	
 	public static boolean checkIfIncludedGradedItem(int gradedItemId) {
