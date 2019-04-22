@@ -46,6 +46,7 @@ public class DbUtil {
 	public static int GRADEDITEM_MAXPOINTS = 4;
 	public static int GRADEDITEM_SCORINGMETHOD = 5;
 	public static int GRADEDITEM_WEIGHT = 6;
+	public static int GRADEDITEM_INCLUDE = 7;
 	
 	/* StudentGrade table column ids */
 	public static int STUDENTGRADE_SID = 1;

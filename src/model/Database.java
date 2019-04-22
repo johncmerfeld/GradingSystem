@@ -156,7 +156,7 @@ public class Database {
 			conn = dataSource.getConnection();
 			String query = "INSERT INTO GradedItem " + 
 					"(gradedItemId, gradedItemName, categoryId, maxPoints, scoringMethodId, percentageWeight)" +
-					" VALUES (?, ?, ?, ?, ?, ?)";
+					" VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(DbUtil.GRADEDITEM_ID, gi.getId());
@@ -165,6 +165,7 @@ public class Database {
 			ps.setDouble(DbUtil.GRADEDITEM_MAXPOINTS, gi.getMaxPoints());
 			ps.setInt(DbUtil.GRADEDITEM_SCORINGMETHOD, gi.getScoringMethod());
 			ps.setDouble(DbUtil.GRADEDITEM_WEIGHT, gi.getWeightage());
+			ps.setBoolean(DbUtil.GRADEDITEM_INCLUDE, true);
 			ps.execute();
 			
 	        conn.close();      
@@ -255,12 +256,6 @@ public class Database {
  	 * 	These should be called from the controllers to retrieve data objects
 	 */
 	
-	public static ArrayList<ScoringMethod> getScoringMethods()
-	{
-		//TODO
-		return null;
-	}
-	
 	public static ArrayList<Course> getAllCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		Connection conn = null;
@@ -290,8 +285,31 @@ public class Database {
 	}
 	
 	public static StudentInfo getStudentsInfo(int courseId, int bu_id) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<StudentInfo> infos = new ArrayList<StudentInfo>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String query = "SELECT * FROM Course";
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {
+				Course course = new Course(rs.getInt(DbUtil.COURSE_ID),
+						rs.getString(DbUtil.COURSE_NAME),
+						rs.getString(DbUtil.COURSE_SEMESTER));
+				if (rs.getInt(DbUtil.COURSE_ACTIVE) == 0) {
+					course.finishCourse();
+				}
+				
+				courses.add(course);			
+			}			
+			conn.close();      
+        } catch(SQLException e) {
+         e.printStackTrace();
+        }
+		return infos;
 	}
 	
 	public static ArrayList<Student> getStudentsInCourse(int courseId) {
@@ -357,13 +375,59 @@ public class Database {
 		return cats;
 	}
 	
+	public static ArrayList<ScoringMethod> getScoringMethods()
+	{
+		ArrayList<ScoringMethod> scoringMethods = new ArrayList<ScoringMethod>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String query = "SELECT * FROM ScoringMethod";
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {
+				ScoringMethod scoringMethod = new ScoringMethod(
+						rs.getInt(DbUtil.SCORINGMETHOD_ID),
+						rs.getString(DbUtil.SCORINGMETHOD_NAME));
+				
+				scoringMethods.add(scoringMethod);		
+			}			
+			conn.close();      
+        } catch(SQLException e) {
+         e.printStackTrace();
+        }
+		return scoringMethods;
+	}
+	
 	public static ArrayList<StudentType> getAllStudentTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<StudentType> studentTypes = new ArrayList<StudentType>();
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String query = "SELECT * FROM StudentType";
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			while (rs.next()) {
+				StudentType studentType = new StudentType(
+						rs.getInt(DbUtil.SCORINGMETHOD_ID),
+						rs.getString(DbUtil.SCORINGMETHOD_NAME));
+				
+				studentTypes.add(studentType);		
+			}			
+			conn.close();      
+        } catch(SQLException e) {
+         e.printStackTrace();
+        }
+		return studentTypes;
 	}
 	
 	public static ArrayList<GradableItem> getGradedItemsInCategory(int catId) {
-		ArrayList<GradableItem> gis = new ArrayList<GradableItem>();
+		ArrayList<GradableItem> gradedItems = new ArrayList<GradableItem>();
 		Connection conn = null;
 		
 		try {
@@ -375,12 +439,12 @@ public class Database {
 			ResultSet rs = DbUtil.execute(conn, query);
 			
 			while (rs.next()) {				
-				GradableItem gi = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
+				GradableItem gradedItem = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
 						(int) rs.getDouble(DbUtil.GRADEDITEM_MAXPOINTS),
 						rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
 						rs.getDouble(DbUtil.GRADEDITEM_WEIGHT));
 				
-				gis.add(gi);
+				gradedItems.add(gradedItem);
 			}
 			
 	        conn.close();      
@@ -388,7 +452,7 @@ public class Database {
 	         e.printStackTrace();
 	        }
 		
-		return gis;
+		return gradedItems;
 	}
 	
 	public static ArrayList<StudentGrade> getGradesByGradedItem(int gradedItemId) {
