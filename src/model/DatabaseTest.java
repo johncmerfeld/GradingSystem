@@ -28,6 +28,8 @@ public class DatabaseTest {
 			System.out.println(gi.getName());
 		}
 		
+		GradableItem newGi = new GradableItem("Talking to others", 0, 0, 0);
+		
 	}
 
 }
