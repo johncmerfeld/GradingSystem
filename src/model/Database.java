@@ -9,17 +9,7 @@ public class Database {
 	private static ComboPooledDataSource dataSource;
 	
 	static {	
-		init();
-	}
-
-	public static void init() {
-		/* connection pool means we don't have to connect completely freshly
-		 * every time
-		 */
-		dataSource = new ComboPooledDataSource();
-		dataSource.setJdbcUrl(DbUtil.mySQLurl);
-		dataSource.setUser("root");
-		dataSource.setPassword(null); 
+		dataSource = DbUtil.init();
 	}
 	
 	/** 	ADDER FUNCTIONS
@@ -221,6 +211,8 @@ public class Database {
 			ps.setInt(3, sg.getStudentId());
 			ps.setInt(4, courseId);
 			
+			ps.execute();
+			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
@@ -243,12 +235,49 @@ public class Database {
 			ps.setInt(2, courseId);
 			ps.setInt(3, sid);
 			
+			ps.execute();
+			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
 	      } 		
 	}
 	
+	public static void setIncludeGradedItem(int gradedItemId) {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+
+			String query =  "UPDATE GradedItem " + 
+					   "SET include = true " + 
+					   "WHERE gradedItemId = " + gradedItemId;
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 		
+	}
+
+	public static void setExcludeGradedItem(int gradedItemId) {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+
+			String query =  "UPDATE GradedItem " + 
+					   "SET include = false " + 
+					   "WHERE gradedItemId = " + gradedItemId;
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 	
+	}
 	
 	/**
 	 * GETTER FUNCTIONS
@@ -284,8 +313,10 @@ public class Database {
 		return courses;
 	}
 	
+	
 	public static StudentInfo getStudentsInfo(int courseId, int sid) {
 		Connection conn = null;
+		StudentInfo studentInfo = null;
 		
 		try {
 			conn = dataSource.getConnection();
@@ -304,22 +335,29 @@ public class Database {
 			
 			ArrayList<GradableCategory> cats = Database.getCategoriesInCourse(courseId);
 			
-			while (rs.next()) {
-				Course course = new Course(rs.getInt(DbUtil.COURSE_ID),
-						rs.getString(DbUtil.COURSE_NAME),
-						rs.getString(DbUtil.COURSE_SEMESTER));
-				if (rs.getInt(DbUtil.COURSE_ACTIVE) == 0) {
-					course.finishCourse();
+			ArrayList<CategoryLevelGrade> categoryGrades = new ArrayList<CategoryLevelGrade>();
+			
+			for (GradableCategory cat : cats) {
+				ArrayList<StudentGrade> studentGrades = new ArrayList<StudentGrade>();
+				ArrayList<GradableItem> gis = Database.getGradedItemsInCategory(cat.getId());
+				
+				for (GradableItem gi : gis) {
+					studentGrades.add(Database.getStudentGradeByGradedItem(gi.getId(), sid));
 				}
 				
-				courses.add(course);			
-			}			
-			conn.close();      
+				CategoryLevelGrade catLevelGrade = new CategoryLevelGrade(cat);
+				catLevelGrade.setStudentGrades(studentGrades);
+				
+				categoryGrades.add(catLevelGrade);
+			}
+			
+			studentInfo = new StudentInfo(notes, categoryGrades);
+			   
         } catch(SQLException e) {
          e.printStackTrace();
         }
 		return studentInfo;
-	}
+	} 
 	
 	public static ArrayList<Student> getStudentsInCourse(int courseId) {
 		
@@ -502,23 +540,62 @@ public class Database {
 		return grades;
 	}
 	
+	public static StudentGrade getStudentGradeByGradedItem(int gradedItemId, int sid) {
+		Connection conn = null;
+		StudentGrade studentGrade = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String queryGradable = "SELECT * FROM GradedItem " +
+						   "WHERE gradedItemId = " + gradedItemId;
+			
+			ResultSet rs = DbUtil.execute(conn, queryGradable);
+			
+			GradableItem gi = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
+					(int) rs.getDouble(DbUtil.GRADEDITEM_MAXPOINTS),
+					rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
+					rs.getDouble(DbUtil.GRADEDITEM_WEIGHT));
+			
+			String queryGrades = "SELECT * FROM StudentGrade " +
+					   "WHERE gradedItemId = " + gradedItemId + 
+					   " AND studentId = " + sid;
+		
+			rs = DbUtil.execute(conn, queryGrades);
+			
+			if (rs.next()) {				
+				studentGrade = new StudentGrade(rs.getInt(DbUtil.STUDENTGRADE_SID),
+						gi, new Grade(rs.getDouble(DbUtil.STUDENTGRADE_SCORE),
+								rs.getString(DbUtil.STUDENTGRADE_NOTES)));
+			}
+			
+	        conn.close();      
+	        } catch(SQLException e) {
+	         e.printStackTrace();
+	        }
+		
+		return studentGrade;
+	}
+	
 	public static boolean checkIfIncludedGradedItem(int gradedItemId) {
-		// TODO Auto-generated method stub
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String queryGradable = "SELECT * FROM GradedItem " +
+						   "WHERE gradedItemId = " + gradedItemId;
+			
+			ResultSet rs = DbUtil.execute(conn, queryGradable);
+			
+			conn.close();  
+			return rs.getBoolean(DbUtil.GRADEDITEM_INCLUDE);
+			
+	        } catch(SQLException e) {
+	         e.printStackTrace();
+	        }
+		
 		return false;
-	}
-
-	public static void setIncludeGradedItem(int gradedItemId) {
-		// TODO Auto-generated method stub
-	}
-
-	public static void setExcludeGradedItem(int gradedItemId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void setDeleteGradedItem(int gradedItemId) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	/**
@@ -546,5 +623,21 @@ public class Database {
 	      } 	
 		return;	
 		
+	}
+	
+	public static void setDeleteGradedItem(int gradedItemId) {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			String query = "DELETE FROM GradedItem " +
+					"WHERE gradedItemIt = " + gradedItemId;
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+			
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 	
+		return;	
 	}
 }

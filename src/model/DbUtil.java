@@ -1,5 +1,6 @@
 package model;
 import java.sql.*;
+import com.mchange.v2.c3p0.*;
 
 public class DbUtil {
 	
@@ -54,6 +55,16 @@ public class DbUtil {
 	public static int STUDENTGRADE_SCORE = 3;
 	public static int STUDENTGRADE_NOTES = 4;
 	
+	public static ComboPooledDataSource init() {
+		ComboPooledDataSource dataSource = new ComboPooledDataSource();
+		dataSource.setJdbcUrl(DbUtil.mySQLurl);
+		dataSource.setUser("root");
+		dataSource.setPassword(null); 
+		return dataSource;
+	}
+	
+	/* connection pool means we don't have to connect completely freshly
+	   every time */
 	public static ResultSet execute(Connection conn, String sql)
 		throws SQLException {
 		Statement stmt = conn.createStatement(

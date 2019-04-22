@@ -1,5 +1,7 @@
 package view;
 
+import java.util.ArrayList;
+
 import javax.swing.table.TableColumnModel;
 
 /*
@@ -14,11 +16,41 @@ import javax.swing.table.TableColumnModel;
  */
 public class HomePage extends javax.swing.JFrame {
 
+	private int courseID;
+	//private CourseworkSummaryController courseworkSummaryController;
     /**
-     * Creates new form loginPage
+     * Creates new form home Page
      */
     public HomePage() {
         initComponents();
+    }
+    
+    /**
+     * Create new form home page with a specific course id
+     * TODO: link to the given course
+     * @param courseID
+     */
+    public HomePage(int courseID) {
+    	this.courseID = courseID;
+    	//this.courseworkSummaryController = new CourseworkSummaryController(courseID);
+    	initComponents();
+    }
+    
+    public int getCourseID() {
+    	return this.courseID;
+    }
+    
+//    public CourseworkSummaryController getCourseworkSummaryController() {
+//    	return this.courseworkSummaryController;
+//    }
+//    
+    /**
+     * 
+     * TODO: get all category names
+     * @return 
+     */
+    private ArrayList<String> getAllCategories() {
+    	return null;
     }
 
     /**
@@ -57,10 +89,18 @@ public class HomePage extends javax.swing.JFrame {
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
         titleLabel.setText("Dashboard");
 
+        /**
+         * TODO: get course name for this course
+         */
+        //this.courseworkSummaryController.getDashboardInfo(courseID);
         couseNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         couseNameLabel.setForeground(new java.awt.Color(255, 255, 255));
         couseNameLabel.setText("Course Name");
 
+        
+        /**
+         * TODO: get course semester for this course
+         */
         semesterLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         semesterLabel.setForeground(new java.awt.Color(255, 255, 255));
         semesterLabel.setText("Semester");
