@@ -284,9 +284,12 @@ public class Database {
 		return courses;
 	}
 	
+	
 	public static StudentInfo getStudentsInfo(int courseId, int sid) {
 		Connection conn = null;
-		
+		return null;
+	}
+		/*
 		try {
 			conn = dataSource.getConnection();
 
@@ -319,7 +322,7 @@ public class Database {
          e.printStackTrace();
         }
 		return studentInfo;
-	}
+	}  */
 	
 	public static ArrayList<Student> getStudentsInCourse(int courseId) {
 		
