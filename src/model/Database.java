@@ -9,17 +9,7 @@ public class Database {
 	private static ComboPooledDataSource dataSource;
 	
 	static {	
-		init();
-	}
-
-	public static void init() {
-		/* connection pool means we don't have to connect completely freshly
-		 * every time
-		 */
-		dataSource = new ComboPooledDataSource();
-		dataSource.setJdbcUrl(DbUtil.mySQLurl);
-		dataSource.setUser("root");
-		dataSource.setPassword(null); 
+		dataSource = DbUtil.init();
 	}
 	
 	/** 	ADDER FUNCTIONS
@@ -221,6 +211,8 @@ public class Database {
 			ps.setInt(3, sg.getStudentId());
 			ps.setInt(4, courseId);
 			
+			ps.execute();
+			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
@@ -243,6 +235,8 @@ public class Database {
 			ps.setInt(2, courseId);
 			ps.setInt(3, sid);
 			
+			ps.execute();
+			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
@@ -250,12 +244,39 @@ public class Database {
 	}
 	
 	public static void setIncludeGradedItem(int gradedItemId) {
-		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+
+			String query =  "UPDATE GradedItem " + 
+					   "SET include = true " + 
+					   "WHERE gradedItemId = " + gradedItemId;
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 		
 	}
 
 	public static void setExcludeGradedItem(int gradedItemId) {
-		// TODO Auto-generated method stub
-		
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+
+			String query =  "UPDATE GradedItem " + 
+					   "SET include = false " + 
+					   "WHERE gradedItemId = " + gradedItemId;
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 	
 	}
 	
 	/**
@@ -605,8 +626,18 @@ public class Database {
 	}
 	
 	public static void setDeleteGradedItem(int gradedItemId) {
-		// TODO Auto-generated method stub
-		
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			String query = "DELETE FROM GradedItem " +
+					"WHERE gradedItemIt = " + gradedItemId;
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+			
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 	
+		return;	
 	}
-	
 }
