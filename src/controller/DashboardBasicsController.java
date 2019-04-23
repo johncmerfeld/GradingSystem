@@ -38,7 +38,7 @@ public abstract class DashboardBasicsController implements DashboardBasics{
 
 	@Override
 	public Student findStudent(String BU_Id) {
-		// TODO Auto-generated method stub
+		Student student = Database.getStudent(Integer.parseInt(BU_Id.substring(1)));
 		return null;
 	}
 
@@ -53,6 +53,6 @@ public abstract class DashboardBasicsController implements DashboardBasics{
 
 	public Course getCourse(int courseId) {
 		Course course = Database.getCourse(courseId);
-		return null;
+		return course;
 	}
 }

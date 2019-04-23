@@ -639,4 +639,9 @@ public class Database {
 	public static Course getCourse(int courseId) {
 		//TODO : GET Course object from courseId
 	}
+
+	public static Student getStudent(int parseInt) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
