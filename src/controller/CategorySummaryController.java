@@ -2,6 +2,8 @@ package controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale.Category;
+
 import model.CategoryLevelGrade;
 import model.Database;
 import model.Student;
@@ -38,6 +40,72 @@ public class CategorySummaryController extends CategoryInformationController imp
 		}
 		setDashboardInfo(courseId);
 		return this.dashboardInfo;
+	}
+
+	@Override
+	public String[][] getStudentDataIn2dArray(int categoryId) {
+		int num_col = 2 + 4;
+		int num_rows = dashboardInfo.size();
+		int row_index = 0;
+		
+		String[][] data = new String[num_rows][num_col];
+		
+		for (HashMap.Entry<Student, StudentInfo> entry : dashboardInfo.entrySet()) {
+		    Student s = entry.getKey();
+			StudentInfo si = entry.getValue();
+		    List<CategoryLevelGrade> categoryLevelGrades = si.getCategoryLevelGrades();
+		    int col_index = 0;
+		    data[row_index][col_index++] = s.getBUId() + "";
+	    	data[row_index][col_index++] = s.getName().getName();
+		    for(CategoryLevelGrade cg : categoryLevelGrades)
+		    {
+		    	if(cg.getCategory().getId() == categoryId)
+		    	{
+		    		for(StudentGrade sg : cg.getStudentGrades())
+		    		{
+		    			data[row_index][col_index++] = sg.getGrade().getScore() + "";
+		    		}	
+		    	}
+		    	
+		    }
+		}
+		return data;
+	}
+	
+	public HashMap<Student, StudentInfo> convert2dArrayToHashmap(String[][] updatedData, int categoryId, int courseId)
+	{
+		int num_col = 2 + 4;
+		int num_rows = dashboardInfo.size();
+		int row_index = 0;
+		
+		for(row_index = 0; row_index<num_rows; row_index++)
+		{
+			Student student = Database.getStudent(Integer.parseInt(updatedData[row_index][0]));
+			
+			StudentInfo studentInfo = dashboardInfo.get(student);
+			
+			List<CategoryLevelGrade> list_clg = studentInfo.getCategoryLevelGrades();
+			
+			int col_index = 0;
+			
+			for(CategoryLevelGrade clg : list_clg)
+			{
+				if(clg.getCategory().getId() == categoryId)
+				{
+					for(StudentGrade sg : clg.getStudentGrades())
+					{
+						sg.getGrade().setScore(Integer.parseInt(updatedData[row_index][col_index++]));
+					}
+				}
+				
+			}
+			
+			dashboardInfo.put(student, studentInfo);
+	
+			editScore(courseId, dashboardInfo);
+		}
+		
+		return dashboardInfo;
 	}
 
 }
