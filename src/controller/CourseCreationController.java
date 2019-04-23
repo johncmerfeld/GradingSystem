@@ -15,9 +15,7 @@ public class CourseCreationController extends CourseSelectionController implemen
 	
 	@Override
 	public Course createNewCourse(String courseName, String semester) {
-        // Generate random integers in range 0 to 999 
-        int rand_int1 = (new Random()).nextInt(1000000); 
-		Course course = new Course(rand_int1, courseName, semester);
+		Course course = new Course(courseName, semester);
 		Database.addCourse(course);
 		return course;
 	}
