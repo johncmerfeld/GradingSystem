@@ -292,12 +292,13 @@ public class Database {
 			ResultSet rs = DbUtil.execute(conn, query);
 			
 			if (rs.next()) {
-				course = new Course(rs.getInt(DbUtil.COURSE_ID),
-						rs.getString(DbUtil.COURSE_NAME),
+				course = new Course(rs.getString(DbUtil.COURSE_NAME),
 						rs.getString(DbUtil.COURSE_SEMESTER));
 				if (rs.getInt(DbUtil.COURSE_ACTIVE) == 0) {
 					course.finishCourse();
 				}	
+				
+				course.setCourseId(rs.getInt(DbUtil.COURSE_ID));
 			}			
 			conn.close();      
         } catch(SQLException e) {
@@ -345,12 +346,13 @@ public class Database {
 			ResultSet rs = DbUtil.execute(conn, query);
 			
 			while (rs.next()) {
-				Course course = new Course(rs.getInt(DbUtil.COURSE_ID),
-						rs.getString(DbUtil.COURSE_NAME),
+				Course course = new Course(rs.getString(DbUtil.COURSE_NAME),
 						rs.getString(DbUtil.COURSE_SEMESTER));
 				if (rs.getInt(DbUtil.COURSE_ACTIVE) == 0) {
 					course.finishCourse();
 				}
+				
+				course.setCourseId(rs.getInt(DbUtil.COURSE_ID));
 				
 				courses.add(course);			
 			}			

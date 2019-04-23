@@ -9,8 +9,7 @@ public class Course {
     //private ArrayList<Category> categories;
     //private Map<String,Double>  rubric;
     //private ArrayList<Grade> grades;
-    public Course(int id, String name, String courseSemester){
-        this.id = id;
+    public Course(String name, String courseSemester){
         this.name = name;
         this.courseSemester = courseSemester;
         this.isActive = true;
