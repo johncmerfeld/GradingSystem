@@ -5,7 +5,10 @@
  */
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+
 import javax.swing.JFileChooser;
 
 /**
@@ -14,11 +17,65 @@ import javax.swing.JFileChooser;
  */
 public class CreateCoursePage extends javax.swing.JFrame {
 
+	//init upload student to false
+	boolean hasUploadStudent = false;
+	//
     /**
      * Creates new form createCourse
      */
     public CreateCoursePage() {
         initComponents();
+    }
+    
+    
+    /**
+     * get the course name text field 
+     * @return
+     */
+    public String getCourseNameText() {
+    	return this.courseNameTextField1.getText();
+    }
+    
+    public String getCourseSemesterText() {
+    	return this.semesterTextField.getText();
+    }
+    /**
+     * Action Listener classes
+     */
+    private class ReadCourseNameListenser implements ActionListener {
+    	protected CreateCoursePage createCoursePage;
+    	/**
+    	 * constructor
+    	 * @param createCoursePage
+    	 */
+    	public ReadCourseNameListenser(CreateCoursePage createCoursePage) {
+    		this.createCoursePage = createCoursePage;
+    		
+    		
+    	}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			 System.out.println(this.createCoursePage.getCourseNameText());			
+		}
+    	
+    }
+    
+    private class ReadCourseSemesterListenser implements ActionListener {
+    	protected CreateCoursePage createCoursePage;
+    	/**
+    	 * constructor
+    	 * @param createCoursePage
+    	 */
+    	public ReadCourseSemesterListenser(CreateCoursePage createCoursePage) {
+    		this.createCoursePage = createCoursePage;
+    		
+    		
+    	}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			 System.out.println(this.createCoursePage.getCourseSemesterText());			
+		}
+    	
     }
 
     /**
@@ -112,22 +169,16 @@ public class CreateCoursePage extends javax.swing.JFrame {
             }
         });
 
+        //Read semester info
         semesterTextField.setText("Spring 2019");
-        semesterTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                semesterTextFieldActionPerformed(evt);
-            }
-        });
+        semesterTextField.addActionListener(new ReadCourseSemesterListenser(this));
 
         semesterLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
         semesterLabel.setText("Semester");
 
-        courseNameTextField1.setText("CS 591");
-        courseNameTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                courseNameTextField1ActionPerformed(evt);
-            }
-        });
+        // Read course name info
+        courseNameTextField1.setText("");
+        courseNameTextField1.addActionListener(new ReadCourseNameListenser(this));
 
         initTemplateLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
         initTemplateLabel.setText("Initialize From Template (Optional)");
@@ -227,6 +278,7 @@ public class CreateCoursePage extends javax.swing.JFrame {
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
         // jump back to the course selection page, without saving anything
+    	// Wait for the DB connect
         CourseSelectionPage courseSelectionPage = new CourseSelectionPage();
         courseSelectionPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         courseSelectionPage.setLocationRelativeTo( null ); // set the previous window location
@@ -256,7 +308,12 @@ public class CreateCoursePage extends javax.swing.JFrame {
         chooser.showOpenDialog(null);
         File file = chooser.getSelectedFile();
         String fileName  = file.getAbsolutePath();
-        this.attachStudentTextField.setText(fileName);   
+        //TODO: handle cancel when upload
+        this.attachStudentTextField.setText(fileName); 
+        System.out.println(fileName);
+        // set the upload student to true if click upload button
+        this.hasUploadStudent = true;
+        
         
     }//GEN-LAST:event_attachStudentBtActionPerformed
 
