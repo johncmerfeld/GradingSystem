@@ -1,47 +1,47 @@
-LOAD DATA INFILE "dummy_data/studenttype.csv"
+LOAD DATA INFILE 'dummy_data/studenttype.csv'
 INTO TABLE StudentType
-FIELDS TERMINATED BY ","
-ENCLOSED BY '"'
-LINES TERMINATED BY "\n";
+FIELDS TERMINATED BY ','
+ENCLOSED BY '''
+LINES TERMINATED BY '\n';
 
-LOAD DATA INFILE "dummy_data/scoringmethod.csv"
+LOAD DATA INFILE 'dummy_data/scoringmethod.csv'
 INTO TABLE ScoringMethod
-FIELDS TERMINATED BY ","
+FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY "\n";
+LINES TERMINATED BY '\n';
 
-LOAD DATA INFILE "dummy_data/course.csv"
+LOAD DATA INFILE 'dummy_data/course.csv'
 INTO TABLE Course 
-FIELDS TERMINATED BY ","
+FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY "\n";
+LINES TERMINATED BY '\n';
 
-LOAD DATA INFILE "dummy_data/student.csv"
+LOAD DATA INFILE 'dummy_data/student.csv'
 INTO TABLE Student
-FIELDS TERMINATED BY ","
+FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY "\n";
+LINES TERMINATED BY '\n';
 
-LOAD DATA INFILE "dummy_data/enrolled.csv"
+LOAD DATA INFILE 'dummy_data/enrolled.csv'
 INTO TABLE Enrolled
-FIELDS TERMINATED BY ","
+FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY "\n";
+LINES TERMINATED BY '\n';
 
-LOAD DATA INFILE "dummy_data/category.csv"
+LOAD DATA INFILE 'dummy_data/category.csv'
 INTO TABLE Category
-FIELDS TERMINATED BY ","
+FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY "\n";
+LINES TERMINATED BY '\n';
 
-LOAD DATA INFILE "dummy_data/gradeditem.csv"
+LOAD DATA INFILE 'dummy_data/gradeditem.csv'
 INTO TABLE GradedItem
-FIELDS TERMINATED BY ","
+FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY "\n";
+LINES TERMINATED BY '\n';
 
-LOAD DATA INFILE "dummy_data/studentgrade.csv"
+LOAD DATA INFILE 'dummy_data/studentgrade.csv'
 INTO TABLE StudentGrade
-FIELDS TERMINATED BY ","
+FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY "\n";
+LINES TERMINATED BY '\n';
