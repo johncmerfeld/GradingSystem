@@ -280,6 +280,59 @@ public class Database {
  	 * 	These should be called from the controllers to retrieve data objects
 	 */
 	
+	public static Course getCourse(int courseId) {
+		Course course = null;
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String query = "SELECT * FROM Course WHERE courseId = " + courseId;
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			if (rs.next()) {
+				course = new Course(rs.getInt(DbUtil.COURSE_ID),
+						rs.getString(DbUtil.COURSE_NAME),
+						rs.getString(DbUtil.COURSE_SEMESTER));
+				if (rs.getInt(DbUtil.COURSE_ACTIVE) == 0) {
+					course.finishCourse();
+				}	
+			}			
+			conn.close();      
+        } catch(SQLException e) {
+         e.printStackTrace();
+        }
+		return course;
+	}
+
+	public static Student getStudent(int studentId) {
+		Student student = null;
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+
+			String query = "SELECT * FROM Student where studentId = " + studentId;
+			
+			ResultSet rs = DbUtil.execute(conn, query);
+			
+			if (rs.next()) {
+				Name name = new Name(rs.getString(DbUtil.STUDENT_FNAME),
+						rs.getString(DbUtil.STUDENT_MI).charAt(0),
+						rs.getString(DbUtil.STUDENT_LNAME));
+						
+				student = new Student(rs.getInt(DbUtil.STUDENT_ID),
+						name, rs.getString(DbUtil.STUDENT_EMAIL), 
+						rs.getInt(DbUtil.STUDENT_TYPE) == 2);
+			}			
+			conn.close();      
+        } catch(SQLException e) {
+         e.printStackTrace();
+        }
+		return student;
+	}
+	
 	public static ArrayList<Course> getAllCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		Connection conn = null;
@@ -635,14 +688,5 @@ public class Database {
 	         e.printStackTrace();
 	      } 	
 		return;	
-	}
-
-	public static Course getCourse(int courseId) {
-		//TODO : GET Course object from courseId
-	}
-
-	public static Student getStudent(int parseInt) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
