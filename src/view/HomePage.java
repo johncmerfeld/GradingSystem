@@ -17,7 +17,11 @@ import javax.swing.table.TableColumnModel;
 public class HomePage extends javax.swing.JFrame {
 
 	private int courseID;
+	/**
+	 * Controller field 
+	 */
 	//private CourseworkSummaryController courseworkSummaryController;
+	
     /**
      * Creates new form home Page
      */

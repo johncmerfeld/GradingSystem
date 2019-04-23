@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import controller.CourseCreationController;
 import model.Course;
@@ -329,29 +330,35 @@ public class CreateCoursePage extends javax.swing.JFrame {
 
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
         // save this new course, read all the new information
+    	String csvFile = this.attachStudentTextField.getText();
+		int selectedCourseIndex = this.selectTemplateComboBox.getSelectedIndex();
+		int selectedCourseId = this.getAllCoursesId().get(selectedCourseIndex);
+
+		if (this.getCourseNameText().equals("") || this.getCourseSemesterText().equals("")) {
+			JOptionPane.showMessageDialog(this, "Course name and semester must be none empty!");
+		} else {
+			
+		
     	if(this.hasSelectGradingTemplate && this.hasUploadStudent) {
-    		int selectedCourseIndex = this.selectTemplateComboBox.getSelectedIndex();
-    		int selectedCourseId = this.getAllCoursesId().get(selectedCourseIndex);
-    		String csvFile = this.attachStudentTextField.getText();
     		this.courseCreationController.createNewCourseFromTemplateWithListOfStudents(this.getCourseNameText(), this.getCourseSemesterText(), selectedCourseId, csvFile);
     	} else if(this.hasSelectGradingTemplate) {
-    		int selectedCourseIndex = this.selectTemplateComboBox.getSelectedIndex();
-    		int selectedCourseId = this.getAllCoursesId().get(selectedCourseIndex);
     		System.out.println("selectedCourseId: "+selectedCourseId);
     		this.courseCreationController.createNewCourseFromTemplate(this.getCourseNameText(), this.getCourseSemesterText(), selectedCourseId);
     	} else if(this.hasUploadStudent) {
-    		String csvFile = this.attachStudentTextField.getText();
     		this.courseCreationController.createNewCourseWithListOfStudents(this.getCourseNameText(), this.getCourseSemesterText(), csvFile);
     	} else {
     		this.courseCreationController.createNewCourse(this.getCourseNameText(), this.getCourseSemesterText());
     	}
-    	
     	// jump back to the course selection page
     	CourseSelectionPage courseSelectionPage = new CourseSelectionPage();
         courseSelectionPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         courseSelectionPage.setLocationRelativeTo( null ); // set the previous window location
         courseSelectionPage.setVisible(true);
         dispose();
+
+		}
+    	
+    	
         
     }//GEN-LAST:event_saveBtActionPerformed
 
