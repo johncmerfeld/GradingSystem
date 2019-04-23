@@ -20,6 +20,7 @@ public class DatabaseTest {
 		
 		ArrayList<GradableCategory> cats = Database.getCategoriesInCourse(2);
 		for (GradableCategory cat : cats) {
+			System.out.println(cat.getId());
 			System.out.println(cat.getName());
 		}
 		
@@ -27,6 +28,13 @@ public class DatabaseTest {
 		for (GradableItem gi : gis) {
 			System.out.println(gi.getName());
 		}
+		
+		GradableItem newGi = new GradableItem("Talking to others", 20, 1, 1);
+		newGi.setId(1000);
+		
+		Database.addGradedItem(newGi, cats.get(1).getId());
+		
+		Database.setDeleteGradedItem(1000);
 		
 	}
 
