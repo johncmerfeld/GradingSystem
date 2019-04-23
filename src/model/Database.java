@@ -625,7 +625,7 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 			String query = "DELETE FROM GradedItem " +
-					"WHERE gradedItemIt = " + gradedItemId;
+					"WHERE gradedItemId = " + gradedItemId;
 			
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.execute();
