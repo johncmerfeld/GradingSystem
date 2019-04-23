@@ -20,6 +20,7 @@ public class DatabaseTest {
 		
 		ArrayList<GradableCategory> cats = Database.getCategoriesInCourse(2);
 		for (GradableCategory cat : cats) {
+			System.out.println(cat.getId());
 			System.out.println(cat.getName());
 		}
 		

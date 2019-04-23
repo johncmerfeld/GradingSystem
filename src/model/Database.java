@@ -141,8 +141,8 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 			String query = "INSERT INTO GradedItem " + 
-					"(gradedItemName, categoryId, maxPoints, scoringMethodId, percentageWeight)" +
-					" VALUES (?, ?, ?, ?, ?, ?, ?)";
+					"(gradedItemName, categoryId, maxPoints, scoringMethodId, percentageWeight, include)" +
+					" VALUES (?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(DbUtil.GRADEDITEM_NAME - 1, gi.getName());
@@ -405,6 +405,7 @@ public class Database {
 				GradableCategory cat = new GradableCategory(
 						rs.getString(DbUtil.CATEGORY_NAME), 
 						rs.getDouble(DbUtil.CATEGORY_WEIGHT));
+				cat.setId(rs.getInt(DbUtil.CATEGORY_ID));
 				
 				cats.add(cat);
 			}
