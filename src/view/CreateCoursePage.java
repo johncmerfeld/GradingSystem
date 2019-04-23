@@ -30,6 +30,8 @@ public class CreateCoursePage extends javax.swing.JFrame {
 	private boolean hasUploadStudent = false;
 	//init select a grading template as false
 	private boolean hasSelectGradingTemplate = false;
+	// track selected course position for grading template
+	private int selectedCoursePosition;
     /**
      * Creates new form createCourse
      */
@@ -217,7 +219,8 @@ public class CreateCoursePage extends javax.swing.JFrame {
             }
         });
 
-        selectTemplateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        String [] coursesArray = this.getAllCoursesName().toArray(new String[0]);
+        selectTemplateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(coursesArray));
         selectTemplateComboBox.addActionListener(new ReadSelectTemplateComboBox(this));
         
 
@@ -334,6 +337,7 @@ public class CreateCoursePage extends javax.swing.JFrame {
     	} else if(this.hasSelectGradingTemplate) {
     		int selectedCourseIndex = this.selectTemplateComboBox.getSelectedIndex();
     		int selectedCourseId = this.getAllCoursesId().get(selectedCourseIndex);
+    		System.out.println("selectedCourseId: "+selectedCourseId);
     		this.courseCreationController.createNewCourseFromTemplate(this.getCourseNameText(), this.getCourseSemesterText(), selectedCourseId);
     	} else if(this.hasUploadStudent) {
     		String csvFile = this.attachStudentTextField.getText();
