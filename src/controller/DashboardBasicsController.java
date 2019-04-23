@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import model.Course;
 import model.Database;
 import model.Student;
 import model.StudentInfo;
@@ -47,5 +48,11 @@ public abstract class DashboardBasicsController implements DashboardBasics{
 		int bu_id = Integer.parseInt(bu_id_num);	
 		StudentInfo studentInfo = Database.getStudentsInfo(courseId, bu_id);
 		return studentInfo;
+	}
+	
+
+	public Course getCourse(int courseId) {
+		Course course = Database.getCourse(courseId);
+		return null;
 	}
 }

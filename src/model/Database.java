@@ -640,4 +640,8 @@ public class Database {
 	      } 	
 		return;	
 	}
+
+	public static Course getCourse(int courseId) {
+		//TODO : GET Course object from courseId
+	}
 }
