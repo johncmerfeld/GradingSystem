@@ -11,4 +11,5 @@ public interface CategorySummary extends DashboardBasics{
 	public double getGradeableItemMean(int gradeableItemId);
 	public double getGradeableItemStandardDeviation(int gradeableItemId);
 	public HashMap<Student, StudentInfo>  editScore(int courseId, HashMap<Student, StudentInfo> newScores);
+	public String[][] getStudentDataIn2dArray(int categoryId);
 }
