@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import javax.swing.table.TableColumnModel;
 
+import controller.CourseworkSummaryController;
+import model.Course;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,7 +23,7 @@ public class HomePage extends javax.swing.JFrame {
 	/**
 	 * Controller field 
 	 */
-	//private CourseworkSummaryController courseworkSummaryController;
+	private CourseworkSummaryController courseworkSummaryController;
 	
     /**
      * Creates new form home Page
@@ -36,7 +39,7 @@ public class HomePage extends javax.swing.JFrame {
      */
     public HomePage(int courseID) {
     	this.courseID = courseID;
-    	//this.courseworkSummaryController = new CourseworkSummaryController(courseID);
+    	this.courseworkSummaryController = new CourseworkSummaryController(courseID);
     	initComponents();
     }
     
@@ -94,20 +97,21 @@ public class HomePage extends javax.swing.JFrame {
         titleLabel.setText("Dashboard");
 
         /**
-         * TODO: get course name for this course
+         * DONE: get course name for this course
          */
         //this.courseworkSummaryController.getDashboardInfo(courseID);
         couseNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         couseNameLabel.setForeground(new java.awt.Color(255, 255, 255));
-        couseNameLabel.setText("Course Name");
+        Course course = this.courseworkSummaryController.getCourse(this.courseID);
+        couseNameLabel.setText("testing name");
 
         
         /**
-         * TODO: get course semester for this course
+         * DONE: get course semester for this course
          */
         semesterLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         semesterLabel.setForeground(new java.awt.Color(255, 255, 255));
-        semesterLabel.setText("Semester");
+        semesterLabel.setText("testing semester");
 
         backToCourseSelectBt.setBackground(new java.awt.Color(255, 255, 255));
         backToCourseSelectBt.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -429,7 +433,8 @@ public class HomePage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HomePage().setVisible(true);
+            	// VIEW the course ID: 1
+                new HomePage(1).setVisible(true);
             }
         });
     }
