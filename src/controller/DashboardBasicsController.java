@@ -39,7 +39,7 @@ public abstract class DashboardBasicsController implements DashboardBasics{
 	@Override
 	public Student findStudent(String BU_Id) {
 		Student student = Database.getStudent(Integer.parseInt(BU_Id.substring(1)));
-		return null;
+		return student;
 	}
 
 	@Override
