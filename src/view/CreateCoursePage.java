@@ -333,20 +333,44 @@ public class CreateCoursePage extends javax.swing.JFrame {
     	String csvFile = this.attachStudentTextField.getText();
 		int selectedCourseIndex = this.selectTemplateComboBox.getSelectedIndex();
 		int selectedCourseId = this.getAllCoursesId().get(selectedCourseIndex);
+		boolean isValidCsvFile = false;
+		// check for valid csv
+		if(csvFile.length()>4) {
+			isValidCsvFile = csvFile.substring(csvFile.length()-4).equals(".csv");
+		}
 
+		// check for valid course name and course semester
 		if (this.getCourseNameText().equals("") || this.getCourseSemesterText().equals("")) {
 			JOptionPane.showMessageDialog(this, "Course name and semester must be none empty!");
-		} else {
+		} else if(this.hasUploadStudent && ! isValidCsvFile) {
+			JOptionPane.showMessageDialog(this, "Please upload a valid CSV file!");
+		}
+		else {
 			
-		
     	if(this.hasSelectGradingTemplate && this.hasUploadStudent) {
+    		if(! isValidCsvFile) {
+    			JOptionPane.showMessageDialog(this, "Please upload a valid CSV file!");
+    		}else {
+    		
     		this.courseCreationController.createNewCourseFromTemplateWithListOfStudents(this.getCourseNameText(), this.getCourseSemesterText(), selectedCourseId, csvFile);
-    	} else if(this.hasSelectGradingTemplate) {
+    		
+    		}
+    		
+    	}
+    	else if(this.hasSelectGradingTemplate) {
     		System.out.println("selectedCourseId: "+selectedCourseId);
     		this.courseCreationController.createNewCourseFromTemplate(this.getCourseNameText(), this.getCourseSemesterText(), selectedCourseId);
-    	} else if(this.hasUploadStudent) {
+    	} 
+    	else if(this.hasUploadStudent) {
+    		if(! isValidCsvFile) {
+    			JOptionPane.showMessageDialog(this, "Please upload a valid CSV file!");
+    		} else {
+    		
     		this.courseCreationController.createNewCourseWithListOfStudents(this.getCourseNameText(), this.getCourseSemesterText(), csvFile);
-    	} else {
+    		
+    		}
+    	} 
+    	else {
     		this.courseCreationController.createNewCourse(this.getCourseNameText(), this.getCourseSemesterText());
     	}
     	// jump back to the course selection page

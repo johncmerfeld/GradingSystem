@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import controller.CourseSelectionController;
@@ -58,6 +59,21 @@ public class CourseSelectionPage extends javax.swing.JFrame {
     		allCoursesId.add(course.getCourseId());
     	}
     	return allCoursesId;
+    }
+    
+    private class selectCourseComboBox implements ActionListener{
+    	private CourseSelectionPage courseSelectionPage;
+    	public selectCourseComboBox(CourseSelectionPage courseSelectionPage) {
+    		this.courseSelectionPage = courseSelectionPage;
+    		
+    	}
+    	public void actionPerformed(java.awt.event.ActionEvent evt) {
+            selectCourseComboBoxActionPerformed(evt);
+            System.out.println("Selected: " + selectCourseComboBox.getSelectedItem());
+	        System.out.println(", Position: " + selectCourseComboBox.getSelectedIndex());
+	        System.out.println("selected course ID: "+ this.courseSelectionPage.getAllCoursesId().get(selectCourseComboBox.getSelectedIndex()));
+	        
+        }
     }
 
     /**
@@ -135,14 +151,7 @@ public class CourseSelectionPage extends javax.swing.JFrame {
         ArrayList<String> allCoursesName = this.getAllCoursesName();
         String[] allCoursesNameArray = allCoursesName.toArray(new String[0]);
         selectCourseComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(allCoursesNameArray));
-        selectCourseComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectCourseComboBoxActionPerformed(evt);
-                System.out.println("Selected: " + selectCourseComboBox.getSelectedItem());
-		        System.out.println(", Position: " + selectCourseComboBox.getSelectedIndex());
-		        
-            }
-        });
+        selectCourseComboBox.addActionListener(new selectCourseComboBox(this));
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
