@@ -8,7 +8,7 @@ import model.GradableCategory;
 import model.GradableItem;
 import model.Student;
 
-public class CourseCreationController implements CourseCreation{
+public class CourseCreationController extends CourseSelectionController implements CourseCreation{
 	
 	public CourseCreationController()
 	{}
