@@ -540,6 +540,8 @@ public class Database {
 						rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
 						rs.getDouble(DbUtil.GRADEDITEM_WEIGHT));
 				
+				gradedItem.setId(rs.getInt(DbUtil.GRADEDITEM_ID));
+				
 				gradedItems.add(gradedItem);
 			}
 			
