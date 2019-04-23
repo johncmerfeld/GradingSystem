@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale.Category;
 import model.Database;
+import model.GradableCategory;
 import model.GradableItem;
 import model.ScoringMethod;
 
@@ -18,9 +19,9 @@ public class CourseworkController implements Coursework{
 	}
 
 	@Override
-	public HashMap<Integer, Category> getAllCourseworkCategories() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<GradableCategory> getAllCourseworkCategories(int courseId) {
+		ArrayList<GradableCategory> categories = Database.getCategoriesInCourse(courseId);
+		return categories;
 	}
 
 	@Override
