@@ -2,6 +2,8 @@ package controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale.Category;
+
 import model.CategoryLevelGrade;
 import model.Database;
 import model.Student;
@@ -70,7 +72,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 		return data;
 	}
 	
-	public HashMap<Student, StudentInfo> convert2dArrayToHashmap(String[][] updatedData, int categoryId)
+	public HashMap<Student, StudentInfo> convert2dArrayToHashmap(String[][] updatedData, int categoryId, int courseId)
 	{
 		int num_col = 2 + 4;
 		int num_rows = dashboardInfo.size();
@@ -99,6 +101,8 @@ public class CategorySummaryController extends CategoryInformationController imp
 			}
 			
 			dashboardInfo.put(student, studentInfo);
+	
+			editScore(courseId, dashboardInfo);
 		}
 		
 		return dashboardInfo;
