@@ -22,14 +22,13 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 			String query = "INSERT INTO Course " + 
-					"(courseId, courseName, semester, isActive)" +
-					" VALUES (?, ?, ?, ?)";
+					"(courseName, semester, isActive)" +
+					" VALUES (?, ?, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.COURSE_ID, c.getCourseId());
-			ps.setString(DbUtil.COURSE_NAME, c.getCourseName());
-			ps.setString(DbUtil.COURSE_SEMESTER, c.getCourseSemester());
-			ps.setInt(DbUtil.COURSE_ACTIVE, c.isActive() ? 1 : 0);
+			ps.setString(DbUtil.COURSE_NAME - 1, c.getCourseName());
+			ps.setString(DbUtil.COURSE_SEMESTER - 1, c.getCourseSemester());
+			ps.setInt(DbUtil.COURSE_ACTIVE - 1, c.isActive() ? 1 : 0);
 			ps.execute();
 			
 	        conn.close();      
@@ -43,12 +42,11 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 			String query = "INSERT INTO StudentType " + 
-					"(studentTypeId, studentType)" +
-					" VALUES (?, ?)";
+					"(studentType)" +
+					" VALUES (?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.STUDENTTYPE_ID, typeId);
-			ps.setString(DbUtil.STUDENTTYPE_NAME, typeName);
+			ps.setString(DbUtil.STUDENTTYPE_NAME - 1, typeName);
 			ps.execute();
 			
 	        conn.close();      
@@ -105,14 +103,13 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 			String query = "INSERT INTO Category" + 
-					"(categoryId, categoryName, courseId, percentageWeight)" +
-					" VALUES (?, ?, ?, ?)";
+					"(categoryName, courseId, percentageWeight)" +
+					" VALUES (?, ?, ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.CATEGORY_ID, gc.getId());
-			ps.setString(DbUtil.CATEGORY_NAME, gc.getName());
-			ps.setInt(DbUtil.CATEGORY_CORID, courseId);
-			ps.setDouble(DbUtil.CATEGORY_WEIGHT, gc.getWeight());
+			ps.setString(DbUtil.CATEGORY_NAME - 1, gc.getName());
+			ps.setInt(DbUtil.CATEGORY_CORID - 1, courseId);
+			ps.setDouble(DbUtil.CATEGORY_WEIGHT - 1, gc.getWeight());
 			ps.execute();
 			
 	        conn.close();      
@@ -126,12 +123,11 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 			String query = "INSERT INTO ScoringMethod" + 
-					"(scoringMethodId, scoringMethod)" +
-					" VALUES (?, ?)";
+					"(scoringMethod)" +
+					" VALUES (?)";
 			
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.SCORINGMETHOD_ID, methodId);
-			ps.setString(DbUtil.SCORINGMETHOD_NAME, method);
+			ps.setString(DbUtil.SCORINGMETHOD_NAME - 1, method);
 			ps.execute();
 			
 	        conn.close();      
@@ -145,17 +141,16 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 			String query = "INSERT INTO GradedItem " + 
-					"(gradedItemId, gradedItemName, categoryId, maxPoints, scoringMethodId, percentageWeight)" +
+					"(gradedItemName, categoryId, maxPoints, scoringMethodId, percentageWeight)" +
 					" VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(DbUtil.GRADEDITEM_ID, gi.getId());
-			ps.setString(DbUtil.GRADEDITEM_NAME, gi.getName());
-			ps.setInt(DbUtil.GRADEDITEM_CATID, categoryId);
-			ps.setDouble(DbUtil.GRADEDITEM_MAXPOINTS, gi.getMaxPoints());
-			ps.setInt(DbUtil.GRADEDITEM_SCORINGMETHOD, gi.getScoringMethod());
-			ps.setDouble(DbUtil.GRADEDITEM_WEIGHT, gi.getWeightage());
-			ps.setBoolean(DbUtil.GRADEDITEM_INCLUDE, true);
+			ps.setString(DbUtil.GRADEDITEM_NAME - 1, gi.getName());
+			ps.setInt(DbUtil.GRADEDITEM_CATID - 1, categoryId);
+			ps.setDouble(DbUtil.GRADEDITEM_MAXPOINTS - 1, gi.getMaxPoints());
+			ps.setInt(DbUtil.GRADEDITEM_SCORINGMETHOD - 1, gi.getScoringMethod());
+			ps.setDouble(DbUtil.GRADEDITEM_WEIGHT - 1, gi.getWeightage());
+			ps.setBoolean(DbUtil.GRADEDITEM_INCLUDE - 1, true);
 			ps.execute();
 			
 	        conn.close();      
@@ -630,7 +625,7 @@ public class Database {
 		try {
 			conn = dataSource.getConnection();
 			String query = "DELETE FROM GradedItem " +
-					"WHERE gradedItemIt = " + gradedItemId;
+					"WHERE gradedItemId = " + gradedItemId;
 			
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.execute();
