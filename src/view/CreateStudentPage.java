@@ -22,6 +22,8 @@ public class CreateStudentPage extends javax.swing.JFrame {
     
     public CreateStudentPage(int courseId) {
     	this.courseID = courseId;
+    	//TODO: link to DB
+    	initComponents();
     }
 
     /**

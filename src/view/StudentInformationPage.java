@@ -38,7 +38,10 @@ public class StudentInformationPage extends javax.swing.JFrame {
     public StudentInformationPage(int courseId) {
     	this.courseID = courseId;
     	this.studentInformationController = new StudentInformationController(this.courseID);
+    	this.studentTableMatrix = this.studentInformationController.getStudentDataIn2dArray(courseID);
+    	this.studentTableCols = new String [] {"Student ID", "Student Name", "Student Email", "Note"};
     	initComponents();
+    	
     	
     }
     
@@ -115,7 +118,7 @@ public class StudentInformationPage extends javax.swing.JFrame {
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(semesterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(couseNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(88, 88, 88))
+                .addGap(18, 18, 18))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,38 +141,7 @@ public class StudentInformationPage extends javax.swing.JFrame {
         mainTableScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         mainTableScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        StudentInfoTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                { new Integer(123), "Chi", null, null},
-                { new Integer(456), "John", null, null},
-                { new Integer(789), "Abhi", null, null},
-                { new Integer(111), "Yang", null, null},
-                { new Integer(3333), "Claire", null, null},
-                { new Integer(222), "Terry", null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Student ID", "Student Name", "Student Email", "Note"
-            }
-        ) {
+        StudentInfoTable.setModel(new javax.swing.table.DefaultTableModel(this.studentTableMatrix, this.studentTableCols) {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
@@ -315,6 +287,19 @@ public class StudentInformationPage extends javax.swing.JFrame {
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
         // jump back to the course selection page, 
         // TODO: save the note in the database
+    	
+    	//update the notes column: index 3
+    	for(int i=0; i< this.StudentInfoTable.getRowCount();i++) {
+    		this.studentTableMatrix[i][3] = this.StudentInfoTable.getModel().getValueAt(i, 3);
+    	}
+    	
+    	for(Object[] s1:this.studentTableMatrix) {
+    		for(Object s2: s1) {
+    			System.out.println(s2);
+    		}
+    	}
+    	//TODO: wait for the update method in controller
+    	//this.studentInformationController.convert2dArrayToHashmap(updatedData, categoryId, courseId);
     	HomePage homePage = new HomePage(this.courseID);
         homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         homePage.setLocationRelativeTo( null ); // set the previous window location
@@ -332,7 +317,12 @@ public class StudentInformationPage extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelBtActionPerformed
 
     private void createStudentBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createStudentBtActionPerformed
-        // TODO add your handling code here:
+        // Jump tp create student page, takes in a course:
+    	CreateStudentPage createStudentPage = new CreateStudentPage(this.courseID);
+    	createStudentPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	createStudentPage.setLocationRelativeTo( null ); // set the previous window location
+    	createStudentPage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_createStudentBtActionPerformed
 
     private void searchStudentjTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchStudentjTextFieldActionPerformed
@@ -381,7 +371,7 @@ public class StudentInformationPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentInformationPage().setVisible(true);
+                new StudentInformationPage(1).setVisible(true);
                 
             }
         });
@@ -403,4 +393,31 @@ public class StudentInformationPage extends javax.swing.JFrame {
     private javax.swing.JLabel semesterLabel;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
+    private Object[][] tempTable = new Object [][] {
+        { new Integer(123), "Chi", null, null},
+        { new Integer(456), "John", null, null},
+        { new Integer(789), "Abhi", null, null},
+        { new Integer(111), "Yang", null, null},
+        { new Integer(3333), "Claire", null, null},
+        { new Integer(222), "Terry", null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null}
+    };
 }
