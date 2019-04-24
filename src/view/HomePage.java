@@ -19,7 +19,10 @@ import model.Course;
  */
 public class HomePage extends javax.swing.JFrame {
 
+	// fields
 	private int courseID;
+	private Object[][] mainTableMatrix;
+	private String[] mainTableCols;
 	/**
 	 * Controller field 
 	 */
@@ -40,6 +43,9 @@ public class HomePage extends javax.swing.JFrame {
     public HomePage(int courseID) {
     	this.courseID = courseID;
     	this.courseworkSummaryController = new CourseworkSummaryController(courseID);
+    	this.mainTableMatrix = this.courseworkSummaryController.getStudentDataIn2dArray();
+    	//TODO: add table columns 
+    	Course course = this.courseworkSummaryController.getCourse(courseID);
     	initComponents();
     }
     
@@ -97,17 +103,17 @@ public class HomePage extends javax.swing.JFrame {
         titleLabel.setText("Dashboard");
 
         /**
-         * DONE: get course name for this course
+         * TODO: get course name for this course
          */
         //this.courseworkSummaryController.getDashboardInfo(courseID);
         couseNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         couseNameLabel.setForeground(new java.awt.Color(255, 255, 255));
-        Course course = this.courseworkSummaryController.getCourse(this.courseID);
+        //Course course = this.courseworkSummaryController.getCourse(this.courseID);
         couseNameLabel.setText("testing name");
 
         
         /**
-         * DONE: get course semester for this course
+         * TODO: get course semester for this course
          */
         semesterLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         semesterLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -296,7 +302,7 @@ public class HomePage extends javax.swing.JFrame {
             }
         ));
         // set rows height
-        mainSummaryTable.setRowHeight(30);
+        mainSummaryTable.setRowHeight(35);
         // set column width
         TableColumnModel columnModel = mainSummaryTable.getColumnModel();
         int cols = mainSummaryTable.getColumnCount();
@@ -375,7 +381,12 @@ public class HomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backToCourseSelectBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToCourseSelectBtActionPerformed
-        // TODO add your handling code here:
+    	// jump back to the course selection page
+    	CourseSelectionPage courseSelectionPage = new CourseSelectionPage();
+        courseSelectionPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        courseSelectionPage.setLocationRelativeTo( null ); // set the previous window location
+        courseSelectionPage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_backToCourseSelectBtActionPerformed
 
     private void exportCSVBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportCSVBtActionPerformed
@@ -387,19 +398,38 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_addNoteBtActionPerformed
 
     private void courseRubricBt4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseRubricBt4ActionPerformed
-        // TODO add your handling code here:
+        // TODO jump to grading rubric page, takes in courseID
+    	GradingRubricPage gradingRubricPage = new GradingRubricPage(this.courseID);
+    	gradingRubricPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	gradingRubricPage.setLocationRelativeTo( null ); // set the previous window location
+    	gradingRubricPage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_courseRubricBt4ActionPerformed
 
     private void courseLogisticBt3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseLogisticBt3ActionPerformed
-        // TODO add your handling code here:
+        // TODO jump to course logistic page, takes in courseID:
+    	CourseLogisticPage courseLogisticPage = new CourseLogisticPage(this.courseID);
+    	courseLogisticPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	courseLogisticPage.setLocationRelativeTo( null ); // set the previous window location
+    	courseLogisticPage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_courseLogisticBt3ActionPerformed
 
     private void createCourseworkBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createCourseworkBtActionPerformed
-        // TODO add your handling code here:
+        // TODO jump to createCoursework page, takes in courseID:
+    	CreateCourseWorkPage createCourseWorkPage = new CreateCourseWorkPage(this.courseID);
+    	createCourseWorkPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	createCourseWorkPage.setLocationRelativeTo( null ); // set the previous window location
+    	createCourseWorkPage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_createCourseworkBtActionPerformed
 
     private void studentInfoBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentInfoBtActionPerformed
-        // TODO connect to the student info page:
+    	StudentInformationPage studentInformationPage = new StudentInformationPage(this.courseID);
+    	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	studentInformationPage.setLocationRelativeTo( null ); // set the previous window location
+    	studentInformationPage.setVisible(true);
+        dispose();
         
     }//GEN-LAST:event_studentInfoBtActionPerformed
 
@@ -434,7 +464,7 @@ public class HomePage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	// VIEW the course ID: 1
-                new HomePage(1).setVisible(true);
+                new HomePage().setVisible(true);
             }
         });
     }

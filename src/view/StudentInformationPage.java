@@ -17,12 +17,20 @@ import javax.swing.table.TableRowSorter;
  */
 public class StudentInformationPage extends javax.swing.JFrame {
 
+	//fields
+	private int courseID;
     /**
      * Creates new form StudentInformationPage
      */
     public StudentInformationPage() {
         initComponents();
         
+    }
+    
+    public StudentInformationPage(int courseId) {
+    	this.courseID = courseId;
+    	initComponents();
+    	
     }
     
     /**
@@ -165,6 +173,7 @@ public class StudentInformationPage extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        StudentInfoTable.setRowHeight(35);
         StudentInfoTable.setColumnSelectionAllowed(true);
         StudentInfoTable.getTableHeader().setReorderingAllowed(false);
         mainTableScrollPane.setViewportView(StudentInfoTable);

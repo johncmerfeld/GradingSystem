@@ -11,11 +11,21 @@ package view;
  */
 public class CourseLogisticPage extends javax.swing.JFrame {
 
+	//fields
+	private int courseID;
     /**
      * Creates new form CourseLogisticPage
      */
     public CourseLogisticPage() {
         initComponents();
+    }
+    
+    /**
+     * constructor takes in a course ID
+     * @param courseId
+     */
+    public CourseLogisticPage(int courseId) {
+    	this.courseID = courseId;
     }
 
     /**

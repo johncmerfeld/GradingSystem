@@ -11,11 +11,22 @@ package view;
  */
 public class GradingRubricPage extends javax.swing.JFrame {
 
+	//fields
+	private int courseID;
+	
     /**
      * Creates new form gradingRubric
      */
     public GradingRubricPage() {
         initComponents();
+    }
+    
+    /**
+     * constructor takes in the course ID
+     * @param courseId
+     */
+    public GradingRubricPage(int courseId) {
+    	this.courseID = courseId;
     }
 
     /**
