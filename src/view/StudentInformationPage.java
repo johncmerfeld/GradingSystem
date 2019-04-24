@@ -11,6 +11,9 @@ import javax.swing.RowSorter;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import controller.StudentInformationController;
+import model.Course;
+
 /**
  *
  * @author chizhang
@@ -21,6 +24,9 @@ public class StudentInformationPage extends javax.swing.JFrame {
 	private int courseID;
 	private Object[][] studentTableMatrix;
 	private String[] studentTableCols;
+	
+	//controller
+	StudentInformationController studentInformationController;
     /**
      * Creates new form StudentInformationPage
      */
@@ -31,6 +37,7 @@ public class StudentInformationPage extends javax.swing.JFrame {
     
     public StudentInformationPage(int courseId) {
     	this.courseID = courseId;
+    	this.studentInformationController = new StudentInformationController(this.courseID);
     	initComponents();
     	
     }
@@ -86,13 +93,16 @@ public class StudentInformationPage extends javax.swing.JFrame {
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
         titleLabel.setText("Student Information");
 
+        //TODO: update course name 
+        Course course = this.studentInformationController.getCourse(this.courseID);
         couseNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         couseNameLabel.setForeground(new java.awt.Color(255, 255, 255));
-        couseNameLabel.setText("Course Name");
+        couseNameLabel.setText(course.getCourseName());
 
+        //TODO: update semester name
         semesterLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         semesterLabel.setForeground(new java.awt.Color(255, 255, 255));
-        semesterLabel.setText("Semester");
+        semesterLabel.setText(course.getCourseSemester());
 
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
@@ -104,7 +114,7 @@ public class StudentInformationPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(semesterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(couseNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(couseNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(88, 88, 88))
         );
         headerPanelLayout.setVerticalGroup(
@@ -305,16 +315,16 @@ public class StudentInformationPage extends javax.swing.JFrame {
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
         // jump back to the course selection page, 
         // TODO: save the note in the database
-        CourseSelectionPage courseSelectionPage = new CourseSelectionPage();
-        courseSelectionPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        courseSelectionPage.setLocationRelativeTo( null ); // set the previous window location
-        courseSelectionPage.setVisible(true);
+    	HomePage homePage = new HomePage(this.courseID);
+        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        homePage.setLocationRelativeTo( null ); // set the previous window location
+        homePage.setVisible(true);
         dispose();
     }//GEN-LAST:event_saveBtActionPerformed
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
         // jump back to the course selection page, without saving anything
-        HomePage homePage = new HomePage();
+        HomePage homePage = new HomePage(this.courseID);
         homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         homePage.setLocationRelativeTo( null ); // set the previous window location
         homePage.setVisible(true);
