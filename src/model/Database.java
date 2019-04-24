@@ -2,6 +2,7 @@ package model;
 import java.sql.*;
 import com.mchange.v2.c3p0.*;
 
+import model.DbUtil;
 import java.util.ArrayList;
 
 public class Database {
@@ -596,20 +597,22 @@ public class Database {
 	public static StudentGrade getStudentGradeByGradedItem(int gradedItemId, int sid) {
 		Connection conn = null;
 		StudentGrade studentGrade = null;
+		GradableItem gi = null;
 		
 		try {
 			conn = dataSource.getConnection();
 
 			String queryGradable = "SELECT * FROM GradedItem " +
 						   "WHERE gradedItemId = " + gradedItemId;
-			
+
 			ResultSet rs = DbUtil.execute(conn, queryGradable);
 			
-			GradableItem gi = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
-					(int) rs.getDouble(DbUtil.GRADEDITEM_MAXPOINTS),
-					rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
-					rs.getDouble(DbUtil.GRADEDITEM_WEIGHT));
-			
+			if (rs.next()) {
+				gi = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
+						(int) rs.getDouble(DbUtil.GRADEDITEM_MAXPOINTS),
+						rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
+						rs.getDouble(DbUtil.GRADEDITEM_WEIGHT));
+			}
 			String queryGrades = "SELECT * FROM StudentGrade " +
 					   "WHERE gradedItemId = " + gradedItemId + 
 					   " AND studentId = " + sid;
@@ -694,3 +697,4 @@ public class Database {
 		return;	
 	}
 }
+
