@@ -15,12 +15,21 @@ import javax.swing.table.AbstractTableModel;
  */
 public class CourseWorkSummaryPage extends javax.swing.JFrame {
 
+	//fields
+	private int courseID;
     /**
      * Creates new form CourseWorkSummaryPage
      */
     public CourseWorkSummaryPage() {
         initComponents();
-        
+    }
+    
+    /**
+     * constructor takes in the course Id
+     * @param courseId
+     */
+    public CourseWorkSummaryPage(int courseId) {
+    	this.courseID = courseId;
     }
 
     /**
