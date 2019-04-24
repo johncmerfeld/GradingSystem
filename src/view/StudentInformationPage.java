@@ -287,19 +287,17 @@ public class StudentInformationPage extends javax.swing.JFrame {
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
         // jump back to the course selection page, 
         // TODO: save the note in the database
-    	
     	//update the notes column: index 3
     	for(int i=0; i< this.StudentInfoTable.getRowCount();i++) {
     		this.studentTableMatrix[i][3] = this.StudentInfoTable.getModel().getValueAt(i, 3);
+    		// update notes in DB
+    		String student_id = "U"+(String) this.studentTableMatrix[i][0];
+    		String student_note = (String) this.studentTableMatrix[i][3];
+    		System.out.println(student_id);
+    		System.out.println(student_note);
+    		//this.studentInformationController.addCommentForStudent(this.courseID, student_id, student_note);
     	}
-    	
-    	for(Object[] s1:this.studentTableMatrix) {
-    		for(Object s2: s1) {
-    			System.out.println(s2);
-    		}
-    	}
-    	//TODO: wait for the update method in controller
-    	//this.studentInformationController.convert2dArrayToHashmap(updatedData, categoryId, courseId);
+    
     	HomePage homePage = new HomePage(this.courseID);
         homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         homePage.setLocationRelativeTo( null ); // set the previous window location

@@ -261,15 +261,21 @@ public class CreateStudentPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
-        // TODO save this new course, read all the new information
+        // TODO save this new student
+    	// jump back to the home page, without saving anything
+    	StudentInformationPage studentInformationPage = new StudentInformationPage(this.courseID);
+    	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	studentInformationPage.setLocationRelativeTo( null ); // set the previous window location
+    	studentInformationPage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_saveBtActionPerformed
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
         // jump back to the home page, without saving anything
-        HomePage homePage = new HomePage(this.courseID);
-        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        homePage.setLocationRelativeTo( null ); // set the previous window location
-        homePage.setVisible(true);
+    	StudentInformationPage studentInformationPage = new StudentInformationPage(this.courseID);
+    	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	studentInformationPage.setLocationRelativeTo( null ); // set the previous window location
+    	studentInformationPage.setVisible(true);
         dispose();
     }//GEN-LAST:event_cancelBtActionPerformed
 
@@ -327,7 +333,7 @@ public class CreateStudentPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateStudentPage().setVisible(true);
+                new CreateStudentPage(1).setVisible(true);
             }
         });
     }

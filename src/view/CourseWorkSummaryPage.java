@@ -17,6 +17,7 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
 
 	//fields
 	private int courseID;
+	private int categoryId;
     /**
      * Creates new form CourseWorkSummaryPage
      */
@@ -25,11 +26,13 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     }
     
     /**
-     * constructor takes in the course Id
+     * constructor takes in course id and the category id
      * @param courseId
+     * @param categoryId
      */
-    public CourseWorkSummaryPage(int courseId) {
+    public CourseWorkSummaryPage(int courseId, int categoryId) {
     	this.courseID = courseId;
+    	initComponents();
     }
 
     /**
@@ -64,10 +67,12 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
         titleLabel.setText("Dashboard");
 
+        // Course Name
         couseNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         couseNameLabel.setForeground(new java.awt.Color(255, 255, 255));
         couseNameLabel.setText("Course Name");
 
+        // Course Semester
         semesterLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         semesterLabel.setForeground(new java.awt.Color(255, 255, 255));
         semesterLabel.setText("Semester");
@@ -309,11 +314,22 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     }//GEN-LAST:event_lockScoresBtActionPerformed
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
-        // TODO add your handling code here:
+    	// jump back to the home page,
+        HomePage homePage = new HomePage(this.courseID);
+        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        homePage.setLocationRelativeTo( null ); // set the previous window location
+        homePage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_cancelBtActionPerformed
 
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
-        // TODO add your handling code here:
+    	// jump back to the home page,
+        // TODO: save grades in the database
+        HomePage homePage = new HomePage(this.courseID);
+        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        homePage.setLocationRelativeTo( null ); // set the previous window location
+        homePage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_saveBtActionPerformed
     private void editScoresBtMouseClicked(java.awt.event.MouseEvent evt) {                                          
     	

@@ -1,7 +1,13 @@
 package view;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 
+import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
 
 import controller.CourseworkSummaryController;
@@ -23,6 +29,8 @@ public class HomePage extends javax.swing.JFrame {
 	private int courseID;
 	private Object[][] mainTableMatrix;
 	private String[] mainTableCols;
+	// selected column (category)
+	private int selectedColIndex;
 	/**
 	 * Controller field 
 	 */
@@ -54,10 +62,7 @@ public class HomePage extends javax.swing.JFrame {
     	return this.courseID;
     }
     
-//    public CourseworkSummaryController getCourseworkSummaryController() {
-//    	return this.courseworkSummaryController;
-//    }
-//    
+    
     /**
      * 
      * TODO: get all category names
@@ -65,6 +70,68 @@ public class HomePage extends javax.swing.JFrame {
      */
     private ArrayList<String> getAllCategories() {
     	return null;
+    }
+    
+    private class mainTableMouseAdapter extends Object
+    implements MouseListener, MouseWheelListener, MouseMotionListener {
+    	private HomePage homepage;
+    	/**
+    	 * takes in a homepage
+    	 * @param homePage
+    	 */
+    	public mainTableMouseAdapter(HomePage homePage) {
+    		this.homepage = homePage;
+    	}
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			
+		}
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			
+		}
+		@Override
+		public void mouseWheelMoved(MouseWheelEvent e) {
+			
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getClickCount() == 2) {
+				JTable target = this.homepage.mainSummaryTable;
+                int col = target.columnAtPoint(e.getPoint());
+               // you can play more here to get that cell value and all
+               String name = target.getColumnName(col);
+               System.out.println("Column index selected " + col + " " + name);
+               
+               //Open the coursework summary page
+               //TODO: input course id and category id 
+               int categoryId = col;
+               CourseWorkSummaryPage courseWorkSummaryPage = new CourseWorkSummaryPage(this.homepage.courseID, categoryId);
+               courseWorkSummaryPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+               courseWorkSummaryPage.setLocationRelativeTo( null ); // set the previous window location
+               courseWorkSummaryPage.setVisible(true);
+               dispose();
+               
+            }
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {		
+		}
+		@Override
+		public void mouseReleased(MouseEvent e) {			
+		}
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
     }
 
     /**
@@ -301,7 +368,12 @@ public class HomePage extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 13"
             }
-        ));
+            
+        ) {
+        	public boolean isCellEditable(int row, int column) {
+        	      return false;
+        	   }
+        });
         // set rows height
         mainSummaryTable.setRowHeight(35);
         // set column width
@@ -331,6 +403,9 @@ public class HomePage extends javax.swing.JFrame {
         mainSummaryTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
 
 
+        // add mouse listener for table
+        mainSummaryTable.getTableHeader().addMouseListener(new mainTableMouseAdapter(this));
+        //mainSummaryTable.addMouseListener(new mainTableMouseAdapter(this));
         javax.swing.GroupLayout mainPanel2Layout = new javax.swing.GroupLayout(mainPanel2);
         mainPanel2.setLayout(mainPanel2Layout);
         mainPanel2Layout.setHorizontalGroup(
@@ -465,7 +540,7 @@ public class HomePage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	// VIEW the course ID: 1
-                new HomePage().setVisible(true);
+                new HomePage(1).setVisible(true);
             }
         });
     }
