@@ -26,6 +26,8 @@ public class CourseLogisticPage extends javax.swing.JFrame {
      */
     public CourseLogisticPage(int courseId) {
     	this.courseID = courseId;
+    	//TODO: connect to DB
+    	initComponents();
     }
 
     /**

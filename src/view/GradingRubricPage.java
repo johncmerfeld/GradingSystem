@@ -27,6 +27,8 @@ public class GradingRubricPage extends javax.swing.JFrame {
      */
     public GradingRubricPage(int courseId) {
     	this.courseID = courseId;
+    	//TODO: connect to DB
+    	initComponents();
     }
 
     /**
