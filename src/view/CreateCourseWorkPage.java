@@ -11,11 +11,22 @@ package view;
  */
 public class CreateCourseWorkPage extends javax.swing.JFrame {
 
+	// fields
+	private int courseID;
     /**
      * Creates new form createCourseWork
      */
     public CreateCourseWorkPage() {
         initComponents();
+    }
+    
+    /**
+     * constructor takes in a course ID
+     * @param courseId
+     */
+    public CreateCourseWorkPage(int courseId) {
+    	this.courseID = courseId;
+    	initComponents();
     }
 
     /**

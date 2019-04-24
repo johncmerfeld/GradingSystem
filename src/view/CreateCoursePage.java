@@ -5,8 +5,16 @@
  */
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
+import controller.CourseCreationController;
+import model.Course;
 
 /**
  *
@@ -14,11 +22,118 @@ import javax.swing.JFileChooser;
  */
 public class CreateCoursePage extends javax.swing.JFrame {
 
+	/**
+	 * controller field
+	 */
+	private CourseCreationController courseCreationController = new CourseCreationController();
+	
+	//init upload student as false
+	private boolean hasUploadStudent = false;
+	//init select a grading template as false
+	private boolean hasSelectGradingTemplate = false;
+	// track selected course position for grading template
+	private int selectedCoursePosition;
     /**
      * Creates new form createCourse
      */
     public CreateCoursePage() {
         initComponents();
+    }
+    
+    
+    /**
+     * get the course name text field 
+     * @return
+     */
+    public String getCourseNameText() {
+    	return this.courseNameTextField1.getText();
+    }
+    
+    public String getCourseSemesterText() {
+    	return this.semesterTextField.getText();
+    }
+    /**
+     * get all course name with its semester
+     * @return
+     */
+    private ArrayList<String> getAllCoursesName() {
+    	ArrayList<Course> allCourses = this.courseCreationController.getAllCourses();
+        ArrayList<String> allCoursesName = new ArrayList<String>();
+        for(Course course: allCourses) {
+        	allCoursesName.add(course.getCourseName() + " "+ course.getCourseSemester());
+        }
+        return allCoursesName;
+    }
+    
+    /**
+     * get all course IDs as an array of integers
+     * @return
+     */
+    private ArrayList<Integer> getAllCoursesId() {
+    	ArrayList<Course> allCourses = this.courseCreationController.getAllCourses();
+    	ArrayList<Integer> allCoursesId = new ArrayList<Integer>();
+    	for(Course course: allCourses) {
+    		allCoursesId.add(course.getCourseId());
+    	}
+    	return allCoursesId;
+    }
+    
+    /**
+     * Action Listener classes
+     */
+    private class ReadCourseNameListenser implements ActionListener {
+    	protected CreateCoursePage createCoursePage;
+    	/**
+    	 * constructor
+    	 * @param createCoursePage
+    	 */
+    	public ReadCourseNameListenser(CreateCoursePage createCoursePage) {
+    		this.createCoursePage = createCoursePage;
+    		
+    		
+    	}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			 System.out.println(this.createCoursePage.getCourseNameText());			
+		}
+    	
+    }
+    
+    private class ReadCourseSemesterListenser implements ActionListener {
+    	protected CreateCoursePage createCoursePage;
+    	/**
+    	 * constructor
+    	 * @param createCoursePage
+    	 */
+    	public ReadCourseSemesterListenser(CreateCoursePage createCoursePage) {
+    		this.createCoursePage = createCoursePage;
+    		
+    		
+    	}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			 System.out.println(this.createCoursePage.getCourseSemesterText());			
+		}
+    	
+    }
+    private class ReadSelectTemplateComboBox implements ActionListener {
+    	protected CreateCoursePage createCoursePage;
+    	/**
+    	 * constructor
+    	 * @param createCoursePage
+    	 */
+    	public ReadSelectTemplateComboBox(CreateCoursePage createCoursePage) {
+    		this.createCoursePage = createCoursePage;
+    		
+    		
+    	}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//if user select a item in the combobox, set hasSelectGradingTemplate = true
+			this.createCoursePage.hasSelectGradingTemplate = true;
+			System.out.println("selected a template: " + this.createCoursePage.hasSelectGradingTemplate);
+			 System.out.println(this.createCoursePage.selectTemplateComboBox.getSelectedItem());			
+		}
     }
 
     /**
@@ -105,29 +220,21 @@ public class CreateCoursePage extends javax.swing.JFrame {
             }
         });
 
-        selectTemplateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        selectTemplateComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectTemplateComboBoxActionPerformed(evt);
-            }
-        });
+        String [] coursesArray = this.getAllCoursesName().toArray(new String[0]);
+        selectTemplateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(coursesArray));
+        selectTemplateComboBox.addActionListener(new ReadSelectTemplateComboBox(this));
+        
 
+        //Read semester info
         semesterTextField.setText("Spring 2019");
-        semesterTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                semesterTextFieldActionPerformed(evt);
-            }
-        });
+        semesterTextField.addActionListener(new ReadCourseSemesterListenser(this));
 
         semesterLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
         semesterLabel.setText("Semester");
 
-        courseNameTextField1.setText("CS 591");
-        courseNameTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                courseNameTextField1ActionPerformed(evt);
-            }
-        });
+        // Read course name info
+        courseNameTextField1.setText("");
+        courseNameTextField1.addActionListener(new ReadCourseNameListenser(this));
 
         initTemplateLabel.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
         initTemplateLabel.setText("Initialize From Template (Optional)");
@@ -222,11 +329,66 @@ public class CreateCoursePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
-        // TODO save this new course, read all the new information
+        // save this new course, read all the new information
+    	String csvFile = this.attachStudentTextField.getText();
+		int selectedCourseIndex = this.selectTemplateComboBox.getSelectedIndex();
+		int selectedCourseId = this.getAllCoursesId().get(selectedCourseIndex);
+		boolean isValidCsvFile = false;
+		// check for valid csv
+		if(csvFile.length()>4) {
+			isValidCsvFile = csvFile.substring(csvFile.length()-4).equals(".csv");
+		}
+
+		// check for valid course name and course semester
+		if (this.getCourseNameText().equals("") || this.getCourseSemesterText().equals("")) {
+			JOptionPane.showMessageDialog(this, "Course name and semester must be none empty!");
+		} else if(this.hasUploadStudent && ! isValidCsvFile) {
+			JOptionPane.showMessageDialog(this, "Please upload a valid CSV file!");
+		}
+		else {
+			
+    	if(this.hasSelectGradingTemplate && this.hasUploadStudent) {
+    		if(! isValidCsvFile) {
+    			JOptionPane.showMessageDialog(this, "Please upload a valid CSV file!");
+    		}else {
+    		
+    		this.courseCreationController.createNewCourseFromTemplateWithListOfStudents(this.getCourseNameText(), this.getCourseSemesterText(), selectedCourseId, csvFile);
+    		
+    		}
+    		
+    	}
+    	else if(this.hasSelectGradingTemplate) {
+    		System.out.println("selectedCourseId: "+selectedCourseId);
+    		this.courseCreationController.createNewCourseFromTemplate(this.getCourseNameText(), this.getCourseSemesterText(), selectedCourseId);
+    	} 
+    	else if(this.hasUploadStudent) {
+    		if(! isValidCsvFile) {
+    			JOptionPane.showMessageDialog(this, "Please upload a valid CSV file!");
+    		} else {
+    		
+    		this.courseCreationController.createNewCourseWithListOfStudents(this.getCourseNameText(), this.getCourseSemesterText(), csvFile);
+    		
+    		}
+    	} 
+    	else {
+    		this.courseCreationController.createNewCourse(this.getCourseNameText(), this.getCourseSemesterText());
+    	}
+    	// jump back to the course selection page
+    	CourseSelectionPage courseSelectionPage = new CourseSelectionPage();
+        courseSelectionPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        courseSelectionPage.setLocationRelativeTo( null ); // set the previous window location
+        courseSelectionPage.setVisible(true);
+        dispose();
+
+		}
+    	
+    	
+        
     }//GEN-LAST:event_saveBtActionPerformed
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
         // jump back to the course selection page, without saving anything
+    	// Wait for the DB connect
         CourseSelectionPage courseSelectionPage = new CourseSelectionPage();
         courseSelectionPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         courseSelectionPage.setLocationRelativeTo( null ); // set the previous window location
@@ -256,7 +418,13 @@ public class CreateCoursePage extends javax.swing.JFrame {
         chooser.showOpenDialog(null);
         File file = chooser.getSelectedFile();
         String fileName  = file.getAbsolutePath();
-        this.attachStudentTextField.setText(fileName);   
+        //TODO: handle cancel when upload
+        this.attachStudentTextField.setText(fileName); 
+        System.out.println(fileName);
+        // set the upload student to true if click upload button
+        this.hasUploadStudent = true;
+        System.out.println("hasUploadStudent: "+this.hasUploadStudent);
+        
         
     }//GEN-LAST:event_attachStudentBtActionPerformed
 

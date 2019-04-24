@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import javax.swing.table.TableColumnModel;
 
+import controller.CourseworkSummaryController;
+import model.Course;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,8 +19,15 @@ import javax.swing.table.TableColumnModel;
  */
 public class HomePage extends javax.swing.JFrame {
 
+	// fields
 	private int courseID;
-	//private CourseworkSummaryController courseworkSummaryController;
+	private Object[][] mainTableMatrix;
+	private String[] mainTableCols;
+	/**
+	 * Controller field 
+	 */
+	private CourseworkSummaryController courseworkSummaryController;
+	
     /**
      * Creates new form home Page
      */
@@ -32,7 +42,10 @@ public class HomePage extends javax.swing.JFrame {
      */
     public HomePage(int courseID) {
     	this.courseID = courseID;
-    	//this.courseworkSummaryController = new CourseworkSummaryController(courseID);
+    	this.courseworkSummaryController = new CourseworkSummaryController(courseID);
+    	this.mainTableMatrix = this.courseworkSummaryController.getStudentDataIn2dArray();
+    	//TODO: add table columns 
+    	Course course = this.courseworkSummaryController.getCourse(courseID);
     	initComponents();
     }
     
@@ -95,7 +108,8 @@ public class HomePage extends javax.swing.JFrame {
         //this.courseworkSummaryController.getDashboardInfo(courseID);
         couseNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         couseNameLabel.setForeground(new java.awt.Color(255, 255, 255));
-        couseNameLabel.setText("Course Name");
+        //Course course = this.courseworkSummaryController.getCourse(this.courseID);
+        couseNameLabel.setText("testing name");
 
         
         /**
@@ -103,7 +117,7 @@ public class HomePage extends javax.swing.JFrame {
          */
         semesterLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         semesterLabel.setForeground(new java.awt.Color(255, 255, 255));
-        semesterLabel.setText("Semester");
+        semesterLabel.setText("testing semester");
 
         backToCourseSelectBt.setBackground(new java.awt.Color(255, 255, 255));
         backToCourseSelectBt.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -288,7 +302,7 @@ public class HomePage extends javax.swing.JFrame {
             }
         ));
         // set rows height
-        mainSummaryTable.setRowHeight(30);
+        mainSummaryTable.setRowHeight(35);
         // set column width
         TableColumnModel columnModel = mainSummaryTable.getColumnModel();
         int cols = mainSummaryTable.getColumnCount();
@@ -367,7 +381,12 @@ public class HomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backToCourseSelectBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToCourseSelectBtActionPerformed
-        // TODO add your handling code here:
+    	// jump back to the course selection page
+    	CourseSelectionPage courseSelectionPage = new CourseSelectionPage();
+        courseSelectionPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        courseSelectionPage.setLocationRelativeTo( null ); // set the previous window location
+        courseSelectionPage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_backToCourseSelectBtActionPerformed
 
     private void exportCSVBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportCSVBtActionPerformed
@@ -379,19 +398,38 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_addNoteBtActionPerformed
 
     private void courseRubricBt4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseRubricBt4ActionPerformed
-        // TODO add your handling code here:
+        // TODO jump to grading rubric page, takes in courseID
+    	GradingRubricPage gradingRubricPage = new GradingRubricPage(this.courseID);
+    	gradingRubricPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	gradingRubricPage.setLocationRelativeTo( null ); // set the previous window location
+    	gradingRubricPage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_courseRubricBt4ActionPerformed
 
     private void courseLogisticBt3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseLogisticBt3ActionPerformed
-        // TODO add your handling code here:
+        // TODO jump to course logistic page, takes in courseID:
+    	CourseLogisticPage courseLogisticPage = new CourseLogisticPage(this.courseID);
+    	courseLogisticPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	courseLogisticPage.setLocationRelativeTo( null ); // set the previous window location
+    	courseLogisticPage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_courseLogisticBt3ActionPerformed
 
     private void createCourseworkBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createCourseworkBtActionPerformed
-        // TODO add your handling code here:
+        // TODO jump to createCoursework page, takes in courseID:
+    	CreateCourseWorkPage createCourseWorkPage = new CreateCourseWorkPage(this.courseID);
+    	createCourseWorkPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	createCourseWorkPage.setLocationRelativeTo( null ); // set the previous window location
+    	createCourseWorkPage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_createCourseworkBtActionPerformed
 
     private void studentInfoBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentInfoBtActionPerformed
-        // TODO connect to the student info page:
+    	StudentInformationPage studentInformationPage = new StudentInformationPage(this.courseID);
+    	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	studentInformationPage.setLocationRelativeTo( null ); // set the previous window location
+    	studentInformationPage.setVisible(true);
+        dispose();
         
     }//GEN-LAST:event_studentInfoBtActionPerformed
 
@@ -425,6 +463,7 @@ public class HomePage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+            	// VIEW the course ID: 1
                 new HomePage().setVisible(true);
             }
         });
