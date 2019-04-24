@@ -3,7 +3,6 @@ import java.sql.*;
 import com.mchange.v2.c3p0.*;
 
 import model.DbUtil;
-
 import java.util.ArrayList;
 
 public class Database {
