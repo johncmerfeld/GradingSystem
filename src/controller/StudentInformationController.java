@@ -44,6 +44,12 @@ public class StudentInformationController extends DashboardBasicsController impl
 		}
 		return data;
 	}
+
+	@Override
+	public HashMap<Student, StudentInfo> convert2dArrayToHashmap(String[][] updatedData, int categoryId, int courseId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 
