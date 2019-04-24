@@ -19,6 +19,8 @@ public class StudentInformationPage extends javax.swing.JFrame {
 
 	//fields
 	private int courseID;
+	private Object[][] studentTableMatrix;
+	private String[] studentTableCols;
     /**
      * Creates new form StudentInformationPage
      */
