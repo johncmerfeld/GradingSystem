@@ -5,6 +5,25 @@ import com.mchange.v2.c3p0.*;
 import model.DbUtil;
 import java.util.ArrayList;
 
+/**
+ * Database backend for the GradingSystem application
+ * 
+ * 		There is a lot of code in here. As a result, the controller classes have
+ * zero knowledge about the database architecture, and that is as it should be. 
+ * The functions in this file get a connection from the pool (see DbUtil for
+ * details), execute one or more queries, and close their connection.
+ * 
+ * 		There are four flavors of Database functions. "Adders" insert entire new
+ * rows into a table. "Updaters" modify existing records. "Getters" return data
+ * objects read from the database. "Deleters" remove records.
+ * 
+ * 		Whenever possible, functions are organized according to the logical 
+ * ordering of the database tables (Course, StudentType, Student, Enrolled, 
+ * Category, ScoringMethod, GradedItem, StudentGrade).
+ * 
+ * 		Contact John Merfeld with questions
+ */
+
 public class Database {
 	
 	private static ComboPooledDataSource dataSource;
@@ -698,4 +717,3 @@ public class Database {
 		return;	
 	}
 }
-

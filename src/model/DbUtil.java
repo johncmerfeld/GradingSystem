@@ -2,6 +2,22 @@ package model;
 import java.sql.*;
 import com.mchange.v2.c3p0.*;
 
+/**
+ * Utilities for the Database class.
+ * 
+ * 		Java's SQL methods require positional indexes of columns to get and set data.
+ * We keep hardcoded information about the layout of tables in this file so that the
+ * Database code doesn't need to know as much about architecture.
+ *
+ * 		We also handle resource management here; specifically, the C3p0 library 
+ * allows us to keep a "pool" of database connections. It's faster than opening a 
+ * completely new cnnection for every transaction and more secure than leaving the
+ * connection open the entire time the application is running.
+ * 
+ * 		Any repeated Database code that can be transformed into functions should be
+ * put in this file
+ */
+
 public class DbUtil {
 	
 	/* global values */
@@ -55,6 +71,7 @@ public class DbUtil {
 	public static int STUDENTGRADE_SCORE = 3;
 	public static int STUDENTGRADE_NOTES = 4;
 	
+	/* connection setup */
 	public static ComboPooledDataSource init() {
 		ComboPooledDataSource dataSource = new ComboPooledDataSource();
 		dataSource.setJdbcUrl(DbUtil.mySQLurl);
@@ -63,8 +80,7 @@ public class DbUtil {
 		return dataSource;
 	}
 	
-	/* connection pool means we don't have to connect completely freshly
-	   every time */
+	/* helper function for executing SQL */
 	public static ResultSet execute(Connection conn, String sql)
 		throws SQLException {
 		Statement stmt = conn.createStatement(
