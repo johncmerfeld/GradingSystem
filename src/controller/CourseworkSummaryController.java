@@ -1,9 +1,11 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import model.CategoryLevelGrade;
 import model.Course;
+import model.Database;
 import model.Student;
 import model.StudentInfo;
 
@@ -56,5 +58,10 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		}
 		
 		return data;
+	}
+	
+	public ArrayList<Course> getAllCourses() {
+		ArrayList<Course> listOfCourses= Database.getAllCourses();
+		return listOfCourses;
 	}
 }
