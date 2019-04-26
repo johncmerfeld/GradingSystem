@@ -2,18 +2,17 @@ package model;
 
 public class Name {
     String firstName = "";
-    String middleInitial = "";
+    String middleName = "";
     String lastName = "";
     Name(){}
     public Name(String firstName, String middleInitial, String lastName){
         this.firstName = firstName;
-        this.middleInitial = middleInitial;
+        this.middleName = middleInitial;
         this.lastName = lastName;
     }
 
     Name(String firstName, String lastName){
         this.firstName = firstName;
-        //this.middleInitial = middleInitial;
         this.lastName = lastName;
     }
 
@@ -21,8 +20,8 @@ public class Name {
         return firstName;
     }
 
-    public String getMiddleInitial() {
-        return middleInitial;
+    public String getMiddleName() {
+        return middleName;
     }
 
     public String getLastName() {
@@ -37,16 +36,16 @@ public class Name {
         this.lastName = lastName;
     }
 
-    public void setMiddleInitial(String middleInitial) {
-        this.middleInitial = middleInitial;
+    public void setMiddleName(String middleInitial) {
+        this.middleName = middleInitial;
     }
 
     public String getName(){
         if(this.firstName.equals(""))
             return "";
-        if(middleInitial == ""){
+        if(middleName == ""){
             return firstName+" "+lastName;
         }
-        return firstName+" "+middleInitial+" "+lastName;
+        return firstName+" "+middleName+" "+lastName;
     }
 }

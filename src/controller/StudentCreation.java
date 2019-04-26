@@ -9,5 +9,5 @@ import model.StudentType;
 
 public interface StudentCreation {
 	ArrayList<StudentType> getAllStudentTypes();
-	Student createStudent(int courseId, String firstName, String middleInitial, String lastName, String email, String BU_Id, int studentTypeId);
+	Student createStudent(int courseId, String firstName, String middleName, String lastName, String email, String BU_Id, int studentTypeId);
 }
