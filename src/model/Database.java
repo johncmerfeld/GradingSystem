@@ -538,7 +538,8 @@ public class Database {
 			ResultSet rs = DbUtil.execute(conn, query);
 			
 			while (rs.next()) {				
-				GradableItem gradedItem = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
+				GradableItem gradedItem = new GradableItem(
+						rs.getString(DbUtil.GRADEDITEM_NAME),
 						(int) rs.getDouble(DbUtil.GRADEDITEM_MAXPOINTS),
 						rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
 						rs.getDouble(DbUtil.GRADEDITEM_WEIGHT));
