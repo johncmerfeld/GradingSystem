@@ -34,9 +34,13 @@ public class Database {
 	
 	/** 	ADDER FUNCTIONS
 	 * 
-	 * 		There is one function for each of the 8 tables, which adds an
-	 * entirely new row. 
+	 * 		These functions take in objects of the corresponding class
+	 * and add them as new rows to the table in question. Their primary keys
+	 * auto-increment (except for students) and most fields are allowed to be 
+	 * null
 	 */
+	
+	/* add a new row to the Course table */
 	public static void addCourse(Course c) {
 		Connection conn = null;
 		try {
@@ -57,6 +61,7 @@ public class Database {
 	         }	
 	}
 	
+	/* add a row to the StudentType table */
 	public static void addStudentType(int typeId, String typeName) {
 		Connection conn = null;
 		try {
@@ -75,7 +80,8 @@ public class Database {
 	         } 
 	}
 	
-	/* updates Student and Enrolled */
+	/* add a new row to the Enrolled and (if necessary) Student tables */
+	/* we can't add a student unless they are enrolled in a class */
 	public static void addStudentToCourse(Student s, int courseId) {
 		Connection conn = null;
 		try {
