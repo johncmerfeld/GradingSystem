@@ -191,7 +191,7 @@ public class Database {
 	 * 		These functions adjust values in existing table rows
 	 */
 	
-	public static void updateStudentGrade(StudentGrade sg, int courseId) {
+	public static void updateStudentGrade(StudentGrade sg, int gradedItemId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -205,7 +205,7 @@ public class Database {
 			ps.setDouble(1, sg.getGrade().getScore());
 			ps.setString(2, sg.getGrade().getNote());
 			ps.setInt(3, sg.getStudentId());
-			ps.setInt(4, courseId);
+			ps.setInt(4, gradedItemId);
 			
 			ps.execute();
 			
