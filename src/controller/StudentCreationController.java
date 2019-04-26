@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+
 import model.Database;
 import model.Name;
 import model.Student;
@@ -17,7 +18,7 @@ public class StudentCreationController implements StudentCreation {
 	}
 
 	@Override
-	public Student createStudent(int courseId, String firstName, char middleInitial, String lastName, String email,
+	public Student createStudent(int courseId, String firstName, String middleInitial, String lastName, String email,
 			String BU_Id, int studentTypeId) {
 		int bu_id = Integer.parseInt(BU_Id.substring(1));
 		Name name = new Name(firstName, middleInitial, lastName);

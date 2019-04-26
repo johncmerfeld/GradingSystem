@@ -2,10 +2,10 @@ package model;
 
 public class Name {
     String firstName = "";
-    char middleInitial = ' ';
+    String middleInitial = "";
     String lastName = "";
     Name(){}
-    public Name(String firstName, char middleInitial, String lastName){
+    public Name(String firstName, String middleInitial, String lastName){
         this.firstName = firstName;
         this.middleInitial = middleInitial;
         this.lastName = lastName;
@@ -21,7 +21,7 @@ public class Name {
         return firstName;
     }
 
-    public char getMiddleInitial() {
+    public String getMiddleInitial() {
         return middleInitial;
     }
 
@@ -37,14 +37,14 @@ public class Name {
         this.lastName = lastName;
     }
 
-    public void setMiddleInitial(char middleInitial) {
+    public void setMiddleInitial(String middleInitial) {
         this.middleInitial = middleInitial;
     }
 
     public String getName(){
         if(this.firstName.equals(""))
             return "";
-        if(middleInitial == ' '){
+        if(middleInitial == ""){
             return firstName+" "+lastName;
         }
         return firstName+" "+middleInitial+" "+lastName;

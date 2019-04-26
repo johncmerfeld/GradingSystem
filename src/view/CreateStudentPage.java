@@ -5,14 +5,33 @@
  */
 package view;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.swing.JOptionPane;
+
+import controller.StudentCreationController;
+
 /**
  *
  * @author chizhang
  */
 public class CreateStudentPage extends javax.swing.JFrame {
 
+	
+	// controller field
+	private StudentCreationController studentCreationController;
 	//fields
 	private int courseID;
+	private String firstName;
+	private String middleName;
+	private String lastName;
+	private String email;
+	private String bu_id; //starts with a U
+	private int student_type;
+
+	
     /**
      * Creates new form CreateStudentPage
      */
@@ -22,6 +41,12 @@ public class CreateStudentPage extends javax.swing.JFrame {
     
     public CreateStudentPage(int courseId) {
     	this.courseID = courseId;
+    	this.studentCreationController = new StudentCreationController();
+    	this.firstName = "";
+    	this.middleName = "";
+    	this.lastName = "";
+    	this.email = "";
+    	this.bu_id = "";
     	//TODO: link to DB
     	initComponents();
     }
@@ -262,12 +287,32 @@ public class CreateStudentPage extends javax.swing.JFrame {
 
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
         // TODO save this new student
-    	// jump back to the home page, without saving anything
-    	StudentInformationPage studentInformationPage = new StudentInformationPage(this.courseID);
-    	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-    	studentInformationPage.setLocationRelativeTo( null ); // set the previous window location
-    	studentInformationPage.setVisible(true);
-        dispose();
+    	// jump back to the home page, save student
+    	//read student information
+    	this.firstName = this.firstNameTextField.getText();
+    	this.middleName = this.middleNameTextField.getText();
+    	this.lastName = this.lastNameTextField.getText();
+    	this.email = this.emailTextField.getText();
+    	this.bu_id = this.studentIDTextField1.getText();
+    	this.student_type = this.StudentTypeComboBox.getSelectedIndex() + 1;
+    	System.out.println(firstName);
+    	System.out.println(middleName);
+    	System.out.println(lastName);
+    	System.out.println(student_type);
+    	// click for valid student input
+    	if(this.firstName.equals("") || this.lastName.equals("") || this.email.equals("") || !this.validStudentID(this.bu_id)) {
+    		JOptionPane.showMessageDialog(this, "Student first name, last name, email and id must not be empty! Student id must start with 'U'");
+    	} else {
+    		// save the student
+    		this.studentCreationController.createStudent(this.courseID, this.firstName, this.middleName, this.lastName, this.email, this.bu_id, this.student_type);
+    		StudentInformationPage studentInformationPage = new StudentInformationPage(this.courseID);
+        	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        	studentInformationPage.setLocationRelativeTo( null ); // set the previous window location
+        	studentInformationPage.setVisible(true);
+            dispose();
+    	}
+    	
+    	
     }//GEN-LAST:event_saveBtActionPerformed
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
@@ -279,6 +324,29 @@ public class CreateStudentPage extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_cancelBtActionPerformed
 
+    /**
+     * 
+     * @param idString student id as a string
+     * @return if the student id is valid
+     */
+    private boolean validStudentID(String idString) {
+    	final Set<String> numbers = new HashSet<String>(Arrays.asList("0", "1", "2","3","4","5","6","7","8","9"));
+    	if(idString.length()<=1) {
+    		return false;
+    	} 
+    	else {
+    		boolean firstU = idString.substring(0,1).equals("U");
+    		boolean allnumbers = true;
+    		for(int i =1; i<idString.length(); i++) {
+    			String s_i = String.valueOf(idString.charAt(i));
+    			if(!numbers.contains(s_i)) {
+    				return false;
+    			}
+    		}
+    		return firstU && allnumbers;
+    	}
+    	
+    }
     private void lastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_lastNameTextFieldActionPerformed
