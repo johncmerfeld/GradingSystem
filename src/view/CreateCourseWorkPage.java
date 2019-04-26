@@ -232,7 +232,7 @@ public class CreateCourseWorkPage extends javax.swing.JFrame {
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
         // jump back to the home page, without saving anything
-        HomePage homePage = new HomePage();
+        HomePage homePage = new HomePage(this.courseID);
         homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         homePage.setLocationRelativeTo( null ); // set the previous window location
         homePage.setVisible(true);

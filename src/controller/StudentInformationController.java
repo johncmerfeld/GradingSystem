@@ -6,7 +6,6 @@ import java.util.List;
 import model.CategoryLevelGrade;
 import model.Database;
 import model.Student;
-import model.StudentGrade;
 import model.StudentInfo;
 
 public class StudentInformationController extends DashboardBasicsController implements StudentInformation{
@@ -24,6 +23,7 @@ public class StudentInformationController extends DashboardBasicsController impl
 		return dashboardInfo;
 	}
 	
+	// get 2d array with 4 columns: StudentID, StudentName, EMAIL, Note
 	@Override
 	public String[][] getStudentDataIn2dArray(int courseId) {
 		int num_col = 4;
@@ -44,29 +44,13 @@ public class StudentInformationController extends DashboardBasicsController impl
 		}
 		return data;
 	}
-	
-	public HashMap<Student, StudentInfo> convert2dArrayToHashmap(String[][] updatedData, int categoryId, int courseId)
-	{
-		int num_col = 2 + 4;
-		int num_rows = dashboardInfo.size();
-		int row_index = 0;
-		
-		for(row_index = 0; row_index<num_rows; row_index++)
-		{
-			Student student = Database.getStudent(Integer.parseInt(updatedData[row_index][0]));
-			StudentInfo studentInfo = dashboardInfo.get(student);
-			
-			for(row_index=0; row_index<num_rows; row_index++)
-			{
-				String new_note = updatedData[row_index][3];
-				studentInfo.setNote(new_note);
-				addCommentForStudent(courseId, updatedData[row_index][0], new_note);
-			}
-			
-			dashboardInfo = setDashboardInfo(courseId);
-		}
-		
-		return dashboardInfo;
+
+	@Override
+	public HashMap<Student, StudentInfo> convert2dArrayToHashmap(String[][] updatedData, int categoryId, int courseId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+	
+	
 
 }
