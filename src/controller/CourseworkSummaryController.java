@@ -60,6 +60,7 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		return data;
 	}
 	
+	@Override
 	public ArrayList<Course> getAllCourses() {
 		ArrayList<Course> listOfCourses= Database.getAllCourses();
 		return listOfCourses;
