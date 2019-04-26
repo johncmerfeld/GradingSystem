@@ -36,7 +36,7 @@ public class DbUtil {
 	/* Student table column ids */
 	public static int STUDENT_ID = 1;
 	public static int STUDENT_FNAME = 2;
-	public static int STUDENT_MI = 3;
+	public static int STUDENT_MNAME = 3;
 	public static int STUDENT_LNAME = 4;
 	public static int STUDENT_EMAIL = 5;
 	public static int STUDENT_TYPE = 6;

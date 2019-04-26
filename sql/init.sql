@@ -14,7 +14,7 @@ CREATE TABLE StudentType(
 CREATE TABLE Student(
 	studentId INT NOT NULL PRIMARY KEY, -- BUID
 	firstName VARCHAR(30),
-	middleInitial CHAR,
+	middleName VARCHAR(30),
 	lastName VARCHAR(30),
 	email VARCHAR(30),
 	studentType INT,

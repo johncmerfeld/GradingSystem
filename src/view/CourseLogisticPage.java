@@ -26,6 +26,8 @@ public class CourseLogisticPage extends javax.swing.JFrame {
      */
     public CourseLogisticPage(int courseId) {
     	this.courseID = courseId;
+    	//TODO: connect to DB
+    	initComponents();
     }
 
     /**
@@ -221,8 +223,8 @@ public class CourseLogisticPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
-        // jump back to the course selection page, without saving anything
-        HomePage homePage = new HomePage();
+        // jump back to the home page, without saving anything
+        HomePage homePage = new HomePage(this.courseID);
         homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         homePage.setLocationRelativeTo( null ); // set the previous window location
         homePage.setVisible(true);
@@ -230,12 +232,12 @@ public class CourseLogisticPage extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelBtActionPerformed
 
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
-        // jump back to the course selection page,
-        // TODO: save the note in the database
-        CourseSelectionPage courseSelectionPage = new CourseSelectionPage();
-        courseSelectionPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        courseSelectionPage.setLocationRelativeTo( null ); // set the previous window location
-        courseSelectionPage.setVisible(true);
+        // jump back to the home page
+    	//TODO: save the logistic in the DB
+    	HomePage homePage = new HomePage(this.courseID);
+        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        homePage.setLocationRelativeTo( null ); // set the previous window location
+        homePage.setVisible(true);
         dispose();
     }//GEN-LAST:event_saveBtActionPerformed
 

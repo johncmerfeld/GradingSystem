@@ -9,18 +9,37 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
+import controller.CategorySummaryController;
+import model.Course;
+
 /**
  *
  * @author chizhang
  */
 public class CourseWorkSummaryPage extends javax.swing.JFrame {
 
+	// controller field
+	private CategorySummaryController categorySummaryController;
+	//fields
+	private int courseID;
+	private int categoryId;
     /**
      * Creates new form CourseWorkSummaryPage
      */
     public CourseWorkSummaryPage() {
         initComponents();
-        
+    }
+    
+    /**
+     * constructor takes in course id and the category id
+     * @param courseId
+     * @param categoryId
+     */
+    public CourseWorkSummaryPage(int courseId, int categoryId) {
+    	this.courseID = courseId;
+    	this.categoryId = categoryId;
+    	this.categorySummaryController = new CategorySummaryController(courseId);
+    	initComponents();
     }
 
     /**
@@ -55,13 +74,16 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
         titleLabel.setText("Dashboard");
 
+        // Course Name
+        Course course = this.categorySummaryController.getCourse(this.courseID);
         couseNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         couseNameLabel.setForeground(new java.awt.Color(255, 255, 255));
-        couseNameLabel.setText("Course Name");
+        couseNameLabel.setText(course.getCourseName());
 
+        // Course Semester
         semesterLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         semesterLabel.setForeground(new java.awt.Color(255, 255, 255));
-        semesterLabel.setText("Semester");
+        semesterLabel.setText(course.getCourseSemester());
 
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
@@ -73,7 +95,7 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(semesterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(couseNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(couseNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(88, 88, 88))
         );
         headerPanelLayout.setVerticalGroup(
@@ -165,6 +187,8 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        // category summary title
+        // TODO: wait for get list of category
         categorySummaryLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         categorySummaryLabel.setForeground(new java.awt.Color(25, 118, 210));
         categorySummaryLabel.setText("XXX summay  ");
@@ -300,11 +324,22 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     }//GEN-LAST:event_lockScoresBtActionPerformed
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
-        // TODO add your handling code here:
+    	// jump back to the home page,
+        HomePage homePage = new HomePage(this.courseID);
+        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        homePage.setLocationRelativeTo( null ); // set the previous window location
+        homePage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_cancelBtActionPerformed
 
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
-        // TODO add your handling code here:
+    	// jump back to the home page,
+        // TODO: save grades in the database
+        HomePage homePage = new HomePage(this.courseID);
+        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        homePage.setLocationRelativeTo( null ); // set the previous window location
+        homePage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_saveBtActionPerformed
     private void editScoresBtMouseClicked(java.awt.event.MouseEvent evt) {                                          
     	
@@ -350,7 +385,8 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CourseWorkSummaryPage().setVisible(true);
+            	// test course: 1, category:1 
+                new CourseWorkSummaryPage(1,1).setVisible(true);
             }
         });
     }

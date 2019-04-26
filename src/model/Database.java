@@ -89,14 +89,14 @@ public class Database {
 			/* if student doesn't exist at all, first add them to Student table */
 			if (! existenceResult.next()) {
 				String queryStudent = "INSERT INTO Student " + 
-						"(studentId, firstName, middleInitial, lastName, email, studentType)" +
+						"(studentId, firstName, middleName, lastName, email, studentType)" +
 						" VALUES (?, ?, ?, ?, ?, ?)";
 				
 				PreparedStatement ps = conn.prepareStatement(queryStudent);
 
 				ps.setInt(DbUtil.STUDENT_ID, s.getBUId());
 				ps.setString(DbUtil.STUDENT_FNAME, s.getName().getFirstName());
-				ps.setString(DbUtil.STUDENT_MI, String.valueOf(s.getName().getMiddleInitial()));
+				ps.setString(DbUtil.STUDENT_MNAME, s.getName().getMiddleName());
 				ps.setString(DbUtil.STUDENT_LNAME, s.getName().getLastName());
 				ps.setString(DbUtil.STUDENT_EMAIL, s.getEmail());
 				ps.setInt(DbUtil.STUDENT_TYPE, s.isGradStudent() ? 2 : 1);
@@ -340,7 +340,7 @@ public class Database {
 			
 			if (rs.next()) {
 				Name name = new Name(rs.getString(DbUtil.STUDENT_FNAME),
-						rs.getString(DbUtil.STUDENT_MI).charAt(0),
+						rs.getString(DbUtil.STUDENT_MNAME),
 						rs.getString(DbUtil.STUDENT_LNAME));
 						
 				student = new Student(rs.getInt(DbUtil.STUDENT_ID),
@@ -445,7 +445,7 @@ public class Database {
 			
 			while (rs.next()) {
 				Name name = new Name(rs.getString(DbUtil.STUDENT_FNAME),
-						rs.getString(DbUtil.STUDENT_MI).charAt(0),
+						rs.getString(DbUtil.STUDENT_MNAME),
 						rs.getString(DbUtil.STUDENT_LNAME));
 						
 				Student student = new Student(rs.getInt(DbUtil.STUDENT_ID),

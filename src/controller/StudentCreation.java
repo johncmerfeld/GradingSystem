@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+
 import model.Student;
 import model.StudentType;
 
@@ -8,5 +9,5 @@ import model.StudentType;
 
 public interface StudentCreation {
 	ArrayList<StudentType> getAllStudentTypes();
-	Student createStudent(int courseId, String firstName, char middleInitial, String lastName, String email, String BU_Id, int studentTypeId);
+	Student createStudent(int courseId, String firstName, String middleName, String lastName, String email, String BU_Id, int studentTypeId);
 }
