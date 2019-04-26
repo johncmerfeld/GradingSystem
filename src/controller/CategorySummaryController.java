@@ -1,11 +1,13 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale.Category;
 
 import model.CategoryLevelGrade;
 import model.Database;
+import model.GradableItem;
 import model.Grade;
 import model.Student;
 import model.StudentGrade;
@@ -120,6 +122,12 @@ public class CategorySummaryController extends CategoryInformationController imp
 		}
 		
 		return getStudentDataIn2dArray(categoryId);
+	}
+
+	@Override
+	public ArrayList<GradableItem> getAllGradedItems(int categoryId) {
+		ArrayList<GradableItem> listOfGradedItems = Database.getGradedItemsInCategory(categoryId);
+		return listOfGradedItems;
 	}
 
 }

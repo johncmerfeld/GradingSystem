@@ -1,7 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import model.GradableItem;
 import model.Student;
 import model.StudentInfo;
 
@@ -24,5 +26,8 @@ public interface CategorySummary extends DashboardBasics{
 	public String[][] getStudentDataIn2dArray(int categoryId);
 
 	//Edit or add scores by providing a 2d array. Returns a 2d array.
-	String[][] updateScores(String[][] updatedData, int categoryId, int courseId);
+	public String[][] updateScores(String[][] updatedData, int categoryId, int courseId);
+	
+	// Get list of graded items
+	public ArrayList<GradableItem> getAllGradedItems(int categoryId);
 }
