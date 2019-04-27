@@ -18,7 +18,7 @@ public class CategoryLevelGrade {
         for(StudentGrade s:studentGrades){
         	//Null check for gradableItem
         	if(s.getGradableItem() == null)
-        		continue;
+        		break;
         	else if(s.getGradableItem().getScoringMethod() == GradableItem.DEDUCTION){
                 sum += (s.getGradableItem().getMaxPoints() - s.getGrade().getScore())*s.getGradableItem().getWeightage();
             }

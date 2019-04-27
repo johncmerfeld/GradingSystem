@@ -55,6 +55,9 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 	    	data[row_index][col_index++] = s.getName().getName();
 		    for(CategoryLevelGrade cg : categoryLevelGrades)
 		    {
+		    	//Null check for CategoryLevelGrade
+		    	if(cg == null)
+		    		break;
 		    	data[row_index][col_index++] = cg.getCompositeScore() + "";
 		    }
 		}
