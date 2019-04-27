@@ -104,13 +104,9 @@ public class GradingRubricPage extends javax.swing.JFrame {
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"Project Category", null},
-                {"Project1", null},
-                {"Project2", null},
-                {"Project3", null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {"Project 1", null},
+                {"Project 2", null},
+                {"Project 3", null}
             },
             new String [] {
                 "Project Name", "Scoring Weight"
@@ -131,15 +127,23 @@ public class GradingRubricPage extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+            	{"Homework Category", null},
+                {"Homework 1", null},
+                {"Homework 2", null},
+                {"Homework 3", null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+            		"Homework Name", "Scoring Weight"
             }
-        ));
+        ){
+            // only the weight column is editable
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jTabbedPane1.addTab("Homework", jScrollPane1);
