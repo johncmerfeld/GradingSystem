@@ -113,11 +113,12 @@ public class CategorySummaryController extends CategoryInformationController imp
 						//Add it to the studentgrade
 						sg.getGrade().setScore(score);
 						
+						Database.updateStudentGrade(sg, sg.getGradableItem().getId());
 						col_index++;
 					}
 				}	
 			}
-			
+			this.setDashboardInfo(courseId);
 			dashboardInfo.put(student, studentInfo);
 		}
 		
