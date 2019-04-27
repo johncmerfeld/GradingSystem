@@ -42,6 +42,7 @@ public class StudentInformationController extends DashboardBasicsController impl
 	    	data[row_index][col_index++] = s.getName().getName();
 	    	data[row_index][col_index++] = s.getEmail();
 	    	data[row_index][col_index++] = si.getNote();
+	    	row_index++;
 		}
 		return data;
 	}
