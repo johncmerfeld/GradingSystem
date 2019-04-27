@@ -12,6 +12,7 @@ import javax.swing.table.TableColumnModel;
 
 import controller.CourseworkSummaryController;
 import model.Course;
+import model.GradableCategory;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,7 +29,8 @@ public class HomePage extends javax.swing.JFrame {
 	// fields
 	private int courseID;
 	private Object[][] mainTableMatrix;
-	private String[] mainTableCols;
+	private ArrayList<String> mainTableCols = new ArrayList<String>();
+	private ArrayList<Integer> categoryIdList = new ArrayList<Integer>();
 	// selected column (category)
 	private int selectedColIndex;
 	/**
@@ -50,11 +52,18 @@ public class HomePage extends javax.swing.JFrame {
      */
     public HomePage(int courseID) {
     	this.courseID = courseID;
+    	this.mainTableCols.add("Student ID");
+    	this.mainTableCols.add("Student Name");
     	System.out.println("current CourseID: " +this.courseID);
-    	this.courseworkSummaryController = new CourseworkSummaryController(courseID);
-    	//this.mainTableMatrix = this.courseworkSummaryController.getStudentDataIn2dArray();
+    	this.courseworkSummaryController = new CourseworkSummaryController(this.courseID);
+    	this.mainTableMatrix = this.courseworkSummaryController.getStudentDataIn2dArray(this.courseID);
     	//TODO: add table columns 
-    	Course course = this.courseworkSummaryController.getCourse(courseID);
+    	ArrayList<GradableCategory> categories = this.courseworkSummaryController.getAllCategories(this.courseID);
+    	for(GradableCategory cat: categories) {
+    		this.mainTableCols.add(cat.getName());
+    		this.categoryIdList.add(cat.getId());
+    	}
+    	
     	initComponents();
     }
     
@@ -63,20 +72,11 @@ public class HomePage extends javax.swing.JFrame {
     }
     
     
-    /**
-     * 
-     * TODO: get all category names
-     * @return 
-     */
-    private ArrayList<String> getAllCategories() {
-    	return null;
-    }
-    
     private class mainTableMouseAdapter extends Object
     implements MouseListener, MouseWheelListener, MouseMotionListener {
     	private HomePage homepage;
     	/**
-    	 * takes in a homepage
+    	 * takes in a home page
     	 * @param homePage
     	 */
     	public mainTableMouseAdapter(HomePage homePage) {
@@ -99,22 +99,31 @@ public class HomePage extends javax.swing.JFrame {
 		public void mouseClicked(MouseEvent e) {
 			if (e.getClickCount() == 2) {
 				JTable target = this.homepage.mainSummaryTable;
-                int col = target.columnAtPoint(e.getPoint());
-               // you can play more here to get that cell value and all
-               String name = target.getColumnName(col);
-               System.out.println("Column index selected " + col + " " + name);
-               
-               //Open the coursework summary page
-               //TODO: input course id and category id 
-               int categoryId = col;
-               CourseWorkSummaryPage courseWorkSummaryPage = new CourseWorkSummaryPage(this.homepage.courseID, categoryId);
-               courseWorkSummaryPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-               courseWorkSummaryPage.setLocationRelativeTo( null ); // set the previous window location
-               courseWorkSummaryPage.setVisible(true);
-               dispose();
-               
+                int col_index = target.columnAtPoint(e.getPoint());
+                // you can play more here to get that cell value and all
+                String name = target.getColumnName(col_index);
+                System.out.println("Column index selected " + col_index + " " + name);
+                //clicked on the student info columns
+                if(col_index <2) {
+                	//TODO: jump to the student info page
+                	StudentInformationPage studentInformationPage = new StudentInformationPage(this.homepage.courseID);
+                	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+                	studentInformationPage.setLocationRelativeTo( null ); // set the previous window location
+                	studentInformationPage.setVisible(true);
+                    dispose();
+                } else {
+                	//Open the coursework summary page
+                    //TODO: input course id and category id 
+                    int categoryId = this.homepage.categoryIdList.get(col_index-2);
+                    String categoryName = target.getName();
+                    CourseWorkSummaryPage courseWorkSummaryPage = new CourseWorkSummaryPage(this.homepage.courseID, categoryId, categoryName);
+                    courseWorkSummaryPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+                    courseWorkSummaryPage.setLocationRelativeTo( null ); // set the previous window location
+                    courseWorkSummaryPage.setVisible(true);
+                    dispose();
+                } 
             }
-		}
+		} // end mouse clicked 
 
 		@Override
 		public void mousePressed(MouseEvent e) {		
@@ -171,7 +180,7 @@ public class HomePage extends javax.swing.JFrame {
         titleLabel.setText("Dashboard");
 
         /**
-         * TODO: get course name for this course
+         * Done: get course name for this course
          */
         //this.courseworkSummaryController.getDashboardInfo(courseID);
         couseNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
@@ -181,7 +190,7 @@ public class HomePage extends javax.swing.JFrame {
 
         
         /**
-         * TODO: get course semester for this course
+         * Done: get course semester for this course
          */
         semesterLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         semesterLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -333,41 +342,12 @@ public class HomePage extends javax.swing.JFrame {
 
         summaryLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         summaryLabel1.setForeground(new java.awt.Color(25, 118, 210));
-        summaryLabel1.setText("Course work summay  ");
+        summaryLabel1.setText("Course summay  ");
 
         mainTableScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         mainTableScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        mainSummaryTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 13"
-            }
+        mainSummaryTable.setModel(new javax.swing.table.DefaultTableModel(this.mainTableMatrix,this.mainTableCols.toArray()
             
         ) {
         	public boolean isCellEditable(int row, int column) {

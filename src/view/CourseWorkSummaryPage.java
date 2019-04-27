@@ -23,6 +23,7 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
 	//fields
 	private int courseID;
 	private int categoryId;
+	private String categoryName;
     /**
      * Creates new form CourseWorkSummaryPage
      */
@@ -35,10 +36,12 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
      * @param courseId
      * @param categoryId
      */
-    public CourseWorkSummaryPage(int courseId, int categoryId) {
+    public CourseWorkSummaryPage(int courseId, int categoryId, String categoryName) {
     	this.courseID = courseId;
     	this.categoryId = categoryId;
+    	this.categoryName = categoryName;
     	this.categorySummaryController = new CategorySummaryController(courseId);
+    	
     	initComponents();
     }
 
@@ -191,7 +194,7 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         // TODO: wait for get list of category
         categorySummaryLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         categorySummaryLabel.setForeground(new java.awt.Color(25, 118, 210));
-        categorySummaryLabel.setText("XXX summay  ");
+        categorySummaryLabel.setText(this.categoryName+" summary");
 
         mainTableScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         mainTableScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -386,7 +389,7 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	// test course: 1, category:1 
-                new CourseWorkSummaryPage(1,1).setVisible(true);
+                new CourseWorkSummaryPage(1,1, "HW").setVisible(true);
             }
         });
     }

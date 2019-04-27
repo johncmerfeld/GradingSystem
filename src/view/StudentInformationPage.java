@@ -293,9 +293,13 @@ public class StudentInformationPage extends javax.swing.JFrame {
     		// update notes in DB
     		String student_id = "U"+(String) this.studentTableMatrix[i][0];
     		String student_note = (String) this.studentTableMatrix[i][3];
-    		System.out.println(student_id);
-    		System.out.println(student_note);
-    		//this.studentInformationController.addCommentForStudent(this.courseID, student_id, student_note);
+    		System.out.println("student_id: "+ student_id.substring(1));
+    		System.out.println("student_note: "+student_note);
+    		// set student comment
+    		Integer courseId = this.courseID;
+    		if (courseId != null && student_id != null && student_note != null) {
+        		this.studentInformationController.addCommentForStudent(courseId, student_id, student_note);
+    		}
     	}
     
     	HomePage homePage = new HomePage(this.courseID);
