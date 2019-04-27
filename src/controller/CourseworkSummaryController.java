@@ -37,11 +37,10 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		return total/count;
 	}
 	
-	public String[][] getStudentDataIn2dArray()
+	public String[][] getStudentDataIn2dArray(int courseId)
 	{		
-		int num_col = 2 + 4;
+		int num_col = 2 + this.getAllCategories(courseId).size();
 		int num_rows = dashboardInfo.size();
-		
 		int row_index = 0;
 		
 		
