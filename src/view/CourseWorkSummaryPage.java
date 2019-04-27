@@ -5,12 +5,15 @@
  */
 package view;
 
+import java.util.ArrayList;
+
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
 import controller.CategorySummaryController;
 import model.Course;
+import model.GradableItem;
 
 /**
  *
@@ -24,6 +27,9 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
 	private int courseID;
 	private int categoryId;
 	private String categoryName;
+	private Object[][] cateSummaryMatrix;
+	private ArrayList<String> mainTableCols = new ArrayList<String>();
+	private ArrayList<Integer> gradedItemIds = new ArrayList<Integer>();
     /**
      * Creates new form CourseWorkSummaryPage
      */
@@ -41,6 +47,14 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     	this.categoryId = categoryId;
     	this.categoryName = categoryName;
     	this.categorySummaryController = new CategorySummaryController(courseId);
+    	this.mainTableCols.add("Student ID");
+    	this.mainTableCols.add("Student Name");
+    	this.cateSummaryMatrix = this.categorySummaryController.getStudentDataIn2dArray(this.categoryId);
+    	ArrayList<GradableItem> allGradedItems = this.categorySummaryController.getAllGradedItems(this.categoryId);
+    	for(GradableItem gradedItem: allGradedItems) {
+    		this.mainTableCols.add(gradedItem.getName());
+    		this.gradedItemIds.add(gradedItem.getId());
+    	}
     	
     	initComponents();
     }
@@ -388,8 +402,8 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            	// test course: 1, category:1 
-                new CourseWorkSummaryPage(1,1, "HW").setVisible(true);
+            	// test course: 3, category:17 
+                new CourseWorkSummaryPage(3,17, "HW").setVisible(true);
             }
         });
     }
@@ -439,12 +453,12 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     private Object[] columnNames = new String [] {
             "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
         };
-    private javax.swing.table.DefaultTableModel defaultTable = new javax.swing.table.DefaultTableModel(this.rowData, columnNames){
+    private javax.swing.table.DefaultTableModel defaultTable = new javax.swing.table.DefaultTableModel(this.cateSummaryMatrix, this.mainTableCols.toArray()){
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, true
             };
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return this.canEdit [columnIndex];
+                return false;
             }
         };
 }
