@@ -19,10 +19,10 @@ public class CategoryLevelGrade {
         	//Null check for gradableItem
         	if(s.getGradableItem() == null)
         		continue;
-            if(s.getGradableItem().getScoringMethod() == GradableItem.DEDUCTION){
+        	else if(s.getGradableItem().getScoringMethod() == GradableItem.DEDUCTION){
                 sum += (s.getGradableItem().getMaxPoints() - s.getGrade().getScore())*s.getGradableItem().getWeightage();
             }
-            if(s.getGradableItem().getScoringMethod() == GradableItem.PERCENTAGE){
+        	else if(s.getGradableItem().getScoringMethod() == GradableItem.PERCENTAGE){
                 sum+= s.getGradableItem().getMaxPoints()*s.getGrade().getScore()*s.getGradableItem().getWeightage();
             }
             max += s.getGradableItem().getMaxPoints()*s.getGradableItem().getWeightage();
