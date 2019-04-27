@@ -47,7 +47,7 @@ public class StudentInformationController extends DashboardBasicsController impl
 	}
 
 	@Override
-	public String[][] convert2dArrayToHashmap(String[][] updatedData, int categoryId, int courseId) {
+	public String[][] updateStudentInformation(String[][] updatedData, int categoryId, int courseId) {
 		int num_col = 4;
 		int num_rows = dashboardInfo.size();
 		int row_index = 0;
