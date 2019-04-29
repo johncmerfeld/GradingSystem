@@ -60,6 +60,7 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		    		break;
 		    	data[row_index][col_index++] = cg.getCompositeScore() + "";
 		    }
+		    row_index++;
 		}
 		
 		return data;
