@@ -69,9 +69,9 @@ public class CategorySummaryController extends CategoryInformationController imp
 		    	{
 		    		for(StudentGrade sg : cg.getStudentGrades())
 		    		{
-		    			//Null check for sg.getGrade
-		    			if(sg.getGrade() == null)
-		    				break;
+		    			//Null check for sg
+		    			if(sg == null)
+		    				continue;
 		    			data[row_index][col_index++] = sg.getGrade().getScore() + "";
 		    		}	
 		    	}
