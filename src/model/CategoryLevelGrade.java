@@ -20,11 +20,13 @@ public class CategoryLevelGrade {
     public double getCompositeScore(){
         double sum = 0;
         double max = 0;
+        
+      //Null check for gradableItem
+    	if(studentGrades == null)
+    		return 0;
+    	
         for(StudentGrade s:studentGrades){
-        	//Null check for gradableItem
-        	if(s.getGradableItem() == null)
-        		break;
-        	else if(s.getGradableItem().getScoringMethod() == GradableItem.DEDUCTION){
+        	if(s.getGradableItem().getScoringMethod() == GradableItem.DEDUCTION){
                 sum += (s.getGradableItem().getMaxPoints() - s.getGrade().getScore())*s.getGradableItem().getWeightage();
             }
         	else if(s.getGradableItem().getScoringMethod() == GradableItem.PERCENTAGE){
