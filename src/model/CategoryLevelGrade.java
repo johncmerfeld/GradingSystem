@@ -10,6 +10,11 @@ public class CategoryLevelGrade {
     public CategoryLevelGrade(GradableCategory category){
         this.category = category;
         studentGrades = new ArrayList<>();
+        ArrayList<GradableItem> list_ofgradable_items = Database.getGradedItemsInCategory(category.getId());
+        for(GradableItem gi : list_ofgradable_items)
+        {
+        	studentGrades.addAll(Database.getGradesByGradedItem(gi.getId()));
+        }
     }
 
     public double getCompositeScore(){
