@@ -213,7 +213,13 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         mainTableScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         mainTableScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        mainSummaryTable.setModel(this.defaultTable );
+        mainSummaryTable.setModel(new javax.swing.table.DefaultTableModel(this.cateSummaryMatrix,this.mainTableCols.toArray()
+                
+                ) {
+                	public boolean isCellEditable(int row, int column) {
+                	      return false;
+                	   }
+                });
         mainSummaryTable.setColumnSelectionAllowed(true);
         mainSummaryTable.getTableHeader().setReorderingAllowed(false);
         mainTableScrollPane.setViewportView(mainSummaryTable);
@@ -402,8 +408,8 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            	// test course: 3, category:17 
-                new CourseWorkSummaryPage(3,17, "HW").setVisible(true);
+            	// test course: 4, category:20 
+                new CourseWorkSummaryPage(4,20, "Exam").setVisible(true);
             }
         });
     }

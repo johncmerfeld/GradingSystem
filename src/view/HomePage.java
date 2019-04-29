@@ -347,6 +347,7 @@ public class HomePage extends javax.swing.JFrame {
         mainTableScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         mainTableScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
+        // read the table
         mainSummaryTable.setModel(new javax.swing.table.DefaultTableModel(this.mainTableMatrix,this.mainTableCols.toArray()
             
         ) {
@@ -365,20 +366,13 @@ public class HomePage extends javax.swing.JFrame {
         mainTableScrollPane.setViewportView(mainSummaryTable);
         mainSummaryTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (mainSummaryTable.getColumnModel().getColumnCount() > 0) {
-            mainSummaryTable.getColumnModel().getColumn(0).setResizable(false);
-            mainSummaryTable.getColumnModel().getColumn(1).setResizable(false);
-            mainSummaryTable.getColumnModel().getColumn(2).setResizable(false);
-            mainSummaryTable.getColumnModel().getColumn(3).setResizable(false);
-            mainSummaryTable.getColumnModel().getColumn(4).setResizable(false);
-            mainSummaryTable.getColumnModel().getColumn(5).setResizable(false);
-            mainSummaryTable.getColumnModel().getColumn(6).setResizable(false);
-            mainSummaryTable.getColumnModel().getColumn(7).setResizable(false);
-            mainSummaryTable.getColumnModel().getColumn(8).setResizable(false);
-            mainSummaryTable.getColumnModel().getColumn(9).setResizable(false);
-            mainSummaryTable.getColumnModel().getColumn(9).setPreferredWidth(70);
+        	for(int i = 0; i<cols;i++) {
+                mainSummaryTable.getColumnModel().getColumn(i).setResizable(true);
+
+        	}
         }
         for(int i = 0;i<cols;i++){
-            columnModel.getColumn(i).setPreferredWidth(80);
+            columnModel.getColumn(i).setPreferredWidth(130);
         }
         mainSummaryTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
 
@@ -520,7 +514,7 @@ public class HomePage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	// VIEW the course ID: 1
-                new HomePage(1).setVisible(true);
+                new HomePage(4).setVisible(true);
             }
         });
     }
