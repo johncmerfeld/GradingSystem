@@ -21,7 +21,7 @@ public class CategoryLevelGrade {
         double sum = 0;
         double max = 0;
         
-      //Null check for gradableItem
+      //Null check for studentGrades
     	if(studentGrades == null)
     		return 0;
     	

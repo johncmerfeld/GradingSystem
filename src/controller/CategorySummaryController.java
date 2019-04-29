@@ -77,6 +77,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 		    	}
 		    	
 		    }
+		    row_index++;
 		}
 		return data;
 	}
