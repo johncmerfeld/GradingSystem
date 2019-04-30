@@ -126,10 +126,9 @@ public class Database {
 		}
 	}
 	
-	/* add a Student to a course we just created */
+	/* add a student to a course we just created */
 	public static void addStudentToNewCourse(Student s, int courseId) {
 		
-		System.out.println(courseId);
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -161,8 +160,8 @@ public class Database {
 					" VALUES (LAST_INSERT_ID(), ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(queryEnrolled);
-			ps.setInt(DbUtil.ENROLLED_CORID, courseId);
-			ps.setInt(DbUtil.ENROLLED_SID, s.getBUId());
+			//ps.setInt(DbUtil.ENROLLED_CORID, courseId);
+			ps.setInt(1, s.getBUId());
 			ps.execute();
 			
 	        conn.close();      
