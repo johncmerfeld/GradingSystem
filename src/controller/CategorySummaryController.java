@@ -1,11 +1,14 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale.Category;
 
 import model.CategoryLevelGrade;
 import model.Database;
+import model.GradableItem;
+import model.Grade;
 import model.Student;
 import model.StudentGrade;
 import model.StudentInfo;
@@ -16,9 +19,11 @@ public class CategorySummaryController extends CategoryInformationController imp
 		super(courseId);
 	}
 
-	@Override
-	public HashMap<Student, StudentInfo> editScore(int courseId, HashMap<Student, StudentInfo> newScores) {
-		for (HashMap.Entry<Student, StudentInfo> entry : newScores.entrySet()) {
+/*	@Override
+	public String[][] editScore(int courseId, int categoryId, String[][] newScores) {
+		//Convert 2d array to hashmap
+		HashMap<Student, StudentInfo> newScoresHashtable = convert2dArrayToHashmap(newScores, categoryId, courseId);
+		for (HashMap.Entry<Student, StudentInfo> entry : newScoresHashtable.entrySet()) {
 		    Student s = entry.getKey();
 			StudentInfo si = entry.getValue();
 		    List<CategoryLevelGrade> categoryLevelGrades = si.getCategoryLevelGrades();
@@ -28,7 +33,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 		    	{
 		    		if(dashboardInfo.get(s).getCategoryLevelGrades().contains(sg))
 			    	{
-		    			Database.updateStudentGrade(sg, courseId);
+		    			Database.updateStudentGrade(sg, sg.getGradableItem().getId());
 			    	}
 		    		
 		    		else
@@ -39,9 +44,10 @@ public class CategorySummaryController extends CategoryInformationController imp
 		    }
 		}
 		setDashboardInfo(courseId);
-		return this.dashboardInfo;
+		return this.getStudentDataIn2dArray(categoryId);
 	}
 
+*/
 	@Override
 	public String[][] getStudentDataIn2dArray(int categoryId) {
 		int num_col = 2 + 4;
@@ -63,16 +69,22 @@ public class CategorySummaryController extends CategoryInformationController imp
 		    	{
 		    		for(StudentGrade sg : cg.getStudentGrades())
 		    		{
+		    			//Null check for sg
+		    			if(sg == null)
+		    				continue;
 		    			data[row_index][col_index++] = sg.getGrade().getScore() + "";
 		    		}	
 		    	}
 		    	
 		    }
+		    row_index++;
 		}
 		return data;
 	}
 	
-	public HashMap<Student, StudentInfo> convert2dArrayToHashmap(String[][] updatedData, int categoryId, int courseId)
+
+	@Override
+	public String[][] updateScores(String[][] updatedData, int categoryId, int courseId)
 	{
 		int num_col = 2 + 4;
 		int num_rows = dashboardInfo.size();
@@ -80,32 +92,47 @@ public class CategorySummaryController extends CategoryInformationController imp
 		
 		for(row_index = 0; row_index<num_rows; row_index++)
 		{
+			//Find student for each row
 			Student student = Database.getStudent(Integer.parseInt(updatedData[row_index][0]));
 			
+			//Find student info for each row
 			StudentInfo studentInfo = dashboardInfo.get(student);
 			
+			//Each student has a list of category level grades which we find here
 			List<CategoryLevelGrade> list_clg = studentInfo.getCategoryLevelGrades();
 			
-			int col_index = 0;
+			int col_index = 2;
 			
 			for(CategoryLevelGrade clg : list_clg)
 			{
+				//Find correct category
 				if(clg.getCategory().getId() == categoryId)
 				{
+					//Iterate over all the grades of a student that belong to give category
 					for(StudentGrade sg : clg.getStudentGrades())
 					{
-						sg.getGrade().setScore(Integer.parseInt(updatedData[row_index][col_index++]));
+						//Entry in the 2d array
+						double score = Double.parseDouble(updatedData[row_index][col_index]);
+						
+						//Add it to the studentgrade
+						sg.getGrade().setScore(score);
+						
+						Database.updateStudentGrade(sg, sg.getGradableItem().getId());
+						col_index++;
 					}
-				}
-				
+				}	
 			}
-			
+			this.setDashboardInfo(courseId);
 			dashboardInfo.put(student, studentInfo);
-	
-			editScore(courseId, dashboardInfo);
 		}
 		
-		return dashboardInfo;
+		return getStudentDataIn2dArray(categoryId);
+	}
+
+	@Override
+	public ArrayList<GradableItem> getAllGradedItems(int categoryId) {
+		ArrayList<GradableItem> listOfGradedItems = Database.getGradedItemsInCategory(categoryId);
+		return listOfGradedItems;
 	}
 
 }

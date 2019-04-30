@@ -216,7 +216,7 @@ public class Database {
 	 * 		These functions adjust values in existing table rows
 	 */
 	
-	public static void updateStudentGrade(StudentGrade sg, int courseId) {
+	public static void updateStudentGrade(StudentGrade sg, int gradedItemId) {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -230,7 +230,7 @@ public class Database {
 			ps.setDouble(1, sg.getGrade().getScore());
 			ps.setString(2, sg.getGrade().getNote());
 			ps.setInt(3, sg.getStudentId());
-			ps.setInt(4, courseId);
+			ps.setInt(4, gradedItemId);
 			
 			ps.execute();
 			
@@ -593,7 +593,7 @@ public class Database {
 						   "WHERE gradedItemId = " + gradedItemId;
 			
 			ResultSet rs = DbUtil.execute(conn, queryGradable);
-			
+			rs.next();
 			GradableItem gi = new GradableItem(rs.getString(DbUtil.GRADEDITEM_NAME),
 					(int) rs.getDouble(DbUtil.GRADEDITEM_MAXPOINTS),
 					rs.getInt(DbUtil.GRADEDITEM_SCORINGMETHOD),
