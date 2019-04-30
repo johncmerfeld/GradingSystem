@@ -30,6 +30,8 @@ public class CreateStudentPage extends javax.swing.JFrame {
 	private String email;
 	private String bu_id; //starts with a U
 	private int student_type;
+	private String semester;
+	private String courseName;
 
 	
     /**
@@ -39,7 +41,7 @@ public class CreateStudentPage extends javax.swing.JFrame {
         initComponents();
     }
     
-    public CreateStudentPage(int courseId) {
+    public CreateStudentPage(int courseId, String semester, String courseName) {
     	this.courseID = courseId;
     	this.studentCreationController = new StudentCreationController();
     	this.firstName = "";
@@ -47,6 +49,8 @@ public class CreateStudentPage extends javax.swing.JFrame {
     	this.lastName = "";
     	this.email = "";
     	this.bu_id = "";
+    	this.semester = semester;
+    	this.courseName = courseName;
     	//TODO: link to DB
     	initComponents();
     }
@@ -401,7 +405,7 @@ public class CreateStudentPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateStudentPage(1).setVisible(true);
+                new CreateStudentPage(1, "fall2019", "cs444").setVisible(true);
             }
         });
     }

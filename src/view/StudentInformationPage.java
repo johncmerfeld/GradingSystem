@@ -333,7 +333,9 @@ public class StudentInformationPage extends javax.swing.JFrame {
 
     private void createStudentBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createStudentBtActionPerformed
         // Jump to create student page, takes in a course:
-    	CreateStudentPage createStudentPage = new CreateStudentPage(this.courseID);
+    	String semester = this.studentInformationController.getCourse(courseID).getCourseSemester();
+    	String courseName = this.studentInformationController.getCourse(courseID).getCourseName();
+    	CreateStudentPage createStudentPage = new CreateStudentPage(this.courseID, semester,courseName);
     	createStudentPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
     	createStudentPage.setLocationRelativeTo( null ); // set the previous window location
     	createStudentPage.setVisible(true);
