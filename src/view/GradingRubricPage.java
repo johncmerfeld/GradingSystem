@@ -13,7 +13,9 @@ public class GradingRubricPage extends javax.swing.JFrame {
 
 	//fields
 	private int courseID;
-	
+	private String semester;
+	private String courseName;
+    
     /**
      * Creates new form gradingRubric
      */
@@ -25,8 +27,10 @@ public class GradingRubricPage extends javax.swing.JFrame {
      * constructor takes in the course ID
      * @param courseId
      */
-    public GradingRubricPage(int courseId) {
+    public GradingRubricPage(int courseId, String semester, String courseName) {
     	this.courseID = courseId;
+    	this.semester = semester;
+    	this.courseName = courseName;
     	//TODO: connect to DB
     	initComponents();
     }
@@ -65,24 +69,24 @@ public class GradingRubricPage extends javax.swing.JFrame {
 
         couseNameLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         couseNameLabel.setForeground(new java.awt.Color(255, 255, 255));
-        couseNameLabel.setText("Course Name");
+        couseNameLabel.setText(this.courseName);
 
         semesterLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         semesterLabel.setForeground(new java.awt.Color(255, 255, 255));
-        semesterLabel.setText("Semester");
+        semesterLabel.setText(this.semester);
 
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
         headerPanelLayout.setHorizontalGroup(
-            headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(headerPanelLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(semesterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(couseNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(88, 88, 88))
+                headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(headerPanelLayout.createSequentialGroup()
+                    .addGap(25, 25, 25)
+                    .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 236, Short.MAX_VALUE)
+                    .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(couseNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                        .addComponent(semesterLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGap(15, 15, 15))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,7 +286,7 @@ public class GradingRubricPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GradingRubricPage().setVisible(true);
+                new GradingRubricPage(1, "Fall 2019","CS999").setVisible(true);
             }
         });
     }

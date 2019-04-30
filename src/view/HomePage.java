@@ -372,7 +372,7 @@ public class HomePage extends javax.swing.JFrame {
         	}
         }
         for(int i = 0;i<cols;i++){
-            columnModel.getColumn(i).setPreferredWidth(130);
+            columnModel.getColumn(i).setPreferredWidth(140);
         }
         mainSummaryTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
 
@@ -449,7 +449,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void courseRubricBt4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseRubricBt4ActionPerformed
         // TODO jump to grading rubric page, takes in courseID
-    	GradingRubricPage gradingRubricPage = new GradingRubricPage(this.courseID);
+    	GradingRubricPage gradingRubricPage = new GradingRubricPage(this.courseID,this.semesterLabel.getText(), this.couseNameLabel.getText());
     	gradingRubricPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
     	gradingRubricPage.setLocationRelativeTo( null ); // set the previous window location
     	gradingRubricPage.setVisible(true);
@@ -467,7 +467,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void createCourseworkBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createCourseworkBtActionPerformed
         // TODO jump to createCoursework page, takes in courseID:
-    	CreateCourseWorkPage createCourseWorkPage = new CreateCourseWorkPage(this.courseID);
+    	CreateCourseWorkPage createCourseWorkPage = new CreateCourseWorkPage(this.courseID, this.semesterLabel.getText(), this.couseNameLabel.getText());
     	createCourseWorkPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
     	createCourseWorkPage.setLocationRelativeTo( null ); // set the previous window location
     	createCourseWorkPage.setVisible(true);

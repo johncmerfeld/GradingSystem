@@ -7,9 +7,8 @@ package view;
 
 import java.util.ArrayList;
 
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumnModel;
 
 import controller.CategorySummaryController;
 import model.Course;
@@ -52,8 +51,15 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     	this.cateSummaryMatrix = this.categorySummaryController.getStudentDataIn2dArray(this.categoryId);
     	ArrayList<GradableItem> allGradedItems = this.categorySummaryController.getAllGradedItems(this.categoryId);
     	for(GradableItem gradedItem: allGradedItems) {
-    		this.mainTableCols.add(gradedItem.getName());
+    		int scoringMethod = gradedItem.getScoringMethod();
+    		
+    		if(scoringMethod == 1) {
+    			this.mainTableCols.add(gradedItem.getName()+" (D)");
+    		} else if(scoringMethod == 2) {
+    			this.mainTableCols.add(gradedItem.getName()+" (P%)");
+    		}
     		this.gradedItemIds.add(gradedItem.getId());
+    		
     	}
     	
     	initComponents();
@@ -229,47 +235,61 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
                 mainSummaryTableMousePressed(evt);
             }
         });
+        
+        // set rows height
+        mainSummaryTable.setRowHeight(35);
+        TableColumnModel columnModel = mainSummaryTable.getColumnModel();
+        int cols = mainSummaryTable.getColumnCount();
+        if (mainSummaryTable.getColumnModel().getColumnCount() > 0) {
+        	for(int i = 0; i<cols;i++) {
+                mainSummaryTable.getColumnModel().getColumn(i).setResizable(true);
+
+        	}
+        }
+        for(int i = 0;i<cols;i++){
+            columnModel.getColumn(i).setPreferredWidth(140);
+        }
         // check if there is any updates 
-        mainSummaryTable.getModel().addTableModelListener(new TableModelListener() {
-
-        	public void tableChanged(TableModelEvent e) {
-        	    int firstRow = e.getFirstRow();
-        	    int lastRow = e.getLastRow();
-        	    int index = e.getColumn();
-
-        	    switch (e.getType()) {
-        	    case TableModelEvent.INSERT:
-        	      for (int i = firstRow; i <= lastRow; i++) {
-        	        System.out.println(i);
-        	      }
-        	      break;
-        	    case TableModelEvent.UPDATE:
-        	      if (firstRow == TableModelEvent.HEADER_ROW) {
-        	        if (index == TableModelEvent.ALL_COLUMNS) {
-        	          System.out.println("A column was added");
-        	        } else {
-        	          System.out.println(index + "in header changed");
-        	        }
-        	      } else {
-        	        for (int i = firstRow; i <= lastRow; i++) {
-        	          if (index == TableModelEvent.ALL_COLUMNS) {
-        	            System.out.println("All columns have changed");
-        	          } else {
-        	        	System.out.println("row: "+ i);
-        	            System.out.println("column: "+index);
-        	            
-        	          }
-        	        }
-        	      }
-        	      break;
-        	    case TableModelEvent.DELETE:
-        	      for (int i = firstRow; i <= lastRow; i++) {
-        	        System.out.println(i);
-        	      }
-        	      break;
-        	    }
-        	  }
-          }); // end addTableModelListener
+//        mainSummaryTable.getModel().addTableModelListener(new TableModelListener() {
+//
+//        	public void tableChanged(TableModelEvent e) {
+//        	    int firstRow = e.getFirstRow();
+//        	    int lastRow = e.getLastRow();
+//        	    int index = e.getColumn();
+//
+//        	    switch (e.getType()) {
+//        	    case TableModelEvent.INSERT:
+//        	      for (int i = firstRow; i <= lastRow; i++) {
+//        	        System.out.println(i);
+//        	      }
+//        	      break;
+//        	    case TableModelEvent.UPDATE:
+//        	      if (firstRow == TableModelEvent.HEADER_ROW) {
+//        	        if (index == TableModelEvent.ALL_COLUMNS) {
+//        	          System.out.println("A column was added");
+//        	        } else {
+//        	          System.out.println(index + "in header changed");
+//        	        }
+//        	      } else {
+//        	        for (int i = firstRow; i <= lastRow; i++) {
+//        	          if (index == TableModelEvent.ALL_COLUMNS) {
+//        	            System.out.println("All columns have changed");
+//        	          } else {
+//        	        	System.out.println("row: "+ i);
+//        	            System.out.println("column: "+index);
+//        	            
+//        	          }
+//        	        }
+//        	      }
+//        	      break;
+//        	    case TableModelEvent.DELETE:
+//        	      for (int i = firstRow; i <= lastRow; i++) {
+//        	        System.out.println(i);
+//        	      }
+//        	      break;
+//        	    }
+//        	  }
+//          }); // end addTableModelListener
         
         javax.swing.GroupLayout mainPanel2Layout = new javax.swing.GroupLayout(mainPanel2);
         mainPanel2.setLayout(mainPanel2Layout);
@@ -321,19 +341,35 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private class GradedItemsTable extends javax.swing.table.DefaultTableModel {
+    	private Object[][] table;
+    	private Object[] columns;
+    	private Object[] canEdit;
+    	
+    	public GradedItemsTable(Object[][] table, Object[] columns, Object[] canEdit) {
+    		super(table,columns);
+    		this.table = table;
+    		this.columns = columns;
+    		this.canEdit = canEdit;
+    	}
+    	
+    	@Override 
+    	public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return (boolean) this.canEdit [columnIndex];
+        }
+    	
+    }
     private void editScoresBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editScoresBtActionPerformed
         // TODO: make all score columns editable
         System.out.println("clicked edit");
-        
-        this.defaultTable = new javax.swing.table.DefaultTableModel(this.rowData, columnNames) {
-        	boolean[] canEdit = new boolean [] {
-                    true, false, false, false, false, true
-                };
-        	public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return this.canEdit [columnIndex];
-            }
-        	
-        };
+        int numCols = this.mainSummaryTable.getColumnCount();
+        ArrayList<Boolean> canEdit = new ArrayList<Boolean>();
+        canEdit.add(false); //student id can't edit
+        canEdit.add(false); //student name can't edit
+        for(int i=0;i<numCols-2;i++) {
+        	canEdit.add(true);
+        }
+        this.defaultTable = new GradedItemsTable(this.cateSummaryMatrix, this.mainTableCols.toArray(), canEdit.toArray());
 
         mainSummaryTable.setModel(this.defaultTable); // end of set DefaultTableModel
 
@@ -430,35 +466,7 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     private javax.swing.JLabel semesterLabel;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
-    private Object[][] rowData = new Object [][] {
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null},
-        {null, null, null, null, null, null}
-    };
-    private Object[] columnNames = new String [] {
-            "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
-        };
+    
     private javax.swing.table.DefaultTableModel defaultTable = new javax.swing.table.DefaultTableModel(this.cateSummaryMatrix, this.mainTableCols.toArray()){
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, true

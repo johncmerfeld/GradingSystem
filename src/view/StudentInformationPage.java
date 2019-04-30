@@ -288,24 +288,26 @@ public class StudentInformationPage extends javax.swing.JFrame {
         // jump back to the course selection page, 
         // TODO: save the note in the database
     	//update the notes column: index 3
+    	
     	HomePage homePage = new HomePage(this.courseID);
         homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         homePage.setLocationRelativeTo( null ); // set the previous window location
         homePage.setVisible(true);
-        dispose();
     	for(int i=0; i< this.StudentInfoTable.getRowCount();i++) {
     		this.studentTableMatrix[i][3] = this.StudentInfoTable.getModel().getValueAt(i, 3);
     		// update notes in DB
     		String student_id = "U"+(String) this.studentTableMatrix[i][0];
     		String student_note = (String) this.studentTableMatrix[i][3];
-    		System.out.println("student_id: "+ student_id.substring(1));
-    		System.out.println("student_note: "+student_note);
     		// set student comment
     		Integer courseId = this.courseID;
     		if (courseId != null && student_id != null && student_note != null) {
-        		this.studentInformationController.addCommentForStudent(courseId, student_id, student_note);
+        		//this.studentInformationController.addCommentForStudent(courseId, student_id, student_note);
     		}
+    		System.out.println("student_id: "+ student_id.substring(1));
+    		System.out.println("student_note: "+student_note);
     	}
+        dispose();
+
     
     	
     }//GEN-LAST:event_saveBtActionPerformed
