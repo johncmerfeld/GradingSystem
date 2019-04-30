@@ -77,7 +77,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 */
 	@Override
 	public String[][] getStudentDataIn2dArray(int categoryId) {
-		int num_col = 2 + 4;
+		int num_col = this.listOfGradedItems.size() + 2;
 		int num_rows = dashboardInfo.size() + 2;
 		int row_index = 0;
 		
