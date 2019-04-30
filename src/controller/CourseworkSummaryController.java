@@ -43,6 +43,8 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		System.out.println("Point 4 : total = " + total);
 		System.out.println("Point 5 : count = " + count);
 		System.out.println("Point 6 : avg = " + total/count);
+		if(count == 0)
+			return 0;
 		return total/count;
 	}
 	
