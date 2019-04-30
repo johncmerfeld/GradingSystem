@@ -113,10 +113,12 @@ public class CategorySummaryController extends CategoryInformationController imp
 				col_index++;
 			} 
 
-			
+		}	
 			col_index = 1;
 			data[row_index++][col_index++] = "Max Points";
-			
+		
+		if(this.listOfGradedItems != null)
+		{	
 			for(GradableItem gi : this.listOfGradedItems)
 			{
 				if(gi != null)
