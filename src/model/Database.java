@@ -83,6 +83,8 @@ public class Database {
 	/* add a new row to the Enrolled and (if necessary) Student tables */
 	/* we can't add a student unless they are enrolled in a class */
 	public static void addStudentToCourse(Student s, int courseId) {
+		
+		System.out.println(courseId);
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -112,6 +114,51 @@ public class Database {
 			String queryEnrolled = "INSERT INTO Enrolled " + 
 					"(courseId, studentId)" +
 					" VALUES (?, ?)";
+			
+			PreparedStatement ps = conn.prepareStatement(queryEnrolled);
+			ps.setInt(DbUtil.ENROLLED_CORID, courseId);
+			ps.setInt(DbUtil.ENROLLED_SID, s.getBUId());
+			ps.execute();
+			
+	        conn.close();      
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* add a Student to a course we just created */
+	public static void addStudentToNewCourse(Student s, int courseId) {
+		
+		System.out.println(courseId);
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			
+			String existenceQuery = "SELECT * FROM Student " +
+					"WHERE studentId = " + s.getBUId();
+			
+			ResultSet existenceResult = DbUtil.execute(conn, existenceQuery);
+			
+			/* if student doesn't exist at all, first add them to Student table */
+			if (! existenceResult.next()) {
+				String queryStudent = "INSERT INTO Student " + 
+						"(studentId, firstName, middleName, lastName, email, studentType)" +
+						" VALUES (?, ?, ?, ?, ?, ?)";
+				
+				PreparedStatement ps = conn.prepareStatement(queryStudent);
+
+				ps.setInt(DbUtil.STUDENT_ID, s.getBUId());
+				ps.setString(DbUtil.STUDENT_FNAME, s.getName().getFirstName());
+				ps.setString(DbUtil.STUDENT_MNAME, s.getName().getMiddleName());
+				ps.setString(DbUtil.STUDENT_LNAME, s.getName().getLastName());
+				ps.setString(DbUtil.STUDENT_EMAIL, s.getEmail());
+				ps.setInt(DbUtil.STUDENT_TYPE, s.isGradStudent() ? 2 : 1);
+				ps.execute();
+			}
+			
+			String queryEnrolled = "INSERT INTO Enrolled " + 
+					"(courseId, studentId)" +
+					" VALUES (LAST_INSERT_ID(), ?)";
 			
 			PreparedStatement ps = conn.prepareStatement(queryEnrolled);
 			ps.setInt(DbUtil.ENROLLED_CORID, courseId);
