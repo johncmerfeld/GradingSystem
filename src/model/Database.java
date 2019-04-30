@@ -241,7 +241,7 @@ public class Database {
 	}
 	
 	public static void setCommentStudent(int courseId, int sid, String note) {
-		
+
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -261,7 +261,7 @@ public class Database {
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
-	      } 		
+	      } 	
 	}
 	
 	public static void setIncludeGradedItem(int gradedItemId) {
