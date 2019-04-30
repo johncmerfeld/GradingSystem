@@ -29,11 +29,15 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		    List<CategoryLevelGrade> categoryLevelGrades = si.getCategoryLevelGrades();
 		    for(CategoryLevelGrade cg : categoryLevelGrades)
 		    {
-		    	if(cg.getCategory().getId() == categoryId)
+		    	if(cg != null)
 		    	{
-		    		total = total + cg.getCompositeScore();
-		    		count++;
+		    		if(cg.getCategory().getId() == categoryId)
+			    	{
+			    		total = total + cg.getCompositeScore();
+			    		count++;
+			    	}
 		    	}
+		    	
 		    }
 		}
 		return total/count;
@@ -68,10 +72,16 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		int col_index = 1;
 		data[row_index][col_index++] = "Mean";
 		
-		for(GradableCategory gc : this.listOfCategories)
+		if(this.listOfCategories != null)
 		{
-			data[row_index][col_index++] = this.getCategoryLevelMean(gc.getId()) + "";
-		} 
+			for(GradableCategory gc : this.listOfCategories)
+			{
+				if(gc != null)
+					data[row_index][col_index] = this.getCategoryLevelMean(gc.getId()) + "";
+				col_index++;
+			} 
+		}
+		
 		
 		return data;
 	}
