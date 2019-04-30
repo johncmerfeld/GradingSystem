@@ -220,7 +220,9 @@ public class CreateCoursePage extends javax.swing.JFrame {
             }
         });
 
-        String [] coursesArray = this.getAllCoursesName().toArray(new String[0]);
+        ArrayList<String> allCourseNames = this.getAllCoursesName();
+        allCourseNames.add(0, "");
+        String [] coursesArray = allCourseNames.toArray(new String[0]);
         selectTemplateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(coursesArray));
         selectTemplateComboBox.addActionListener(new ReadSelectTemplateComboBox(this));
         
@@ -347,7 +349,7 @@ public class CreateCoursePage extends javax.swing.JFrame {
 		}
 		else {
 			
-    	if(this.hasSelectGradingTemplate && this.hasUploadStudent) {
+    	if(this.hasSelectGradingTemplate && this.hasUploadStudent && selectedCourseIndex!= 0) {
     		if(! isValidCsvFile) {
     			JOptionPane.showMessageDialog(this, "Please upload a valid CSV file!");
     		}else {
@@ -357,7 +359,7 @@ public class CreateCoursePage extends javax.swing.JFrame {
     		}
     		
     	}
-    	else if(this.hasSelectGradingTemplate) {
+    	else if(this.hasSelectGradingTemplate && selectedCourseIndex!= 0) {
     		System.out.println("selectedCourseId: "+selectedCourseId);
     		this.courseCreationController.createNewCourseFromTemplate(this.getCourseNameText(), this.getCourseSemesterText(), selectedCourseId);
     	} 
