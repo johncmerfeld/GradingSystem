@@ -317,11 +317,12 @@ public class StudentInformationPage extends javax.swing.JFrame {
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
         // jump back to the course selection page, without saving anything
+    	dispose();
         HomePage homePage = new HomePage(this.courseID);
         homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         homePage.setLocationRelativeTo( null ); // set the previous window location
         homePage.setVisible(true);
-        dispose();
+        
     }//GEN-LAST:event_cancelBtActionPerformed
 
     private void createStudentBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createStudentBtActionPerformed

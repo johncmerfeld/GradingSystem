@@ -115,8 +115,8 @@ public class HomePage extends javax.swing.JFrame {
                 	//Open the coursework summary page
                     //TODO: input course id and category id 
                     int categoryId = this.homepage.categoryIdList.get(col_index-2);
-                    String categoryName = target.getName();
-                    CourseWorkSummaryPage courseWorkSummaryPage = new CourseWorkSummaryPage(this.homepage.courseID, categoryId, categoryName);
+                    System.out.print(name);
+                    CourseWorkSummaryPage courseWorkSummaryPage = new CourseWorkSummaryPage(this.homepage.courseID, categoryId, name);
                     courseWorkSummaryPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
                     courseWorkSummaryPage.setLocationRelativeTo( null ); // set the previous window location
                     courseWorkSummaryPage.setVisible(true);
@@ -475,11 +475,11 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_createCourseworkBtActionPerformed
 
     private void studentInfoBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentInfoBtActionPerformed
+        dispose();
     	StudentInformationPage studentInformationPage = new StudentInformationPage(this.courseID);
     	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
     	studentInformationPage.setLocationRelativeTo( null ); // set the previous window location
     	studentInformationPage.setVisible(true);
-        dispose();
         
     }//GEN-LAST:event_studentInfoBtActionPerformed
 
