@@ -56,6 +56,7 @@ public class HomePage extends javax.swing.JFrame {
     	this.mainTableCols.add("Student Name");
     	System.out.println("current CourseID: " +this.courseID);
     	this.courseworkSummaryController = new CourseworkSummaryController(this.courseID);
+    	System.out.println("After?");
     	this.mainTableMatrix = this.courseworkSummaryController.getStudentDataIn2dArray(this.courseID);
     	//TODO: add table columns 
     	ArrayList<GradableCategory> categories = this.courseworkSummaryController.getAllCategories(this.courseID);
@@ -475,12 +476,12 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_createCourseworkBtActionPerformed
 
     private void studentInfoBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentInfoBtActionPerformed
-        dispose();
     	StudentInformationPage studentInformationPage = new StudentInformationPage(this.courseID);
-    	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
     	studentInformationPage.setLocationRelativeTo( null ); // set the previous window location
     	studentInformationPage.setVisible(true);
-        
+        dispose();
+
     }//GEN-LAST:event_studentInfoBtActionPerformed
 
     /**
