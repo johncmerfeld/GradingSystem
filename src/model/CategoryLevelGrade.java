@@ -39,8 +39,6 @@ public class CategoryLevelGrade {
             max += s.getGradableItem().getMaxPoints()*s.getGradableItem().getWeightage()/100;
         }
         
-        System.out.println("Sum = "  + sum);
-        System.out.println("Max = "  + max);
         return sum/max;
     }
 
