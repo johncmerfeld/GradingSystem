@@ -72,7 +72,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 	@Override
 	public String[][] getStudentDataIn2dArray(int categoryId) {
 		int num_col = 2 + 4;
-		int num_rows = dashboardInfo.size() + 1;
+		int num_rows = dashboardInfo.size() + 2;
 		int row_index = 0;
 		
 		String[][] data = new String[num_rows][num_col];
@@ -102,13 +102,22 @@ public class CategorySummaryController extends CategoryInformationController imp
 		}
 		
 		int col_index = 1;
-		data[row_index][col_index++] = "Mean";
+		data[row_index++][col_index++] = "Mean";
 		
 		for(GradableItem gi : this.listOfGradedItems)
 		{
 			data[row_index][col_index++] = this.getGradeableItemMean(gi.getId()) + "";
 		} 
+
 		
+		col_index = 1;
+		data[row_index++][col_index++] = "Max Points";
+		
+		for(GradableItem gi : this.listOfGradedItems)
+		{
+			data[row_index][col_index++] = gi.getMaxPoints() + "";
+		} 
+
 		return data;
 	}
 	
