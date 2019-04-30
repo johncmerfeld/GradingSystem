@@ -22,7 +22,8 @@ public class CourseCreationController extends CourseSelectionController implemen
 	@Override
 	public Course createNewCourse(String courseName, String semester) {
 		Course course = new Course(courseName, semester);
-		Database.addCourse(course);
+		int id = Database.addCourse(course);
+		course.setCourseId(id);
 		return course;
 	}
 
@@ -74,7 +75,7 @@ public class CourseCreationController extends CourseSelectionController implemen
 		ArrayList<Student> students = readCSV(csvFile);
 		for(Student s : students)
 		{
-			Database.addStudentToNewCourse(s, course.getCourseId());
+			Database.addStudentToCourse(s, course.getCourseId());
 		}
 		return course;
 	}
@@ -86,14 +87,13 @@ public class CourseCreationController extends CourseSelectionController implemen
 		ArrayList<Student> students = readCSV(csvFile);
 		for(Student s : students)
 		{
-			Database.addStudentToNewCourse(s, course.getCourseId()); 
+			Database.addStudentToCourse(s, course.getCourseId()); 
 		}
 		return course;
 	}
 	
 	private ArrayList<Student> readCSV(String csvFile)
 	{
-		//TODO : Finish this function
 		//Reads csv file and returns list if student objects
 		ArrayList<Student> students = new ArrayList<Student>();
 		
@@ -106,16 +106,17 @@ public class CourseCreationController extends CourseSelectionController implemen
 		     
 			 String [] nextLine;
 		     while ((nextLine = reader.readNext()) != null) {
-		        // nextLine[] is an array of values from the line
-		        BU_id = Integer.parseInt(nextLine[0]);
-		        fname = nextLine[1];
-		        mname = nextLine[2];
-		        lname = nextLine[3];
-		        email = nextLine[4];
-		        isGradStudent = Boolean.parseBoolean(nextLine[5]);
+
+		         // nextLine[] is an array of values from the line
+		         BU_id = Integer.parseInt(nextLine[0]);
+		         fname = nextLine[1];
+		         mname = nextLine[2];
+		         lname = nextLine[3];
+		         email = nextLine[4];
+		         isGradStudent = Boolean.parseBoolean(nextLine[5]);
 		        
-		        Name name = new Name(fname, mname, lname);
-		        students.add(new Student(BU_id, name, email, isGradStudent));	        
+		         Name name = new Name(fname, mname, lname);
+		         students.add(new Student(BU_id, name, email, isGradStudent));	        
 		     }     
 		     reader.close();		
 		} catch (FileNotFoundException e) {

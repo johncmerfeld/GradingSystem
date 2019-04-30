@@ -41,7 +41,11 @@ public class Database {
 	 */
 	
 	/* add a new row to the Course table */
-	public static void addCourse(Course c) {
+	public static int addCourse(Course c) {
+		
+		/* should be null at the beginning */
+		int courseId = c.getCourseId();
+		
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -49,16 +53,27 @@ public class Database {
 					"(courseName, semester, isActive)" +
 					" VALUES (?, ?, ?)";
 			
-			PreparedStatement ps = conn.prepareStatement(query);
+			PreparedStatement ps = conn.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
 			ps.setString(DbUtil.COURSE_NAME - 1, c.getCourseName());
 			ps.setString(DbUtil.COURSE_SEMESTER - 1, c.getCourseSemester());
 			ps.setInt(DbUtil.COURSE_ACTIVE - 1, c.isActive() ? 1 : 0);
 			ps.execute();
 			
+			try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+	            if (generatedKeys.next()) {
+	                courseId = (int) generatedKeys.getLong(1);
+	            }
+	            else {
+	                throw new SQLException("Creating course failed, no ID obtained.");
+	            }
+	        }
+			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
 	         }	
+		return courseId;
 	}
 	
 	/* add a row to the StudentType table */
@@ -84,7 +99,6 @@ public class Database {
 	/* we can't add a student unless they are enrolled in a class */
 	public static void addStudentToCourse(Student s, int courseId) {
 		
-		System.out.println(courseId);
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -118,50 +132,6 @@ public class Database {
 			PreparedStatement ps = conn.prepareStatement(queryEnrolled);
 			ps.setInt(DbUtil.ENROLLED_CORID, courseId);
 			ps.setInt(DbUtil.ENROLLED_SID, s.getBUId());
-			ps.execute();
-			
-	        conn.close();      
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/* add a student to a course we just created */
-	public static void addStudentToNewCourse(Student s, int courseId) {
-		
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
-			
-			String existenceQuery = "SELECT * FROM Student " +
-					"WHERE studentId = " + s.getBUId();
-			
-			ResultSet existenceResult = DbUtil.execute(conn, existenceQuery);
-			
-			/* if student doesn't exist at all, first add them to Student table */
-			if (! existenceResult.next()) {
-				String queryStudent = "INSERT INTO Student " + 
-						"(studentId, firstName, middleName, lastName, email, studentType)" +
-						" VALUES (?, ?, ?, ?, ?, ?)";
-				
-				PreparedStatement ps = conn.prepareStatement(queryStudent);
-
-				ps.setInt(DbUtil.STUDENT_ID, s.getBUId());
-				ps.setString(DbUtil.STUDENT_FNAME, s.getName().getFirstName());
-				ps.setString(DbUtil.STUDENT_MNAME, s.getName().getMiddleName());
-				ps.setString(DbUtil.STUDENT_LNAME, s.getName().getLastName());
-				ps.setString(DbUtil.STUDENT_EMAIL, s.getEmail());
-				ps.setInt(DbUtil.STUDENT_TYPE, s.isGradStudent() ? 2 : 1);
-				ps.execute();
-			}
-			
-			String queryEnrolled = "INSERT INTO Enrolled " + 
-					"(courseId, studentId)" +
-					" VALUES (LAST_INSERT_ID(), ?)";
-			
-			PreparedStatement ps = conn.prepareStatement(queryEnrolled);
-			//ps.setInt(DbUtil.ENROLLED_CORID, courseId);
-			ps.setInt(1, s.getBUId());
 			ps.execute();
 			
 	        conn.close();      
