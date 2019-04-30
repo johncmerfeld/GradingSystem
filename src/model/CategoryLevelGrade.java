@@ -1,4 +1,4 @@
-package model;
+	package model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +28,17 @@ public class CategoryLevelGrade {
         for(StudentGrade s:studentGrades){
         	if(s == null)
         		continue;
-        	if(s.getGradableItem().getScoringMethod() == GradableItem.DEDUCTION){
+        	sum += s.getGrade().getScore()*s.getGradableItem().getWeightage()/100;
+
+        	/*if(s.getGradableItem().getScoringMethod() == GradableItem.DEDUCTION){
                 sum += (s.getGradableItem().getMaxPoints() - s.getGrade().getScore())*s.getGradableItem().getWeightage();
             }
         	else if(s.getGradableItem().getScoringMethod() == GradableItem.PERCENTAGE){
                 sum+= s.getGradableItem().getMaxPoints()*s.getGrade().getScore()*s.getGradableItem().getWeightage();
-            }
-            max += s.getGradableItem().getMaxPoints()*s.getGradableItem().getWeightage();
+            }*/
+            max += s.getGradableItem().getMaxPoints()*s.getGradableItem().getWeightage()/100;
         }
+        
         return sum/max;
     }
 

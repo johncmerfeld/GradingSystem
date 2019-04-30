@@ -15,18 +15,14 @@ public class DatabaseTest {
 		
 		ArrayList<Course> courses = Database.getAllCourses();
 		for (Course course : courses) {
-			//System.out.println(course.getCourseName());
 		}
 		
 		ArrayList<GradableCategory> cats = Database.getCategoriesInCourse(2);
 		for (GradableCategory cat : cats) {
-			/*System.out.println(cat.getId());
-			System.out.println(cat.getName()); */
 		}
 		
 		ArrayList<GradableItem> gis = Database.getGradedItemsInCategory(15);
 		for (GradableItem gi : gis) {
-			System.out.println(gi.getId());
 			Database.setDeleteGradedItem(gi.getId());
 		}
 		

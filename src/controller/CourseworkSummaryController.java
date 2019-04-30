@@ -14,6 +14,8 @@ import model.StudentInfo;
 
 public class CourseworkSummaryController extends DashboardBasicsController implements CourseworkSummary{
 
+	private ArrayList<GradableCategory> listOfCategories;
+	
 	public CourseworkSummaryController(int courseId) {
 		super(courseId);
 	}
@@ -27,20 +29,27 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		    List<CategoryLevelGrade> categoryLevelGrades = si.getCategoryLevelGrades();
 		    for(CategoryLevelGrade cg : categoryLevelGrades)
 		    {
-		    	if(cg.getCategory().getId() == categoryId)
+		    	if(cg != null)
 		    	{
-		    		total = total + cg.getCompositeScore();
-		    		count++;
+		    		if(cg.getCategory().getId() == categoryId && !Double.isNaN(cg.getCompositeScore()))
+			    	{
+			    		total = total + cg.getCompositeScore();
+			    		count++;
+			    	}
 		    	}
+		    	
 		    }
 		}
+		
+		if(count == 0)
+			return 0;
 		return total/count;
 	}
 	
 	public String[][] getStudentDataIn2dArray(int courseId)
 	{		
 		int num_col = 2 + this.getAllCategories(courseId).size();
-		int num_rows = dashboardInfo.size();
+		int num_rows = dashboardInfo.size() + 1;
 		int row_index = 0;
 		
 		
@@ -63,12 +72,30 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		    row_index++;
 		}
 		
+		int col_index = 1;
+		data[row_index][col_index++] = "Mean";
+		
+		if(this.listOfCategories != null)
+		{
+			for(GradableCategory gc : this.listOfCategories)
+			{
+				if(gc != null)
+				{
+					data[row_index][col_index] = this.getCategoryLevelMean(gc.getId()) + "";
+				}
+					
+				col_index++;
+			} 
+		}
+		
+		
 		return data;
 	}
 	
 	@Override
 	public ArrayList<GradableCategory> getAllCategories(int courseId) {
 		ArrayList<GradableCategory> listOfCategories= Database.getCategoriesInCourse(courseId);
+		this.listOfCategories = listOfCategories;
 		return listOfCategories;
 	}
 }

@@ -22,7 +22,7 @@ public class CourseworkSummaryControllerTest {
 				System.out.println(s);
 			}
 		}
-		
+		CourseworkSummaryController c1 = new CourseworkSummaryController(1);		
 
 	}
 

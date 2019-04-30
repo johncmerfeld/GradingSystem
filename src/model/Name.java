@@ -43,9 +43,9 @@ public class Name {
     public String getName(){
         if(this.firstName.equals(""))
             return "";
-        if(middleName == ""){
-            return firstName+" "+lastName;
+        if(middleName == null){
+            return firstName + " " + lastName;
         }
-        return firstName+" "+middleName+" "+lastName;
+        return firstName + " " + middleName + " " + lastName;
     }
 }

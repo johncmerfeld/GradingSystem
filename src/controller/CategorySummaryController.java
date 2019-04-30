@@ -7,6 +7,7 @@ import java.util.Locale.Category;
 
 import model.CategoryLevelGrade;
 import model.Database;
+import model.GradableCategory;
 import model.GradableItem;
 import model.Grade;
 import model.Student;
@@ -15,8 +16,34 @@ import model.StudentInfo;
 
 public class CategorySummaryController extends CategoryInformationController implements CategorySummary{
 
+	private ArrayList<GradableItem> listOfGradedItems;
+	
+	private double convertToRaw(double score, int grading_type, int max_points)
+	{
+		if(grading_type == 1)
+			return max_points + score;
+		if(grading_type == 2)
+			return (score/100)*max_points;
+		return -1;
+	}
+	
+	private double convertRawScoreToActual(double raw_score, int grading_type, int max_points)
+	{
+		if(grading_type == 1)
+			return raw_score - max_points;
+		if(grading_type == 2)
+			return (raw_score/max_points)*100;
+		return -1;
+	}
+	
 	public CategorySummaryController(int courseId) {
 		super(courseId);
+		this.listOfGradedItems = new ArrayList<GradableItem>();
+		ArrayList<GradableCategory> listOfCategories= Database.getCategoriesInCourse(courseId);
+		for(GradableCategory gc : listOfCategories)
+		{
+			this.listOfGradedItems.addAll(Database.getGradedItemsInCategory(gc.getId()));
+		}
 	}
 
 /*	@Override
@@ -50,8 +77,8 @@ public class CategorySummaryController extends CategoryInformationController imp
 */
 	@Override
 	public String[][] getStudentDataIn2dArray(int categoryId) {
-		int num_col = 2 + 4;
-		int num_rows = dashboardInfo.size();
+		int num_col = this.listOfGradedItems.size() + 2;
+		int num_rows = dashboardInfo.size() + 2;
 		int row_index = 0;
 		
 		String[][] data = new String[num_rows][num_col];
@@ -72,13 +99,50 @@ public class CategorySummaryController extends CategoryInformationController imp
 		    			//Null check for sg
 		    			if(sg == null)
 		    				continue;
-		    			data[row_index][col_index++] = sg.getGrade().getScore() + "";
+		    			data[row_index][col_index] = convertRawScoreToActual(sg.getGrade().getScore(), sg.getGradableItem().getScoringMethod(), sg.getGradableItem().getMaxPoints()) + "";
+		    			col_index++;
 		    		}	
 		    	}
 		    	
 		    }
 		    row_index++;
 		}
+		
+		int col_index = 1;
+		data[row_index][col_index] = "Mean";
+		col_index++;
+		
+		if(this.listOfGradedItems != null)
+		{
+			for(GradableItem gi : this.listOfGradedItems)
+			{
+				if(gi != null)
+				{
+					data[row_index][col_index] = this.getGradeableItemMean(gi.getId()) + "";
+				}
+				col_index++;
+			} 
+
+		}	
+		
+		
+		row_index++;
+		col_index = 1;
+		data[row_index][col_index] = "Max Points";
+		col_index++;
+		
+		if(this.listOfGradedItems != null)
+		{	
+			for(GradableItem gi : this.listOfGradedItems)
+			{
+				if(gi != null)
+				{
+					data[row_index][col_index] = gi.getMaxPoints() + "";
+				}
+				col_index++;
+			} 
+		}
+		
 		return data;
 	}
 	
@@ -112,7 +176,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 					for(StudentGrade sg : clg.getStudentGrades())
 					{
 						//Entry in the 2d array
-						double score = Double.parseDouble(updatedData[row_index][col_index]);
+						double score = convertToRaw(Double.parseDouble(updatedData[row_index][col_index]), sg.getGradableItem().getScoringMethod(), sg.getGradableItem().getMaxPoints());
 						
 						//Add it to the studentgrade
 						sg.getGrade().setScore(score);
@@ -132,6 +196,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 	@Override
 	public ArrayList<GradableItem> getAllGradedItems(int categoryId) {
 		ArrayList<GradableItem> listOfGradedItems = Database.getGradedItemsInCategory(categoryId);
+		this.listOfGradedItems = listOfGradedItems;
 		return listOfGradedItems;
 	}
 

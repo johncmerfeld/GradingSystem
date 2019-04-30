@@ -25,14 +25,20 @@ public abstract class CategoryInformationController extends DashboardBasicsContr
 		    {
 		    	for(StudentGrade sg : cg.getStudentGrades())
 		    	{
-		    		if(sg.getGradableItem().getId() == gradeableItemId)
+		    		if(sg == null)
+		    			continue;
+		    		
+		    		if(sg.getGradableItem().getId() == gradeableItemId && !Double.isNaN(sg.getGrade().getScore()))
 			    	{
+		    			System.out.println(" score= " + sg.getGrade().getScore() );
 			    		total = total + sg.getGrade().getScore();
 			    		count++;
 			    	}
 		    	}
 		    }
 		}
+		if(count == 0)
+			return 0;
 		return total/count;
 	}
 
