@@ -40,6 +40,9 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		    	
 		    }
 		}
+		System.out.println("Point 4 : total = " + total);
+		System.out.println("Point 5 : count = " + count);
+		System.out.println("Point 6 : avg = " + total/count);
 		return total/count;
 	}
 	
@@ -77,7 +80,14 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 			for(GradableCategory gc : this.listOfCategories)
 			{
 				if(gc != null)
+				{
+					System.out.println("Point 1:");
+					System.out.println(this.getCategoryLevelMean(gc.getId()));
+					System.out.println("Point 2:" + this.getCategoryLevelMean(gc.getId()));
 					data[row_index][col_index] = this.getCategoryLevelMean(gc.getId()) + "";
+					System.out.println("Point 3:" + data[row_index][col_index]);
+				}
+					
 				col_index++;
 			} 
 		}
