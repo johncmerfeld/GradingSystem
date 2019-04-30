@@ -27,6 +27,15 @@ public class CategorySummaryController extends CategoryInformationController imp
 		return -1;
 	}
 	
+	private double convertRawScoreToActual(double raw_score, int grading_type, int max_points)
+	{
+		if(grading_type == 1)
+			return raw_score - max_points;
+		if(grading_type == 2)
+			return (raw_score/max_points)*100;
+		return -1;
+	}
+	
 	public CategorySummaryController(int courseId) {
 		super(courseId);
 	}
@@ -84,7 +93,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 		    			//Null check for sg
 		    			if(sg == null)
 		    				continue;
-		    			data[row_index][col_index++] = sg.getGrade().getScore() + "";
+		    			data[row_index][col_index++] = convertRawScoreToActual(sg.getGrade().getScore(), sg.getGradableItem().getScoringMethod(), sg.getGradableItem().getMaxPoints()) + "";
 		    		}	
 		    	}
 		    	
