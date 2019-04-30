@@ -1,4 +1,4 @@
-package controller;
+	package controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,8 +41,8 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		    }
 		}
 		
-		if(count == 0)
-			return 0;
+		//if(count == 0)
+		//	return 0;
 		return total/count;
 	}
 	
