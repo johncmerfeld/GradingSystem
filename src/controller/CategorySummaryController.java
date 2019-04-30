@@ -18,6 +18,15 @@ public class CategorySummaryController extends CategoryInformationController imp
 
 	private ArrayList<GradableItem> listOfGradedItems;
 	
+	private double convertToRaw(double score, int grading_type, int max_points)
+	{
+		if(grading_type == 1)
+			return max_points - score;
+		if(grading_type == 2)
+			return (score/100)*max_points;
+		return -1;
+	}
+	
 	public CategorySummaryController(int courseId) {
 		super(courseId);
 	}
@@ -124,7 +133,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 					for(StudentGrade sg : clg.getStudentGrades())
 					{
 						//Entry in the 2d array
-						double score = Double.parseDouble(updatedData[row_index][col_index]);
+						double score = convertToRaw(Double.parseDouble(updatedData[row_index][col_index]), sg.getGradableItem().getScoringMethod(), sg.getGradableItem().getMaxPoints());
 						
 						//Add it to the studentgrade
 						sg.getGrade().setScore(score);
