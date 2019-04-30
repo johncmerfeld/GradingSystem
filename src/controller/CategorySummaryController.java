@@ -104,19 +104,26 @@ public class CategorySummaryController extends CategoryInformationController imp
 		int col_index = 1;
 		data[row_index++][col_index++] = "Mean";
 		
-		for(GradableItem gi : this.listOfGradedItems)
+		if(this.listOfGradedItems != null)
 		{
-			data[row_index][col_index++] = this.getGradeableItemMean(gi.getId()) + "";
-		} 
+			for(GradableItem gi : this.listOfGradedItems)
+			{
+				if(gi != null)
+					data[row_index][col_index++] = this.getGradeableItemMean(gi.getId()) + "";
+			} 
 
+			
+			col_index = 1;
+			data[row_index++][col_index++] = "Max Points";
+			
+			for(GradableItem gi : this.listOfGradedItems)
+			{
+				if(gi != null)
+					data[row_index][col_index++] = gi.getMaxPoints() + "";
+			} 
+		}
 		
-		col_index = 1;
-		data[row_index++][col_index++] = "Max Points";
 		
-		for(GradableItem gi : this.listOfGradedItems)
-		{
-			data[row_index][col_index++] = gi.getMaxPoints() + "";
-		} 
 
 		return data;
 	}
