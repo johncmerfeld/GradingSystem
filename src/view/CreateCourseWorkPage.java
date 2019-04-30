@@ -5,7 +5,12 @@
  */
 package view;
 
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import controller.CourseworkController;
+import model.GradableCategory;
 
 /**
  *
@@ -19,6 +24,8 @@ public class CreateCourseWorkPage extends javax.swing.JFrame {
 	private int courseID;
 	private String semester;
 	private String courseName;
+	private ArrayList<GradableCategory> gradableCategories;
+	private ArrayList<String> categoryNames = new ArrayList<String>();
     /**
      * Creates new form createCourseWork
      */
@@ -33,6 +40,10 @@ public class CreateCourseWorkPage extends javax.swing.JFrame {
     public CreateCourseWorkPage(int courseId, String semester, String courseName) {
     	this.courseID = courseId;
     	this.courseworkController = new CourseworkController();
+    	this.gradableCategories = this.courseworkController.getAllCourseworkCategories(this.courseID);
+    	for(GradableCategory cate: gradableCategories) {
+    		categoryNames.add(cate.getName());
+    	}
     	this.semester = semester;
     	this.courseName = courseName;
     	initComponents();
@@ -135,7 +146,8 @@ public class CreateCourseWorkPage extends javax.swing.JFrame {
             }
         });
 
-        courseworkCategoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        String[] cateNamesArray = this.categoryNames.toArray(new String[0]);
+        courseworkCategoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(cateNamesArray));
         courseworkCategoryComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 courseworkCategoryComboBoxActionPerformed(evt);
@@ -237,6 +249,29 @@ public class CreateCourseWorkPage extends javax.swing.JFrame {
 
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
         // TODO save this new course, read all the new information
+    	String courseWorkName = this.courseworkNameTextField.getText();
+    	int selectCatIndex = this.courseworkCategoryComboBox.getSelectedIndex();
+    	int selectCateId = this.gradableCategories.get(selectCatIndex).getId();
+    	String maxPoint = this.totalScoreTextField.getText();
+    	int selectScoreMethodIndex = this.scoringMethodComboBox.getSelectedIndex();
+    	if(!courseWorkName.equals("") && isInteger(maxPoint, 10)) {
+    		if(Integer.valueOf(maxPoint)>0) {
+    			this.courseworkController.createNewCourseWork(courseWorkName, selectCateId, Integer.valueOf(maxPoint), selectScoreMethodIndex+1);
+    			JOptionPane.showMessageDialog(this, "Successfully created: "+courseWorkName);
+            	HomePage homePage = new HomePage(this.courseID);
+                homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+                homePage.setLocationRelativeTo( null ); // set the previous window location
+                homePage.setVisible(true);
+                dispose();
+    		} else {
+        		JOptionPane.showMessageDialog(this, "total score must be an integer greater than 0!");
+
+    		}
+        	
+    	} else {
+    		JOptionPane.showMessageDialog(this, "coursework name must be none empty, and total score must be an integer greater than 0!");
+    	}
+    	
     }//GEN-LAST:event_saveBtActionPerformed
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
@@ -297,9 +332,20 @@ public class CreateCourseWorkPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateCourseWorkPage().setVisible(true);
+                new CreateCourseWorkPage(1, "fall 2019", "cs 555").setVisible(true);
             }
         });
+    }
+    public static boolean isInteger(String s, int radix) {
+        if(s.isEmpty()) return false;
+        for(int i = 0; i < s.length(); i++) {
+            if(i == 0 && s.charAt(i) == '-') {
+                if(s.length() == 1) return false;
+                else continue;
+            }
+            if(Character.digit(s.charAt(i),radix) < 0) return false;
+        }
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

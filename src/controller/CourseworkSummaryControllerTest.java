@@ -1,5 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
+
+import model.GradableCategory;
+
 public class CourseworkSummaryControllerTest {
 
 	public static void main(String[] args) {
@@ -15,12 +19,18 @@ public class CourseworkSummaryControllerTest {
 //		int bu_id = Integer.parseInt(intermediate);
 //		System.out.println(bu_id);
 		
-		CategorySummaryController s1 = new CategorySummaryController(4);
-		String [][] mat = s1.getStudentDataIn2dArray(20);
-		for(String[] v: mat) {
-			for (String s: v) {
-				System.out.println(s);
-			}
+//		CategorySummaryController s1 = new CategorySummaryController(4);
+//		String [][] mat = s1.getStudentDataIn2dArray(20);
+//		for(String[] v: mat) {
+//			for (String s: v) {
+//				System.out.println(s);
+//			}
+//		}
+		
+		CourseworkController c1 = new CourseworkController();
+		ArrayList<GradableCategory> allCates = c1.getAllCourseworkCategories(1);
+		for(GradableCategory cate:allCates) {
+			System.out.println(cate.getName());
 		}
 		
 
