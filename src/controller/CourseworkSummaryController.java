@@ -65,7 +65,7 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		    row_index++;
 		}
 		
-		int col_index=0;
+		int col_index = 1;
 		data[row_index][col_index++] = "Mean";
 		
 		for(GradableCategory gc : this.listOfCategories)
