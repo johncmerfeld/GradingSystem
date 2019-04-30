@@ -289,10 +289,7 @@ public class StudentInformationPage extends javax.swing.JFrame {
         // TODO: save the note in the database
     	//update the notes column: index 3
     	
-    	HomePage homePage = new HomePage(this.courseID);
-        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        homePage.setLocationRelativeTo( null ); // set the previous window location
-        homePage.setVisible(true);
+    	
     	for(int i=0; i< this.StudentInfoTable.getRowCount();i++) {
     		this.studentTableMatrix[i][3] = this.StudentInfoTable.getModel().getValueAt(i, 3);
     		// update notes in DB
@@ -301,11 +298,17 @@ public class StudentInformationPage extends javax.swing.JFrame {
     		// set student comment
     		Integer courseId = this.courseID;
     		if (courseId != null && student_id != null && student_note != null) {
-        		//this.studentInformationController.addCommentForStudent(courseId, student_id, student_note);
+        		this.studentInformationController.addCommentForStudent(courseId, student_id, student_note);
     		}
     		System.out.println("student_id: "+ student_id.substring(1));
     		System.out.println("student_note: "+student_note);
     	}
+    	
+    	HomePage homePage = new HomePage(this.courseID);
+        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        homePage.setLocationRelativeTo( null ); // set the previous window location
+        homePage.setVisible(true);
+        
         dispose();
 
     
@@ -322,7 +325,7 @@ public class StudentInformationPage extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelBtActionPerformed
 
     private void createStudentBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createStudentBtActionPerformed
-        // Jump tp create student page, takes in a course:
+        // Jump to create student page, takes in a course:
     	CreateStudentPage createStudentPage = new CreateStudentPage(this.courseID);
     	createStudentPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
     	createStudentPage.setLocationRelativeTo( null ); // set the previous window location

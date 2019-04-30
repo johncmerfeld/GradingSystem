@@ -74,7 +74,7 @@ public class CreateStudentPage extends javax.swing.JFrame {
         lastNameLabel = new javax.swing.JLabel();
         studentTypeLabel = new javax.swing.JLabel();
         StudentTypeComboBox = new javax.swing.JComboBox<>();
-        middleNameTextField = new javax.swing.JTextField();
+        middleNameTextField = new javax.swing.JTextField("");
         emailLabel = new javax.swing.JLabel();
         emailTextField = new javax.swing.JTextField();
         studentIDLabel1 = new javax.swing.JLabel();
