@@ -29,11 +29,15 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		    List<CategoryLevelGrade> categoryLevelGrades = si.getCategoryLevelGrades();
 		    for(CategoryLevelGrade cg : categoryLevelGrades)
 		    {
-		    	if(cg.getCategory().getId() == categoryId)
+		    	if(cg != null)
 		    	{
-		    		total = total + cg.getCompositeScore();
-		    		count++;
+		    		if(cg.getCategory().getId() == categoryId)
+			    	{
+			    		total = total + cg.getCompositeScore();
+			    		count++;
+			    	}
 		    	}
+		    	
 		    }
 		}
 		return total/count;

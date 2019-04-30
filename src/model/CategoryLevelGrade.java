@@ -29,7 +29,7 @@ public class CategoryLevelGrade {
         	if(s == null)
         		continue;
         	sum += s.getGrade().getScore()*s.getGradableItem().getWeightage();
-        	
+
         	/*if(s.getGradableItem().getScoringMethod() == GradableItem.DEDUCTION){
                 sum += (s.getGradableItem().getMaxPoints() - s.getGrade().getScore())*s.getGradableItem().getWeightage();
             }
@@ -38,6 +38,9 @@ public class CategoryLevelGrade {
             }*/
             max += s.getGradableItem().getMaxPoints()*s.getGradableItem().getWeightage();
         }
+        
+        System.out.println("Sum = "  + sum);
+        System.out.println("Max = "  + max);
         return sum/max;
     }
 
