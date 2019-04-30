@@ -215,6 +215,53 @@ public class Database {
 	      } 
 	}
 	
+	public static void updateCategory(GradableCategory gc) {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+
+			String query =  "UPDATE Category " + 
+					   "SET percentageWeight = ?" + 
+					   "WHERE Id = ?";
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			
+			ps.setDouble(1, gc.getWeight());
+			ps.setInt(2, gc.getId());
+			
+			ps.execute();
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 
+		
+	}
+
+	public static void updateGradableItem(GradableItem gi) {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+
+			String query =  "UPDATE GradedItem " + 
+					   "SET percentageWeight = ?" + 
+					   "WHERE Id = ?";
+			
+			PreparedStatement ps = conn.prepareStatement(query);
+			
+			ps.setDouble(1, gi.getWeightage());
+			ps.setInt(2, gi.getId());
+			
+			ps.execute();
+			
+	        conn.close();      
+		} catch(SQLException e) {
+	         e.printStackTrace();
+	      } 
+		
+		
+	}
+	
 	public static void setCommentStudent(int courseId, int sid, String note) {
 		
 		Connection conn = null;
