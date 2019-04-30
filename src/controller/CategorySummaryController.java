@@ -38,6 +38,12 @@ public class CategorySummaryController extends CategoryInformationController imp
 	
 	public CategorySummaryController(int courseId) {
 		super(courseId);
+		this.listOfGradedItems = new ArrayList<GradableItem>();
+		ArrayList<GradableCategory> listOfCategories= Database.getCategoriesInCourse(courseId);
+		for(GradableCategory gc : listOfCategories)
+		{
+			this.listOfGradedItems.addAll(Database.getGradedItemsInCategory(gc.getId()));
+		}
 	}
 
 /*	@Override
@@ -121,6 +127,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 		{	
 			for(GradableItem gi : this.listOfGradedItems)
 			{
+				System.out.println("Max points = " + gi.getMaxPoints());
 				if(gi != null)
 					data[row_index][col_index] = gi.getMaxPoints() + "";
 				col_index++;
