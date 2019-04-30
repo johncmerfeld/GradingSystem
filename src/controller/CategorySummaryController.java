@@ -114,16 +114,13 @@ public class CategorySummaryController extends CategoryInformationController imp
 		
 		if(this.listOfGradedItems != null)
 		{
-			System.out.println("size :" + this.listOfGradedItems.size());
 			for(GradableItem gi : this.listOfGradedItems)
 			{
-				System.out.println("mean = " + this.getGradeableItemMean(gi.getId()));
-				System.out.println("max = " + gi.getMaxPoints());
 				if(gi != null)
 				{
 					data[row_index][col_index] = this.getGradeableItemMean(gi.getId()) + "";
-					col_index++;
 				}
+				col_index++;
 			} 
 
 		}	
@@ -138,12 +135,11 @@ public class CategorySummaryController extends CategoryInformationController imp
 		{	
 			for(GradableItem gi : this.listOfGradedItems)
 			{
-				System.out.println("Max points = " + gi.getMaxPoints());
 				if(gi != null)
 				{
 					data[row_index][col_index] = gi.getMaxPoints() + "";
-					col_index++;
 				}
+				col_index++;
 			} 
 		}
 		
