@@ -99,7 +99,8 @@ public class CategorySummaryController extends CategoryInformationController imp
 		    			//Null check for sg
 		    			if(sg == null)
 		    				continue;
-		    			data[row_index][col_index++] = convertRawScoreToActual(sg.getGrade().getScore(), sg.getGradableItem().getScoringMethod(), sg.getGradableItem().getMaxPoints()) + "";
+		    			data[row_index][col_index] = convertRawScoreToActual(sg.getGrade().getScore(), sg.getGradableItem().getScoringMethod(), sg.getGradableItem().getMaxPoints()) + "";
+		    			col_index++;
 		    		}	
 		    	}
 		    	
@@ -108,20 +109,28 @@ public class CategorySummaryController extends CategoryInformationController imp
 		}
 		
 		int col_index = 1;
-		data[row_index++][col_index++] = "Mean";
+		data[row_index][col_index] = "Mean";
+		col_index++;
 		
 		if(this.listOfGradedItems != null)
 		{
+			System.out.println("size :" + this.listOfGradedItems.size());
 			for(GradableItem gi : this.listOfGradedItems)
 			{
+				System.out.println("mean = " + this.getGradeableItemMean(gi.getId()));
+				System.out.println("max = " + gi.getMaxPoints());
 				if(gi != null)
 					data[row_index][col_index] = this.getGradeableItemMean(gi.getId()) + "";
 				col_index++;
 			} 
 
 		}	
-			col_index = 1;
-			data[row_index++][col_index++] = "Max Points";
+		
+		
+		row_index++;
+		col_index = 1;
+		data[row_index][col_index] = "Max Points";
+		col_index++;
 		
 		if(this.listOfGradedItems != null)
 		{	
@@ -134,8 +143,6 @@ public class CategorySummaryController extends CategoryInformationController imp
 			} 
 		}
 		
-		
-
 		return data;
 	}
 	
