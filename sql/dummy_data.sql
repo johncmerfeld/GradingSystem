@@ -1,7 +1,7 @@
 LOAD DATA INFILE 'dummy_data/studenttype.csv'
 INTO TABLE StudentType
 FIELDS TERMINATED BY ','
-ENCLOSED BY '''
+ENCLOSED BY '"'
 LINES TERMINATED BY '\n';
 
 LOAD DATA INFILE 'dummy_data/scoringmethod.csv'
