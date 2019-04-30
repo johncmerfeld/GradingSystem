@@ -31,7 +31,7 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		    {
 		    	if(cg != null)
 		    	{
-		    		if(cg.getCategory().getId() == categoryId)
+		    		if(cg.getCategory().getId() == categoryId && !Double.isNaN(cg.getCompositeScore()))
 			    	{
 			    		total = total + cg.getCompositeScore();
 			    		count++;
