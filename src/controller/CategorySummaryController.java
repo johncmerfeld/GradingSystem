@@ -7,6 +7,7 @@ import java.util.Locale.Category;
 
 import model.CategoryLevelGrade;
 import model.Database;
+import model.GradableCategory;
 import model.GradableItem;
 import model.Grade;
 import model.Student;
@@ -15,6 +16,8 @@ import model.StudentInfo;
 
 public class CategorySummaryController extends CategoryInformationController implements CategorySummary{
 
+	private ArrayList<GradableItem> listOfGradedItems;
+	
 	public CategorySummaryController(int courseId) {
 		super(courseId);
 	}
@@ -51,7 +54,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 	@Override
 	public String[][] getStudentDataIn2dArray(int categoryId) {
 		int num_col = 2 + 4;
-		int num_rows = dashboardInfo.size();
+		int num_rows = dashboardInfo.size() + 1;
 		int row_index = 0;
 		
 		String[][] data = new String[num_rows][num_col];
@@ -79,6 +82,15 @@ public class CategorySummaryController extends CategoryInformationController imp
 		    }
 		    row_index++;
 		}
+		
+		int col_index=0;
+		data[row_index][col_index++] = "Mean";
+		
+		for(GradableItem gi : this.listOfGradedItems)
+		{
+			data[row_index][col_index++] = this.getGradeableItemMean(gi.getId()) + "";
+		} 
+		
 		return data;
 	}
 	
@@ -132,6 +144,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 	@Override
 	public ArrayList<GradableItem> getAllGradedItems(int categoryId) {
 		ArrayList<GradableItem> listOfGradedItems = Database.getGradedItemsInCategory(categoryId);
+		this.listOfGradedItems = listOfGradedItems;
 		return listOfGradedItems;
 	}
 
