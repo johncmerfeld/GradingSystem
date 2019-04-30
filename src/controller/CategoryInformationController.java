@@ -35,6 +35,8 @@ public abstract class CategoryInformationController extends DashboardBasicsContr
 		    	}
 		    }
 		}
+		if(count == 0)
+			return 0;
 		return total/count;
 	}
 
