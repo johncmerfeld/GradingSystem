@@ -21,7 +21,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 	private double convertToRaw(double score, int grading_type, int max_points)
 	{
 		if(grading_type == 1)
-			return max_points - score;
+			return max_points + score;
 		if(grading_type == 2)
 			return (score/100)*max_points;
 		return -1;
