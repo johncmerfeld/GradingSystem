@@ -514,7 +514,7 @@ public class HomePage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            	// VIEW the course ID: 1
+            	// VIEW the course ID: 4
                 new HomePage(4).setVisible(true);
             }
         });

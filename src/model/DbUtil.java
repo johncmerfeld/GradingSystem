@@ -76,7 +76,7 @@ public class DbUtil {
 		ComboPooledDataSource dataSource = new ComboPooledDataSource();
 		dataSource.setJdbcUrl(DbUtil.mySQLurl);
 		dataSource.setUser("root");
-		dataSource.setPassword(null); 
+		dataSource.setPassword("450843918ZZcc"); 
 		return dataSource;
 	}
 	
