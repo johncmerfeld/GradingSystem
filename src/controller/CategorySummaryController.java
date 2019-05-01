@@ -116,6 +116,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 		{
 			for(GradableItem gi : this.listOfGradedItems)
 			{
+				System.out.println("Category = " + gi.getName());
 				if(gi != null)
 				{
 					data[row_index][col_index] = this.getGradeableItemMean(gi.getId()) + "";
