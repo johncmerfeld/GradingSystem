@@ -157,7 +157,7 @@ public class LoginPage extends javax.swing.JFrame {
         String userNameStr = this.userName.getText();
         String passWordStr = this.passWordjPasswordField.getText();
         if (userNameStr.equals("ChiZhang") && passWordStr.equals("123456")) {
-            JOptionPane.showMessageDialog(this, "You are successfully login!");
+            JOptionPane.showMessageDialog(this, "You are successfully logged in!");
             // jump into CourseSelectionPage Page
             CourseSelectionPage courseSelectionPage = new CourseSelectionPage();
             // close current window
