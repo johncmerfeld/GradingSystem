@@ -28,7 +28,7 @@ public abstract class CategoryInformationController extends DashboardBasicsContr
 		    		if(sg == null)
 		    			continue;
 		    		
-		    		if(sg.getGradableItem().getId() == gradeableItemId && !Double.isNaN(sg.getGrade().getScore()))
+		    		if(sg.getGradableItem().getId() == gradeableItemId)// && !Double.isNaN(sg.getGrade().getScore()))
 			    	{
 		    			System.out.println("Graded item name = " + sg.getGradableItem().getName());
 		    			System.out.println(" score= " + sg.getGrade().getScore());
