@@ -66,7 +66,7 @@ public class LoginPage extends javax.swing.JFrame {
 
         mainPanel.setBackground(new java.awt.Color(255, 252, 252));
 
-        userName.setText("ChiZhang");
+        userName.setText("cpk@bu.edu");
         userName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userNameActionPerformed(evt);
@@ -156,7 +156,7 @@ public class LoginPage extends javax.swing.JFrame {
         // Login to the course selection page
         String userNameStr = this.userName.getText();
         String passWordStr = this.passWordjPasswordField.getText();
-        if (userNameStr.equals("ChiZhang") && passWordStr.equals("123456")) {
+        if (userNameStr.equals("cpk@bu.edu") && passWordStr.equals("123456")) {
             JOptionPane.showMessageDialog(this, "You are successfully logged in!");
             // jump into CourseSelectionPage Page
             CourseSelectionPage courseSelectionPage = new CourseSelectionPage();
