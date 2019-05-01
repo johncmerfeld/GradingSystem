@@ -18,21 +18,27 @@ public abstract class CategoryInformationController extends DashboardBasicsContr
 	public double getGradeableItemMean(int gradeableItemId) {
 		double total = 0;
 		int count = 0;
+		System.out.println("Entered function getGradeableItemMean");
 		for (HashMap.Entry<Student, StudentInfo> entry : dashboardInfo.entrySet()) {
+			System.out.println("Entered Hashmap loop");
 		    StudentInfo si = entry.getValue();
 		    List<CategoryLevelGrade> categoryLevelGrades = si.getCategoryLevelGrades();
+		    System.out.println("Number of category level grades : " + categoryLevelGrades.size());
 		    for(CategoryLevelGrade cg : categoryLevelGrades)
 		    {
+		    	System.out.println("Entered categoryLevelGrades loop");
 		    	for(StudentGrade sg : cg.getStudentGrades())
 		    	{
+		    		System.out.println("Entered StudentGrade loop");
 		    		if(sg == null)
 		    			continue;
-		    		
+		    		System.out.println("Student grade is not null");
 		    		if(sg.getGradableItem().getId() == gradeableItemId)// && !Double.isNaN(sg.getGrade().getScore()))
 			    	{
 		    			System.out.println("Graded item name = " + sg.getGradableItem().getName());
 		    			System.out.println(" score= " + sg.getGrade().getScore());
 			    		total = total + sg.getGrade().getScore();
+			    		System.out.println("total = " + total);
 			    		count++;
 			    	}
 		    	}
