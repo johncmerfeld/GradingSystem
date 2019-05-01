@@ -1,6 +1,10 @@
 package model;
-import java.sql.*;
-import com.mchange.v2.c3p0.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  * Utilities for the Database class.
@@ -76,7 +80,9 @@ public class DbUtil {
 		ComboPooledDataSource dataSource = new ComboPooledDataSource();
 		dataSource.setJdbcUrl(DbUtil.mySQLurl);
 		dataSource.setUser("root");
-		dataSource.setPassword("450843918ZZcc"); 
+		dataSource.setPassword("450843918ZZcc");
+		dataSource.setMaxPoolSize(30);
+		dataSource.setNumHelperThreads(30);
 		return dataSource;
 	}
 	

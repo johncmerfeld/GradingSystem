@@ -56,7 +56,7 @@ public class HomePage extends javax.swing.JFrame {
     	this.mainTableCols.add("Student Name");
     	System.out.println("current CourseID: " +this.courseID);
     	this.courseworkSummaryController = new CourseworkSummaryController(this.courseID);
-    	System.out.println("After?");
+    	System.out.println("After create controller?");
     	this.mainTableMatrix = this.courseworkSummaryController.getStudentDataIn2dArray(this.courseID);
     	//TODO: add table columns 
     	ArrayList<GradableCategory> categories = this.courseworkSummaryController.getAllCategories(this.courseID);

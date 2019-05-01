@@ -1,9 +1,12 @@
 package model;
-import java.sql.*;
-import com.mchange.v2.c3p0.*;
-
-import model.DbUtil;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  * Database backend for the GradingSystem application
@@ -458,22 +461,23 @@ public class Database {
 		StudentInfo studentInfo = null;
 		
 		try {
+
 			conn = dataSource.getConnection();
 
 			String queryNotes = "SELECT * FROM Enrolled " +
 					"WHERE studentId = " + sid + " AND " +
 					"courseId = " + courseId;
-			
+
 			ResultSet rs = DbUtil.execute(conn, queryNotes);
-			
+
 			String notes = "";
 			
 			if (rs.next()) {
 				notes = rs.getString(DbUtil.ENROLLED_NOTES);
 			}
-			
+
 			ArrayList<GradableCategory> cats = Database.getCategoriesInCourse(courseId);
-			
+
 			ArrayList<CategoryLevelGrade> categoryGrades = new ArrayList<CategoryLevelGrade>();
 			
 			for (GradableCategory cat : cats) {
@@ -541,9 +545,9 @@ public class Database {
 
 			String query = "SELECT * FROM Category " +
 						   "WHERE courseId = " + courseId;
-			
+
 			ResultSet rs = DbUtil.execute(conn, query);
-			
+
 			while (rs.next()) {
 						
 				GradableCategory cat = new GradableCategory(

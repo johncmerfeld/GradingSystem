@@ -16,15 +16,18 @@ public abstract class DashboardBasicsController implements DashboardBasics{
 	{
 		HashMap<Student, StudentInfo> dashboardInfo = setDashboardInfo(courseId);
 		this.dashboardInfo = dashboardInfo;
+
 	}
 	
 	public HashMap<Student, StudentInfo> setDashboardInfo(int courseId)
 	{
 		HashMap<Student, StudentInfo> dashboardInfo = new HashMap<Student, StudentInfo>();
 		ArrayList<Student> students = Database.getStudentsInCourse(courseId);
+
 		for(Student s : students)
 		{
 			StudentInfo studentInfo = findStudentInfo(courseId, "U" + s.getBUId());
+
 			dashboardInfo.put(s, studentInfo);
 		}
 		return dashboardInfo;
@@ -45,7 +48,7 @@ public abstract class DashboardBasicsController implements DashboardBasics{
 	@Override
 	public StudentInfo findStudentInfo(int courseId, String BU_Id) {
 		String bu_id_num = BU_Id.substring(1);
-		int bu_id = Integer.parseInt(bu_id_num);	
+		int bu_id = Integer.parseInt(bu_id_num);
 		StudentInfo studentInfo = Database.getStudentsInfo(courseId, bu_id);
 		return studentInfo;
 	}
