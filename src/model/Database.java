@@ -5,6 +5,25 @@ import com.mchange.v2.c3p0.*;
 import model.DbUtil;
 import java.util.ArrayList;
 
+/**
+ * Database backend for the GradingSystem application
+ * 
+ * 		There is a lot of code in here. As a result, the controller classes have
+ * zero knowledge about the database architecture, and that is as it should be. 
+ * The functions in this file get a connection from the pool (see DbUtil for
+ * details), execute one or more queries, and close their connection.
+ * 
+ * 		There are four flavors of Database functions. "Adders" insert entire new
+ * rows into a table. "Updaters" modify existing records. "Getters" return data
+ * objects read from the database. "Deleters" remove records.
+ * 
+ * 		Whenever possible, functions are organized according to the logical 
+ * ordering of the database tables (Course, StudentType, Student, Enrolled, 
+ * Category, ScoringMethod, GradedItem, StudentGrade).
+ * 
+ * 		Contact John Merfeld with questions
+ */
+
 public class Database {
 	
 	private static ComboPooledDataSource dataSource;
@@ -15,10 +34,18 @@ public class Database {
 	
 	/** 	ADDER FUNCTIONS
 	 * 
-	 * 		There is one function for each of the 8 tables, which adds an
-	 * entirely new row. 
+	 * 		These functions take in objects of the corresponding class
+	 * and add them as new rows to the table in question. Their primary keys
+	 * auto-increment (except for students) and most fields are allowed to be 
+	 * null
 	 */
-	public static void addCourse(Course c) {
+	
+	/* add a new row to the Course table */
+	public static int addCourse(Course c) {
+		
+		/* should be null at the beginning */
+		int courseId = c.getCourseId();
+		
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -26,18 +53,30 @@ public class Database {
 					"(courseName, semester, isActive)" +
 					" VALUES (?, ?, ?)";
 			
-			PreparedStatement ps = conn.prepareStatement(query);
+			PreparedStatement ps = conn.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
 			ps.setString(DbUtil.COURSE_NAME - 1, c.getCourseName());
 			ps.setString(DbUtil.COURSE_SEMESTER - 1, c.getCourseSemester());
 			ps.setInt(DbUtil.COURSE_ACTIVE - 1, c.isActive() ? 1 : 0);
 			ps.execute();
 			
+			try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+	            if (generatedKeys.next()) {
+	                courseId = (int) generatedKeys.getLong(1);
+	            }
+	            else {
+	                throw new SQLException("Creating course failed, no ID obtained.");
+	            }
+	        }
+			
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
 	         }	
+		return courseId;
 	}
 	
+	/* add a row to the StudentType table */
 	public static void addStudentType(int typeId, String typeName) {
 		Connection conn = null;
 		try {
@@ -56,8 +95,10 @@ public class Database {
 	         } 
 	}
 	
-	/* updates Student and Enrolled */
+	/* add a new row to the Enrolled and (if necessary) Student tables */
+	/* we can't add a student unless they are enrolled in a class */
 	public static void addStudentToCourse(Student s, int courseId) {
+		
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -263,7 +304,7 @@ public class Database {
 	}
 	
 	public static void setCommentStudent(int courseId, int sid, String note) {
-		
+
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
@@ -283,7 +324,7 @@ public class Database {
 	        conn.close();      
 		} catch(SQLException e) {
 	         e.printStackTrace();
-	      } 		
+	      } 	
 	}
 	
 	public static void setIncludeGradedItem(int gradedItemId) {
@@ -745,4 +786,3 @@ public class Database {
 		return;	
 	}
 }
-

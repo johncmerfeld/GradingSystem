@@ -22,13 +22,7 @@ public class CourseworkSummaryControllerTest {
 				System.out.println(s);
 			}
 		}
-		
-//		CourseworkController c1 = new CourseworkController();
-//		ArrayList<GradableCategory> allCates = c1.getAllCourseworkCategories(1);
-//		for(GradableCategory cate:allCates) {
-//			System.out.println(cate.getName());
-//		}
-		
+		CourseworkSummaryController c1 = new CourseworkSummaryController(1);		
 
 	}
 

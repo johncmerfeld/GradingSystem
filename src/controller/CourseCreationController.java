@@ -1,12 +1,18 @@
 package controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import model.Course;
 import model.Database;
 import model.GradableCategory;
 import model.GradableItem;
+import model.Name;
 import model.Student;
+
+import com.opencsv.CSVReader;
 
 public class CourseCreationController extends CourseSelectionController implements CourseCreation{
 	
@@ -16,7 +22,8 @@ public class CourseCreationController extends CourseSelectionController implemen
 	@Override
 	public Course createNewCourse(String courseName, String semester) {
 		Course course = new Course(courseName, semester);
-		Database.addCourse(course);
+		int id = Database.addCourse(course);
+		course.setCourseId(id);
 		return course;
 	}
 
@@ -87,11 +94,38 @@ public class CourseCreationController extends CourseSelectionController implemen
 	
 	private ArrayList<Student> readCSV(String csvFile)
 	{
-		//TODO : Finish this function
 		//Reads csv file and returns list if student objects
-		ArrayList<Student> students = null;
-		return students;
+		ArrayList<Student> students = new ArrayList<Student>();
 		
+		int BU_id;
+		String fname, mname, lname, email;
+		boolean isGradStudent;
+		
+		try {
+			 CSVReader reader = new CSVReader(new FileReader(csvFile));
+		     
+			 String [] nextLine;
+		     while ((nextLine = reader.readNext()) != null) {
+
+		         // nextLine[] is an array of values from the line
+		         BU_id = Integer.parseInt(nextLine[0]);
+		         fname = nextLine[1];
+		         mname = nextLine[2];
+		         lname = nextLine[3];
+		         email = nextLine[4];
+		         isGradStudent = Boolean.parseBoolean(nextLine[5]);
+		        
+		         Name name = new Name(fname, mname, lname);
+		         students.add(new Student(BU_id, name, email, isGradStudent));	        
+		     }     
+		     reader.close();		
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return students;	
 	}
 
 }

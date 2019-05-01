@@ -298,7 +298,7 @@ public class StudentInformationPage extends javax.swing.JFrame {
     		// set student comment
     		Integer courseId = this.courseID;
     		if (courseId != null && student_id != null && student_note != null) {
-        		this.studentInformationController.addCommentForStudent(courseId, student_id, student_note);
+        		    this.studentInformationController.addCommentForStudent(courseId, student_id, student_note);
     		}
     		System.out.println("student_id: "+ student_id.substring(1));
     		System.out.println("student_note: "+student_note);

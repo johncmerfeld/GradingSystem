@@ -352,12 +352,9 @@ public class CreateCoursePage extends javax.swing.JFrame {
     	if(this.hasSelectGradingTemplate && this.hasUploadStudent && selectedCourseIndex!= 0) {
     		if(! isValidCsvFile) {
     			JOptionPane.showMessageDialog(this, "Please upload a valid CSV file!");
-    		}else {
-    		
-    		this.courseCreationController.createNewCourseFromTemplateWithListOfStudents(this.getCourseNameText(), this.getCourseSemesterText(), selectedCourseId, csvFile);
-    		
-    		}
-    		
+    		}  else { 		
+    			this.courseCreationController.createNewCourseFromTemplateWithListOfStudents(this.getCourseNameText(), this.getCourseSemesterText(), selectedCourseId, csvFile);	
+    		}	
     	}
     	else if(this.hasSelectGradingTemplate && selectedCourseIndex!= 0) {
     		System.out.println("selectedCourseId: "+selectedCourseId);
