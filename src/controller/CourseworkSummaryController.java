@@ -79,6 +79,7 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		{
 			for(GradableCategory gc : this.listOfCategories)
 			{
+				System.out.println("Category = " + gc.getName());
 				if(gc != null)
 				{
 					data[row_index][col_index] = this.getCategoryLevelMean(gc.getId()) + "";
