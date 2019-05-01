@@ -13,7 +13,7 @@ For Mac users,
 brew install mysql 
 ```
 
-is the easiest way to set up, and most closely mirrors our approach. 
+is the easiest way to set up, and most closely mirrors our approach. **Please note**: the application assumes you are running as the root user and have a blank MySQL password. **What if not??**
 
   - Run the database setup script
 
