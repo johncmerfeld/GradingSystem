@@ -83,7 +83,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 		
 		String[][] data = new String[num_rows][num_col];
 		
-		Double[] total = new Double[this.listOfGradedItems.size()];
+		double[] total = new double[this.listOfGradedItems.size()];
 		
 		for (HashMap.Entry<Student, StudentInfo> entry : dashboardInfo.entrySet()) {
 		    Student s = entry.getKey();
