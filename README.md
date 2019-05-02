@@ -1,28 +1,44 @@
 # GradingSystem
 Final project for Object-Oriented Development at Boston University
 
-Restructuring...
+## To run:
 
-Top-level TODO:
+  - Clone this repo
 
-  1. Object design
-    * Decide backend classes and their relationships
-    * Decide frontend classes and their relationships
-    * Produce UML 
-  2. Data design
-    * Decide what tables will be
-    * Design query APIs
+  - Download MySQL
 
-Hey, don't have big delete buttons that immediately do things. That would be destructive
-Keep track of external libraries and dependencies
-Can use Netbeans, etc.
+For Mac users, 
 
-Andy's thoughts on mockup:
+```
+brew install mysql 
+```
 
-  - Login page is good
-  - Course selection is good. Might be good to separate classes into groups so that the dropdown menu is not too big. For example, current semester and past semesters
-  - Creating courses is nice and easy
-  - For statistics, visuals are better than numbers. For example, histograms! Swing might just be not-so-stupid enough to have this
-  - Always good to get people to use it, and see how long it takes them to do things
-  - List of priorities was good. Focus on those
+is the easiest way to set up, and most closely mirrors our approach. **Please note**: the application assumes you are running as the root user and have a blank MySQL password. **What if not??**
+
+  - Run the database setup script
+
+```
+bash setup.sh
+```
+
+If this script fails for some reason, you can follow its steps manually and adjust as needed. The most important step is to run the commands in the `sql` folder's `init.sql` script, which will create the application's supporting database.
+
+  - Run the program
+
+The username required to log in is "cpk@bu.edu" and the password is "123456", but the application should initialize with a valid username and password in place.
+
+## Notes
+
+  - The CSV file you use to load a class with students must look like this, without headers
+
+```
+77262,"Obi","Que","Markaman","oqm@bu.edu",0
+85881,"Marmy","Xpert","Smarmy","marmysmarm@bu.edu",0
+77124,"Helda","Umber","Plobium","plobium@bu.edu",1
+99129,"Wowza","Absa","Bowsa","wowbow@bu.edu",1
+71945,"Noelll","Lll","Llllll","noel@bu.edu",1
+808,"Jay","Paulson","Walson","jpw@bu.edu",0
+8081,"Jay","Paulson","WalsonWalson","jpww@bu.edu",0
+```
+That's BUID, first name, middle name, last name, email, and a boolean indicating whether the student is a graduate student.
 
