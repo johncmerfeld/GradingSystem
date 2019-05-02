@@ -83,6 +83,8 @@ public class CategorySummaryController extends CategoryInformationController imp
 		
 		String[][] data = new String[num_rows][num_col];
 		
+		Double[] total = new Double[this.listOfGradedItems.size()];
+		
 		for (HashMap.Entry<Student, StudentInfo> entry : dashboardInfo.entrySet()) {
 		    Student s = entry.getKey();
 			StudentInfo si = entry.getValue();
@@ -90,7 +92,8 @@ public class CategorySummaryController extends CategoryInformationController imp
 		    int col_index = 0;
 		    data[row_index][col_index++] = s.getBUId() + "";
 	    	data[row_index][col_index++] = s.getName().getName();
-		    for(CategoryLevelGrade cg : categoryLevelGrades)
+		    
+	    	for(CategoryLevelGrade cg : categoryLevelGrades)
 		    {
 		    	if(cg.getCategory().getId() == categoryId)
 		    	{
@@ -99,7 +102,9 @@ public class CategorySummaryController extends CategoryInformationController imp
 		    			//Null check for sg
 		    			if(sg == null)
 		    				continue;
-		    			data[row_index][col_index] = convertRawScoreToActual(sg.getGrade().getScore(), sg.getGradableItem().getScoringMethod(), sg.getGradableItem().getMaxPoints()) + "";
+		    			double temp = convertRawScoreToActual(sg.getGrade().getScore(), sg.getGradableItem().getScoringMethod(), sg.getGradableItem().getMaxPoints());
+		    			total[col_index-2] = total[col_index-2] + temp;
+		    			data[row_index][col_index] = temp + "";
 		    			col_index++;
 		    		}	
 		    	}
@@ -120,7 +125,7 @@ public class CategorySummaryController extends CategoryInformationController imp
 				if(gi != null)
 				{
 					System.out.println("Graded item not null in Category summary controller");
-					data[row_index][col_index] = this.getGradeableItemMean(gi.getId()) + "";
+					data[row_index][col_index] = (total[col_index-2]/this.dashboardInfo.size()) + "";//this.getGradeableItemMean(gi.getId()) + "";
 				}
 				col_index++;
 			} 

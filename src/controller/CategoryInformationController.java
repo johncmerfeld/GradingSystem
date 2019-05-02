@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import model.CategoryLevelGrade;
+import model.Database;
 import model.Student;
 import model.StudentGrade;
 import model.StudentInfo;
@@ -20,11 +21,20 @@ public abstract class CategoryInformationController extends DashboardBasicsContr
 		int count = 0;
 		System.out.println("Entered function getGradeableItemMean");
 		for (HashMap.Entry<Student, StudentInfo> entry : dashboardInfo.entrySet()) {
+			Student student = entry.getKey();
 			System.out.println("Entered Hashmap loop");
 		    StudentInfo si = entry.getValue();
 		    List<CategoryLevelGrade> categoryLevelGrades = si.getCategoryLevelGrades();
 		    System.out.println("Number of category level grades : " + categoryLevelGrades.size());
-		    for(CategoryLevelGrade cg : categoryLevelGrades)
+		    StudentGrade sg = Database.getStudentGradeByGradedItem(gradeableItemId, student.getBUId());
+	    	if(sg != null)
+	    	{
+	    		System.out.println("Student Grade found");
+	    		total = total + sg.getGrade().getScore();
+		    	count++;
+	    	}
+		    
+		    /*for(CategoryLevelGrade cg : categoryLevelGrades)
 		    {
 		    	System.out.println("Entered categoryLevelGrades loop");
 		    	for(StudentGrade sg : cg.getStudentGrades())
@@ -33,6 +43,7 @@ public abstract class CategoryInformationController extends DashboardBasicsContr
 		    		if(sg == null)
 		    			continue;
 		    		System.out.println("Student grade is not null");
+		    		
 		    		if(sg.getGradableItem().getId() == gradeableItemId)// && !Double.isNaN(sg.getGrade().getScore()))
 			    	{
 		    			System.out.println("Graded item name = " + sg.getGradableItem().getName());
@@ -42,7 +53,7 @@ public abstract class CategoryInformationController extends DashboardBasicsContr
 			    		count++;
 			    	}
 		    	}
-		    }
+		    }*/
 		}
 		//if(count == 0)
 		//	return 0;
