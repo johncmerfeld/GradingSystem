@@ -263,13 +263,14 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         if (mainSummaryTable.getColumnModel().getColumnCount() > 0) {
         	for(int i = 0; i<cols;i++) {
                 mainSummaryTable.getColumnModel().getColumn(i).setResizable(true);
-
+               // mainSummaryTable.getColumnModel().getColumn(i).setPreferredWidth(70);
         	}
         }
         for(int i = 0;i<cols;i++){
             columnModel.getColumn(i).setPreferredWidth(140);
         }
 
+        	mainSummaryTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         
         javax.swing.GroupLayout mainPanel2Layout = new javax.swing.GroupLayout(mainPanel2);
         mainPanel2.setLayout(mainPanel2Layout);
