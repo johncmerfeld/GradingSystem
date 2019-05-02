@@ -30,6 +30,10 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
 	private ArrayList<String> mainTableCols = new ArrayList<String>();
 	private ArrayList<Integer> gradedItemIds = new ArrayList<Integer>();
 	private boolean isEditable = false; // init as not editable
+	private ArrayList<Boolean> canEditCol = new ArrayList<Boolean>();
+	private ArrayList<Boolean> canEditRow = new ArrayList<Boolean>();
+
+
     /**
      * Creates new form CourseWorkSummaryPage
      */
@@ -62,8 +66,23 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     		this.gradedItemIds.add(gradedItem.getId());
     		
     	}
-    	
     	initComponents();
+
+        int numCols = this.mainSummaryTable.getColumnCount();
+        int numRows = this.mainSummaryTable.getRowCount();
+
+        canEditCol.add(false); //student id can't edit
+        canEditCol.add(false); //student name can't edit
+        for(int i=0;i<numCols-2;i++) {
+        	canEditCol.add(true);
+        }
+        for(int i =0; i<numRows-2;i++) {
+        	canEditRow.add(true);
+        }
+        //last 2 rows, mean and max are not editable
+        canEditRow.add(false);
+        canEditRow.add(false);
+    	
     }
 
     /**
@@ -329,31 +348,35 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     private void editScoresBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editScoresBtActionPerformed
         // TODO: make all score columns editable
     	
-        System.out.println("clicked edit");
-        int numCols = this.mainSummaryTable.getColumnCount();
-        int numRows = this.mainSummaryTable.getRowCount();
+    	if(! this.isEditable) {
+    		this.isEditable = true;
+    		System.out.println("clicked edit");
+            int numCols = this.mainSummaryTable.getColumnCount();
+            int numRows = this.mainSummaryTable.getRowCount();
 
-        ArrayList<Boolean> canEditCol = new ArrayList<Boolean>();
-        canEditCol.add(false); //student id can't edit
-        canEditCol.add(false); //student name can't edit
-        for(int i=0;i<numCols-2;i++) {
-        	canEditCol.add(true);
-        }
-        ArrayList<Boolean> canEditRow = new ArrayList<Boolean>();
-        for(int i =0; i<numRows-2;i++) {
-        	canEditRow.add(true);
-        }
-        //last 2 rows, mean and max are not editable
-        canEditRow.add(false);
-        canEditRow.add(false);
+            ArrayList<Boolean> canEditCol = new ArrayList<Boolean>();
+            canEditCol.add(false); //student id can't edit
+            canEditCol.add(false); //student name can't edit
+            for(int i=0;i<numCols-2;i++) {
+            	canEditCol.add(true);
+            }
+            ArrayList<Boolean> canEditRow = new ArrayList<Boolean>();
+            for(int i =0; i<numRows-2;i++) {
+            	canEditRow.add(true);
+            }
+            //last 2 rows, mean and max are not editable
+            canEditRow.add(false);
+            canEditRow.add(false);
 
 
-        this.defaultTable = new GradedItemsTable(this.cateSummaryMatrix, this.mainTableCols.toArray(), canEditCol.toArray(new Boolean[0]),canEditRow.toArray(new Boolean[0]));
+            this.defaultTable = new GradedItemsTable(this.cateSummaryMatrix, this.mainTableCols.toArray(), canEditCol.toArray(new Boolean[0]),canEditRow.toArray(new Boolean[0]));
 
-        System.out.println(mainSummaryTable.getModel().getValueAt(0, 0));
-        mainSummaryTable.setModel(this.defaultTable); // end of set DefaultTableModel
+            System.out.println(mainSummaryTable.getModel().getValueAt(0, 0));
+            mainSummaryTable.setModel(this.defaultTable); // end of set DefaultTableModel
 
-        ((AbstractTableModel) mainSummaryTable.getModel()).fireTableStructureChanged();
+            ((AbstractTableModel) mainSummaryTable.getModel()).fireTableStructureChanged();
+    	}
+        
 
 
     }//GEN-LAST:event_editScoresBtActionPerformed
@@ -374,6 +397,7 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
     	// jump back to the home page,
         // TODO: save grades in the database
+    	
         HomePage homePage = new HomePage(this.courseID);
         homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         homePage.setLocationRelativeTo( null ); // set the previous window location

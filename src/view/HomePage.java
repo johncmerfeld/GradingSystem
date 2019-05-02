@@ -64,7 +64,9 @@ public class HomePage extends javax.swing.JFrame {
     		this.mainTableCols.add(cat.getName());
     		this.categoryIdList.add(cat.getId());
     	}
-    	
+    	//add an extra column for raw score
+    	this.mainTableCols.add("Raw Score");
+
     	initComponents();
     }
     
@@ -100,11 +102,14 @@ public class HomePage extends javax.swing.JFrame {
 		public void mouseClicked(MouseEvent e) {
 			if (e.getClickCount() == 2) {
 				JTable target = this.homepage.mainSummaryTable;
+				int numCols = target.getColumnCount();
                 int col_index = target.columnAtPoint(e.getPoint());
                 // you can play more here to get that cell value and all
                 String name = target.getColumnName(col_index);
                 System.out.println("Column index selected " + col_index + " " + name);
-                //clicked on the student info columns
+                System.out.println("numCols " + numCols + " " + name);
+
+                //clicked on the student info columns or on the last raw score column
                 if(col_index <2) {
                 	//TODO: jump to the student info page
                 	StudentInformationPage studentInformationPage = new StudentInformationPage(this.homepage.courseID);
@@ -112,7 +117,7 @@ public class HomePage extends javax.swing.JFrame {
                 	studentInformationPage.setLocationRelativeTo( null ); // set the previous window location
                 	studentInformationPage.setVisible(true);
                     dispose();
-                } else {
+                } else if (col_index !=numCols-1){
                 	//Open the coursework summary page
                     //TODO: input course id and category id 
                     int categoryId = this.homepage.categoryIdList.get(col_index-2);
