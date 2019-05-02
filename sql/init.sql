@@ -1,3 +1,4 @@
+DROP DATABASE gradingsystem;
 CREATE DATABASE gradingsystem;
 USE gradingsystem;
 
@@ -16,7 +17,7 @@ CREATE TABLE Student(
 	firstName VARCHAR(30),
 	middleName VARCHAR(30),
 	lastName VARCHAR(30),
-	email VARCHAR(30),
+	email VARCHAR(60),
 	studentType INT,
 	FOREIGN KEY (studentType) REFERENCES StudentType(studentTypeId) );
 
