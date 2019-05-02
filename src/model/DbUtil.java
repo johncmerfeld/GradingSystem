@@ -80,8 +80,9 @@ public class DbUtil {
 		ComboPooledDataSource dataSource = new ComboPooledDataSource();
 		dataSource.setJdbcUrl(DbUtil.mySQLurl);
 		dataSource.setUser("root");
-		dataSource.setPassword("450843918ZZcc");
-		dataSource.setMaxPoolSize(30);
+		dataSource.setPassword(null);
+		dataSource.setMaxPoolSize(60);
+		dataSource.setMaxIdleTime(30);
 		dataSource.setNumHelperThreads(30);
 		return dataSource;
 	}
