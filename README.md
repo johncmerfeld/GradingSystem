@@ -25,6 +25,12 @@ If this script fails for some reason, you can follow its steps manually and adju
 
   - Run the program
 
+To run, simply execute the JAR file:
+
+```
+java -jar gradingsystem.jar
+```
+
 The username required to log in is "cpk@bu.edu" and the password is "123456", but the application should initialize with a valid username and password in place.
 
 ## Notes
