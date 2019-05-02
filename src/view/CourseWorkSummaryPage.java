@@ -29,6 +29,11 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
 	private Object[][] cateSummaryMatrix;
 	private ArrayList<String> mainTableCols = new ArrayList<String>();
 	private ArrayList<Integer> gradedItemIds = new ArrayList<Integer>();
+	private boolean isEditable = false; // init as not editable
+	private ArrayList<Boolean> canEditCol = new ArrayList<Boolean>();
+	private ArrayList<Boolean> canEditRow = new ArrayList<Boolean>();
+
+
     /**
      * Creates new form CourseWorkSummaryPage
      */
@@ -61,8 +66,23 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     		this.gradedItemIds.add(gradedItem.getId());
     		
     	}
-    	
     	initComponents();
+
+        int numCols = this.mainSummaryTable.getColumnCount();
+        int numRows = this.mainSummaryTable.getRowCount();
+
+        canEditCol.add(false); //student id can't edit
+        canEditCol.add(false); //student name can't edit
+        for(int i=0;i<numCols-2;i++) {
+        	canEditCol.add(true);
+        }
+        for(int i =0; i<numRows-2;i++) {
+        	canEditRow.add(true);
+        }
+        //last 2 rows, mean and max are not editable
+        canEditRow.add(false);
+        canEditRow.add(false);
+    	
     }
 
     /**
@@ -211,7 +231,7 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         );
 
         // category summary title
-        // TODO: wait for get list of category
+        // Done: wait for get list of category
         categorySummaryLabel.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         categorySummaryLabel.setForeground(new java.awt.Color(25, 118, 210));
         categorySummaryLabel.setText(this.categoryName+" summary");
@@ -249,47 +269,7 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         for(int i = 0;i<cols;i++){
             columnModel.getColumn(i).setPreferredWidth(140);
         }
-        // check if there is any updates 
-//        mainSummaryTable.getModel().addTableModelListener(new TableModelListener() {
-//
-//        	public void tableChanged(TableModelEvent e) {
-//        	    int firstRow = e.getFirstRow();
-//        	    int lastRow = e.getLastRow();
-//        	    int index = e.getColumn();
-//
-//        	    switch (e.getType()) {
-//        	    case TableModelEvent.INSERT:
-//        	      for (int i = firstRow; i <= lastRow; i++) {
-//        	        System.out.println(i);
-//        	      }
-//        	      break;
-//        	    case TableModelEvent.UPDATE:
-//        	      if (firstRow == TableModelEvent.HEADER_ROW) {
-//        	        if (index == TableModelEvent.ALL_COLUMNS) {
-//        	          System.out.println("A column was added");
-//        	        } else {
-//        	          System.out.println(index + "in header changed");
-//        	        }
-//        	      } else {
-//        	        for (int i = firstRow; i <= lastRow; i++) {
-//        	          if (index == TableModelEvent.ALL_COLUMNS) {
-//        	            System.out.println("All columns have changed");
-//        	          } else {
-//        	        	System.out.println("row: "+ i);
-//        	            System.out.println("column: "+index);
-//        	            
-//        	          }
-//        	        }
-//        	      }
-//        	      break;
-//        	    case TableModelEvent.DELETE:
-//        	      for (int i = firstRow; i <= lastRow; i++) {
-//        	        System.out.println(i);
-//        	      }
-//        	      break;
-//        	    }
-//        	  }
-//          }); // end addTableModelListener
+
         
         javax.swing.GroupLayout mainPanel2Layout = new javax.swing.GroupLayout(mainPanel2);
         mainPanel2.setLayout(mainPanel2Layout);
@@ -341,39 +321,62 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * private table class for graded Items
+     * @author chizhang
+     *
+     */
     private class GradedItemsTable extends javax.swing.table.DefaultTableModel {
     	private Object[][] table;
     	private Object[] columns;
-    	private Object[] canEdit;
-    	
-    	public GradedItemsTable(Object[][] table, Object[] columns, Object[] canEdit) {
+    	private Boolean[] canEditCol;
+    	private Boolean[] canEditRow;
+    	public GradedItemsTable(Object[][] table, Object[] columns, Boolean[] canEditCol, Boolean[] canEditRow) {
     		super(table,columns);
     		this.table = table;
     		this.columns = columns;
-    		this.canEdit = canEdit;
+    		this.canEditCol = canEditCol;
+    		this.canEditRow = canEditRow;
     	}
     	
     	@Override 
     	public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return (boolean) this.canEdit [columnIndex];
+            return this.canEditCol [columnIndex] && this.canEditRow [rowIndex];
         }
     	
     }
     private void editScoresBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editScoresBtActionPerformed
         // TODO: make all score columns editable
-        System.out.println("clicked edit");
-        int numCols = this.mainSummaryTable.getColumnCount();
-        ArrayList<Boolean> canEdit = new ArrayList<Boolean>();
-        canEdit.add(false); //student id can't edit
-        canEdit.add(false); //student name can't edit
-        for(int i=0;i<numCols-2;i++) {
-        	canEdit.add(true);
-        }
-        this.defaultTable = new GradedItemsTable(this.cateSummaryMatrix, this.mainTableCols.toArray(), canEdit.toArray());
+    	
+    	if(! this.isEditable) {
+    		this.isEditable = true;
+    		System.out.println("clicked edit");
+            int numCols = this.mainSummaryTable.getColumnCount();
+            int numRows = this.mainSummaryTable.getRowCount();
 
-        mainSummaryTable.setModel(this.defaultTable); // end of set DefaultTableModel
+            ArrayList<Boolean> canEditCol = new ArrayList<Boolean>();
+            canEditCol.add(false); //student id can't edit
+            canEditCol.add(false); //student name can't edit
+            for(int i=0;i<numCols-2;i++) {
+            	canEditCol.add(true);
+            }
+            ArrayList<Boolean> canEditRow = new ArrayList<Boolean>();
+            for(int i =0; i<numRows-2;i++) {
+            	canEditRow.add(true);
+            }
+            //last 2 rows, mean and max are not editable
+            canEditRow.add(false);
+            canEditRow.add(false);
 
-        ((AbstractTableModel) mainSummaryTable.getModel()).fireTableStructureChanged();
+
+            this.defaultTable = new GradedItemsTable(this.cateSummaryMatrix, this.mainTableCols.toArray(), canEditCol.toArray(new Boolean[0]),canEditRow.toArray(new Boolean[0]));
+
+            System.out.println(mainSummaryTable.getModel().getValueAt(0, 0));
+            mainSummaryTable.setModel(this.defaultTable); // end of set DefaultTableModel
+
+            ((AbstractTableModel) mainSummaryTable.getModel()).fireTableStructureChanged();
+    	}
+        
 
 
     }//GEN-LAST:event_editScoresBtActionPerformed
@@ -394,6 +397,7 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     private void saveBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtActionPerformed
     	// jump back to the home page,
         // TODO: save grades in the database
+    	
         HomePage homePage = new HomePage(this.courseID);
         homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         homePage.setLocationRelativeTo( null ); // set the previous window location

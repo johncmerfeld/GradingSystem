@@ -332,7 +332,7 @@ public class CreateCourseWorkPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateCourseWorkPage(1, "fall 2019", "cs 555").setVisible(true);
+                new CreateCourseWorkPage(4, "fall 2019", "cs 555").setVisible(true);
             }
         });
     }
