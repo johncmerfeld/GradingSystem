@@ -3,10 +3,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale.Category;
 
 import model.CategoryLevelGrade;
-import model.Course;
 import model.Database;
 import model.GradableCategory;
 import model.Student;

@@ -289,10 +289,7 @@ public class StudentInformationPage extends javax.swing.JFrame {
         // TODO: save the note in the database
     	//update the notes column: index 3
     	
-    	HomePage homePage = new HomePage(this.courseID);
-        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        homePage.setLocationRelativeTo( null ); // set the previous window location
-        homePage.setVisible(true);
+    	
     	for(int i=0; i< this.StudentInfoTable.getRowCount();i++) {
     		this.studentTableMatrix[i][3] = this.StudentInfoTable.getModel().getValueAt(i, 3);
     		// update notes in DB
@@ -306,6 +303,12 @@ public class StudentInformationPage extends javax.swing.JFrame {
     		System.out.println("student_id: "+ student_id.substring(1));
     		System.out.println("student_note: "+student_note);
     	}
+    	
+    	HomePage homePage = new HomePage(this.courseID);
+        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        homePage.setLocationRelativeTo( null ); // set the previous window location
+        homePage.setVisible(true);
+        
         dispose();
 
     
@@ -314,16 +317,25 @@ public class StudentInformationPage extends javax.swing.JFrame {
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
         // jump back to the course selection page, without saving anything
+    	System.out.println("Here1");
         HomePage homePage = new HomePage(this.courseID);
-        homePage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	System.out.println("Here2");
+        homePage.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+    	System.out.println("Here3");
         homePage.setLocationRelativeTo( null ); // set the previous window location
+    	System.out.println("Here4");
         homePage.setVisible(true);
-        dispose();
+        System.out.println("Here5");
+    	dispose();
+
+        
     }//GEN-LAST:event_cancelBtActionPerformed
 
     private void createStudentBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createStudentBtActionPerformed
-        // Jump tp create student page, takes in a course:
-    	CreateStudentPage createStudentPage = new CreateStudentPage(this.courseID);
+        // Jump to create student page, takes in a course:
+    	String semester = this.studentInformationController.getCourse(courseID).getCourseSemester();
+    	String courseName = this.studentInformationController.getCourse(courseID).getCourseName();
+    	CreateStudentPage createStudentPage = new CreateStudentPage(this.courseID, semester,courseName);
     	createStudentPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
     	createStudentPage.setLocationRelativeTo( null ); // set the previous window location
     	createStudentPage.setVisible(true);

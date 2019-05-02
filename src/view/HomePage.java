@@ -56,6 +56,7 @@ public class HomePage extends javax.swing.JFrame {
     	this.mainTableCols.add("Student Name");
     	System.out.println("current CourseID: " +this.courseID);
     	this.courseworkSummaryController = new CourseworkSummaryController(this.courseID);
+    	System.out.println("After create controller?");
     	this.mainTableMatrix = this.courseworkSummaryController.getStudentDataIn2dArray(this.courseID);
     	//TODO: add table columns 
     	ArrayList<GradableCategory> categories = this.courseworkSummaryController.getAllCategories(this.courseID);
@@ -115,8 +116,8 @@ public class HomePage extends javax.swing.JFrame {
                 	//Open the coursework summary page
                     //TODO: input course id and category id 
                     int categoryId = this.homepage.categoryIdList.get(col_index-2);
-                    String categoryName = target.getName();
-                    CourseWorkSummaryPage courseWorkSummaryPage = new CourseWorkSummaryPage(this.homepage.courseID, categoryId, categoryName);
+                    System.out.print(name);
+                    CourseWorkSummaryPage courseWorkSummaryPage = new CourseWorkSummaryPage(this.homepage.courseID, categoryId, name);
                     courseWorkSummaryPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
                     courseWorkSummaryPage.setLocationRelativeTo( null ); // set the previous window location
                     courseWorkSummaryPage.setVisible(true);
@@ -476,11 +477,11 @@ public class HomePage extends javax.swing.JFrame {
 
     private void studentInfoBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentInfoBtActionPerformed
     	StudentInformationPage studentInformationPage = new StudentInformationPage(this.courseID);
-    	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+    	studentInformationPage.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
     	studentInformationPage.setLocationRelativeTo( null ); // set the previous window location
     	studentInformationPage.setVisible(true);
         dispose();
-        
+
     }//GEN-LAST:event_studentInfoBtActionPerformed
 
     /**
@@ -513,7 +514,7 @@ public class HomePage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            	// VIEW the course ID: 1
+            	// VIEW the course ID: 4
                 new HomePage(4).setVisible(true);
             }
         });

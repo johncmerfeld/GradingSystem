@@ -1,3 +1,4 @@
+USE GradingSystem;
 LOAD DATA INFILE 'dummy_data/studenttype.csv'
 INTO TABLE StudentType
 FIELDS TERMINATED BY ','
