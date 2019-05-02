@@ -82,7 +82,7 @@ public class DbUtil {
 		dataSource.setUser("root");
 		dataSource.setPassword(null);
 		dataSource.setMaxPoolSize(60);
-		dataSource.setMaxIdleTime(30);
+		dataSource.setMaxIdleTime(5);
 		dataSource.setNumHelperThreads(30);
 		return dataSource;
 	}
