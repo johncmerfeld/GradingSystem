@@ -81,8 +81,8 @@ public class DbUtil {
 		dataSource.setJdbcUrl(DbUtil.mySQLurl);
 		dataSource.setUser("root");
 		dataSource.setPassword(null);
-		dataSource.setMaxPoolSize(60);
-		dataSource.setMaxIdleTime(5);
+		dataSource.setMaxPoolSize(500);
+		dataSource.setMaxIdleTime(1);
 		dataSource.setNumHelperThreads(30);
 		return dataSource;
 	}
