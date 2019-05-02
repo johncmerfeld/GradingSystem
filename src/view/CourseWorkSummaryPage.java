@@ -350,7 +350,6 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
     	
     	if(! this.isEditable) {
     		this.isEditable = true;
-    		System.out.println("clicked edit");
             int numCols = this.mainSummaryTable.getColumnCount();
             int numRows = this.mainSummaryTable.getRowCount();
 
@@ -371,7 +370,6 @@ public class CourseWorkSummaryPage extends javax.swing.JFrame {
 
             this.defaultTable = new GradedItemsTable(this.cateSummaryMatrix, this.mainTableCols.toArray(), canEditCol.toArray(new Boolean[0]),canEditRow.toArray(new Boolean[0]));
 
-            System.out.println(mainSummaryTable.getModel().getValueAt(0, 0));
             mainSummaryTable.setModel(this.defaultTable); // end of set DefaultTableModel
 
             ((AbstractTableModel) mainSummaryTable.getModel()).fireTableStructureChanged();

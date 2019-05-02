@@ -300,8 +300,6 @@ public class StudentInformationPage extends javax.swing.JFrame {
     		if (courseId != null && student_id != null && student_note != null) {
         		    this.studentInformationController.addCommentForStudent(courseId, student_id, student_note);
     		}
-    		System.out.println("student_id: "+ student_id.substring(1));
-    		System.out.println("student_note: "+student_note);
     	}
     	
     	HomePage homePage = new HomePage(this.courseID);
@@ -317,15 +315,10 @@ public class StudentInformationPage extends javax.swing.JFrame {
 
     private void cancelBtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtActionPerformed
         // jump back to the course selection page, without saving anything
-    	System.out.println("Here1");
         HomePage homePage = new HomePage(this.courseID);
-    	System.out.println("Here2");
         homePage.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-    	System.out.println("Here3");
         homePage.setLocationRelativeTo( null ); // set the previous window location
-    	System.out.println("Here4");
         homePage.setVisible(true);
-        System.out.println("Here5");
     	dispose();
 
         
@@ -352,7 +345,6 @@ public class StudentInformationPage extends javax.swing.JFrame {
 
     private void searchStudentjTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchStudentjTextFieldKeyReleased
         
-        System.out.println(this.searchStudentjTextField.getText().toLowerCase());
         // filter rows 
     	this.filter(this.searchStudentjTextField.getText().toLowerCase());
     }//GEN-LAST:event_searchStudentjTextFieldKeyReleased

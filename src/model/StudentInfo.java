@@ -23,7 +23,6 @@ public class StudentInfo {
     }
 
     public List<CategoryLevelGrade> getCategoryLevelGrades() {
-    	System.out.println("Entered function getCategoryLevelGrades");
         return categoryLevelGrades;
     }
 

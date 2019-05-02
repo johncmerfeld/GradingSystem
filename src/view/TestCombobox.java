@@ -20,14 +20,11 @@ public class TestCombobox {
 
 		    ActionListener actionListener = new ActionListener() {
 		      public void actionPerformed(ActionEvent actionEvent) {
-		        System.out.println("Selected: " + comboBox.getSelectedItem());
-		        System.out.println(", Position: " + comboBox.getSelectedIndex());
-		        
+
 		      }
 		    };
 		    comboBox.addActionListener(actionListener);
 		    selectedItem = comboBox.getSelectedIndex();
-		    System.out.println(selectedItem);
 
 		    frame.setSize(300, 200);
 		    frame.setVisible(true);

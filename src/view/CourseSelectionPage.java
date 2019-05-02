@@ -69,9 +69,6 @@ public class CourseSelectionPage extends javax.swing.JFrame {
     	}
     	public void actionPerformed(java.awt.event.ActionEvent evt) {
             selectCourseComboBoxActionPerformed(evt);
-            System.out.println("Selected: " + selectCourseComboBox.getSelectedItem());
-	        System.out.println(", Position: " + selectCourseComboBox.getSelectedIndex());
-	        System.out.println("selected course ID: "+ this.courseSelectionPage.getAllCoursesId().get(selectCourseComboBox.getSelectedIndex()));
 	        // update selectedCoursePosition
 	        this.courseSelectionPage.selectedCoursePosition = selectCourseComboBox.getSelectedIndex();
 	        

@@ -299,10 +299,6 @@ public class CreateStudentPage extends javax.swing.JFrame {
     	this.email = this.emailTextField.getText();
     	this.bu_id = this.studentIDTextField1.getText();
     	this.student_type = this.StudentTypeComboBox.getSelectedIndex() + 1;
-    	System.out.println(firstName);
-    	System.out.println(middleName);
-    	System.out.println(lastName);
-    	System.out.println(student_type);
     	// click for valid student input
     	if(this.firstName.equals("") || this.lastName.equals("") || this.email.equals("") || !this.validStudentID(this.bu_id)) {
     		JOptionPane.showMessageDialog(this, "Student first name, last name, email and id must not be empty! Student id must start with 'U'");

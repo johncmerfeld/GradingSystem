@@ -54,9 +54,7 @@ public class HomePage extends javax.swing.JFrame {
     	this.courseID = courseID;
     	this.mainTableCols.add("Student ID");
     	this.mainTableCols.add("Student Name");
-    	System.out.println("current CourseID: " +this.courseID);
     	this.courseworkSummaryController = new CourseworkSummaryController(this.courseID);
-    	System.out.println("After create controller?");
     	this.mainTableMatrix = this.courseworkSummaryController.getStudentDataIn2dArray(this.courseID);
     	//TODO: add table columns 
     	ArrayList<GradableCategory> categories = this.courseworkSummaryController.getAllCategories(this.courseID);
@@ -106,8 +104,6 @@ public class HomePage extends javax.swing.JFrame {
                 int col_index = target.columnAtPoint(e.getPoint());
                 // you can play more here to get that cell value and all
                 String name = target.getColumnName(col_index);
-                System.out.println("Column index selected " + col_index + " " + name);
-                System.out.println("numCols " + numCols + " " + name);
 
                 //clicked on the student info columns or on the last raw score column
                 if(col_index <2) {
@@ -121,7 +117,6 @@ public class HomePage extends javax.swing.JFrame {
                 	//Open the coursework summary page
                     //TODO: input course id and category id 
                     int categoryId = this.homepage.categoryIdList.get(col_index-2);
-                    System.out.print(name);
                     CourseWorkSummaryPage courseWorkSummaryPage = new CourseWorkSummaryPage(this.homepage.courseID, categoryId, name);
                     courseWorkSummaryPage.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
                     courseWorkSummaryPage.setLocationRelativeTo( null ); // set the previous window location

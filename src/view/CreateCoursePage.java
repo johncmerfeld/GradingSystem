@@ -94,7 +94,6 @@ public class CreateCoursePage extends javax.swing.JFrame {
     	}
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			 System.out.println(this.createCoursePage.getCourseNameText());			
 		}
     	
     }
@@ -111,8 +110,7 @@ public class CreateCoursePage extends javax.swing.JFrame {
     		
     	}
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			 System.out.println(this.createCoursePage.getCourseSemesterText());			
+		public void actionPerformed(ActionEvent e) {	
 		}
     	
     }
@@ -131,8 +129,7 @@ public class CreateCoursePage extends javax.swing.JFrame {
 		public void actionPerformed(ActionEvent e) {
 			//if user select a item in the combobox, set hasSelectGradingTemplate = true
 			this.createCoursePage.hasSelectGradingTemplate = true;
-			System.out.println("selected a template: " + this.createCoursePage.hasSelectGradingTemplate);
-			 System.out.println(this.createCoursePage.selectTemplateComboBox.getSelectedItem());			
+			
 		}
     }
 
@@ -357,7 +354,6 @@ public class CreateCoursePage extends javax.swing.JFrame {
     		}	
     	}
     	else if(this.hasSelectGradingTemplate && selectedCourseIndex!= 0) {
-    		System.out.println("selectedCourseId: "+selectedCourseId);
     		this.courseCreationController.createNewCourseFromTemplate(this.getCourseNameText(), this.getCourseSemesterText(), selectedCourseId);
     	} 
     	else if(this.hasUploadStudent) {
@@ -419,10 +415,8 @@ public class CreateCoursePage extends javax.swing.JFrame {
         String fileName  = file.getAbsolutePath();
         //TODO: handle cancel when upload
         this.attachStudentTextField.setText(fileName); 
-        System.out.println(fileName);
         // set the upload student to true if click upload button
         this.hasUploadStudent = true;
-        System.out.println("hasUploadStudent: "+this.hasUploadStudent);
         
         
     }//GEN-LAST:event_attachStudentBtActionPerformed
