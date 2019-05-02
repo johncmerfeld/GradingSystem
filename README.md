@@ -38,13 +38,11 @@ The username required to log in is "cpk@bu.edu" and the password is "123456", bu
   - The CSV file you use to load a class with students must look like this, without headers
 
 ```
-77262,"Obi","Que","Markaman","oqm@bu.edu",0
-85881,"Marmy","Xpert","Smarmy","marmysmarm@bu.edu",0
-77124,"Helda","Umber","Plobium","plobium@bu.edu",1
-99129,"Wowza","Absa","Bowsa","wowbow@bu.edu",1
-71945,"Noelll","Lll","Llllll","noel@bu.edu",1
-808,"Jay","Paulson","Walson","jpw@bu.edu",0
-8081,"Jay","Paulson","WalsonWalson","jpww@bu.edu",0
+100,Stone,Raymond,Browning,ut.pellentesque.eget@consequat.edu,0
+101,Yetta,Rooney,Whitney,nibh.Aliquam.ornare@ornareIn.edu,1
+102,Macon,Nicole,Wolfe,ultricies@loremauctor.ca,1
+103,Flynn,Clarke,Cannon,malesuada.Integer.id@semperauctorMauris.edu,1
+104,Dakota,Nash,Bauer,ridiculus@porttitorinterdum.net,1
 ```
 That's BUID, first name, middle name, last name, email, and a boolean indicating whether the student is a graduate student.
 
