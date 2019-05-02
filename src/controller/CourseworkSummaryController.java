@@ -58,6 +58,7 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 			StudentInfo si = entry.getValue();
 		    List<CategoryLevelGrade> categoryLevelGrades = si.getCategoryLevelGrades();
 		    int col_index = 0;
+		    double raw_score = 0;
 		    data[row_index][col_index++] = s.getBUId() + "";
 	    	data[row_index][col_index++] = s.getName().getName();
 		    for(CategoryLevelGrade cg : categoryLevelGrades)
@@ -66,7 +67,10 @@ public class CourseworkSummaryController extends DashboardBasicsController imple
 		    	if(cg == null)
 		    		break;
 		    	data[row_index][col_index++] = cg.getCompositeScore() + "";
+		    	raw_score = raw_score + cg.getCompositeScore()*cg.getCategory().getWeight()/100;
 		    }
+		    //Putting raw score in
+		    data[row_index][col_index++] = raw_score + "";
 		    row_index++;
 		}
 		
