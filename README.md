@@ -1,5 +1,5 @@
 # GradingSystem
-Final project for Object-Oriented Development at Boston University
+Final project for Object-Oriented Development at Boston University. A fully-functional end-to-end grading system for Professor Papadakis-Kanaris.
 
 ## To run:
 
